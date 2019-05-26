@@ -18,9 +18,9 @@ It always irked me that the files were misnamed, but I would quickly forget abou
 
 Fast forward 10 years to the time of my budding computer savyness. I had recently switched from windows to my first linux distro (mint... if it matters). I was making a video and wanted to use a particular song I burned from a cd (it was Korean, so there's no way I was gonna be able to google the name to re-download it) so I set about going one-by-one through the files to find it, as I had no itunes to translate for me. I eventually found it and made my bomb video and got a whopping 13 likes on instagram, but I didn't want to have to do this sort of thing again. And that's when the inspiration originiating from a divine form of laziness struck. With my newfound python and linux superpowers, I ought to be able to automate the conversion.
 
-![unsorted fodlers]({{site.baseurl}}/assets/unsorted_folders.png)
+![unsorted fodlers]({{site.baseurl}}/assets/music-sort/unsorted_folders.png)
 *a view of the folder problem we're dealing with*
-![unsorted files]({{site.baseurl}}/assets/unsorted_files.png)
+![unsorted files]({{site.baseurl}}/assets/music-sort/unsorted_files.png)
 *a look inside one of the folders to see how the music is arranged*
 
 ## Breakdown and Lessons Learned
@@ -64,7 +64,7 @@ uses mutagen again to read the id3 tags and compiles a list of all unique artist
 
 Here it is in action sorting my old music files (please no judegment on my music choices).
 
-![sorted]({{site.baseurl}}/assets/sorting.gif)
+![sorted]({{site.baseurl}}/assets/music-sort/sorting.gif)
 
 You may notice that not everything was sorted, this is because I rather disliked having a single artist with a single song listed, so I tended to lump those together. In this particular case, the id3 tags read 'rap/hip-hop' which bash is interpreting as the folder 'rap' with the subfolder 'hip-hop' which doesn't exist, so the mv won't work. As a learning point, what single line bash command can we use to do this? Take a guess before glancing below.
 
