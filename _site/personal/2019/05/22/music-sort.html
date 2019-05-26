@@ -75,8 +75,10 @@
 
 <p>Fast forward 10 years to the time of my budding computer savyness. I had recently switched from windows to my first linux distro (mint… if it matters). I was making a video and wanted to use a particular song I burned from a cd (it was Korean, so there’s no way I was gonna be able to google the name to re-download it) so I set about going one-by-one through the files to find it, as I had no itunes to translate for me. I eventually found it and made my bomb video and got a whopping 13 likes on instagram, but I didn’t want to have to do this sort of thing again. And that’s when the inspiration originiating from a divine form of laziness struck. With my newfound python and linux superpowers, I ought to be able to automate the conversion.</p>
 
-<p><img src="/assets/unsorted_folders.png" alt="test" />
-<img src="/assets/unsorted_files.png" alt="unsorted files" /></p>
+<p><img src="https://github.com/Tclack88/blog/tree/gh-pages/assets/music-sort/unsorted_folders.png" alt="unsorted fodlers" />
+<em>a view of the folder problem we’re dealing with</em>
+<img src="https://github.com/Tclack88/blog/tree/gh-pages/assets/music-sort/unsorted_files.png" alt="unsorted files" />
+<em>a look inside one of the folders to see how the music is arranged</em></p>
 
 <h2 id="breakdown-and-lessons-learned">Breakdown and Lessons Learned</h2>
 
@@ -117,10 +119,11 @@ Note: I always hated underscores, so my id3 tags definitely had spaces in the na
 
 <p>Here it is in action sorting my old music files (please no judegment on my music choices).</p>
 
-<p><img src="/assets/sorting.mp4" alt="sorted" /></p>
+<p><img src="https://github.com/Tclack88/blog/tree/gh-pages/assets/music-sort/sorting.gif" alt="sorted" /></p>
 
-<p>You may notice that not everything was sorted, this is because I rather disliked having a single artist with a single song listed, so I tended to lump those together. In this particular case, the id3 tags read ‘rap/hip-hop’ which bash is interpreting as the folder ‘rap’ with the subfolder ‘hip-hop’ which doesn’t exist, so the mv won’t work. As a learning point, what single line bash command can we use to do this? Take a guess before glancing below.
-.</p>
+<p>You may notice that not everything was sorted, this is because I rather disliked having a single artist with a single song listed, so I tended to lump those together. In this particular case, the id3 tags read ‘rap/hip-hop’ which bash is interpreting as the folder ‘rap’ with the subfolder ‘hip-hop’ which doesn’t exist, so the mv won’t work. As a learning point, what single line bash command can we use to do this? Take a guess before glancing below.</p>
+
+<p>.</p>
 
 <p>.</p>
 
