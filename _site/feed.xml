@@ -6,8 +6,8 @@
 </description>
     <link>/blog/</link>
     <atom:link href="/blog/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 25 May 2019 20:21:13 -0700</pubDate>
-    <lastBuildDate>Sat, 25 May 2019 20:21:13 -0700</lastBuildDate>
+    <pubDate>Sat, 25 May 2019 20:42:14 -0700</pubDate>
+    <lastBuildDate>Sat, 25 May 2019 20:42:14 -0700</lastBuildDate>
     <generator>Jekyll v3.1.6</generator>
     
       <item>
@@ -25,9 +25,9 @@
 
 &lt;p&gt;Fast forward 10 years to the time of my budding computer savyness. I had recently switched from windows to my first linux distro (mint… if it matters). I was making a video and wanted to use a particular song I burned from a cd (it was Korean, so there’s no way I was gonna be able to google the name to re-download it) so I set about going one-by-one through the files to find it, as I had no itunes to translate for me. I eventually found it and made my bomb video and got a whopping 13 likes on instagram, but I didn’t want to have to do this sort of thing again. And that’s when the inspiration originiating from a divine form of laziness struck. With my newfound python and linux superpowers, I ought to be able to automate the conversion.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/Tclack88/blog/tree/gh-pages/assets/music-sort/unsorted_folders.png&quot; alt=&quot;unsorted fodlers&quot; /&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/unsorted_folders.png&quot; alt=&quot;unsorted fodlers&quot; /&gt;
 &lt;em&gt;a view of the folder problem we’re dealing with&lt;/em&gt;
-&lt;img src=&quot;https://github.com/Tclack88/blog/tree/gh-pages/assets/music-sort/unsorted_files.png&quot; alt=&quot;unsorted files&quot; /&gt;
+&lt;img src=&quot;/blog/assets/unsorted_files.png&quot; alt=&quot;unsorted files&quot; /&gt;
 &lt;em&gt;a look inside one of the folders to see how the music is arranged&lt;/em&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;breakdown-and-lessons-learned&quot;&gt;Breakdown and Lessons Learned&lt;/h2&gt;
@@ -69,7 +69,7 @@ Note: I always hated underscores, so my id3 tags definitely had spaces in the na
 
 &lt;p&gt;Here it is in action sorting my old music files (please no judegment on my music choices).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://github.com/Tclack88/blog/tree/gh-pages/assets/music-sort/sorting.gif&quot; alt=&quot;sorted&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/blog/assets/sorting.gif&quot; alt=&quot;sorted&quot; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You may notice that not everything was sorted, this is because I rather disliked having a single artist with a single song listed, so I tended to lump those together. In this particular case, the id3 tags read ‘rap/hip-hop’ which bash is interpreting as the folder ‘rap’ with the subfolder ‘hip-hop’ which doesn’t exist, so the mv won’t work. As a learning point, what single line bash command can we use to do this? Take a guess before glancing below.&lt;/p&gt;
 

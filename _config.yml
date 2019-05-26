@@ -10,7 +10,7 @@ title: Codesplanations
 email: Tclack88@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   This is a \'blog\', sure, but mostly a place where I can describe in detail the code I've written provide, its origin story, lessons learned during the process, relative background information and perhaps a few anecdotes along the way.
-baseurl: "/blog" # the subpath of your site, e.g. /blog
+baseurl: "/blog/" # the subpath of your site, e.g. /blog
 production_url: "http://tclack88.github.io/blog" # the base hostname & protocol for your site
 BASE_PATH: https://tclack88.com/blog
 #twitter_username:
