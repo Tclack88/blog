@@ -2,8 +2,9 @@
 layout: post
 title:  "Sorting Music -  My First Project"
 date:   2019-05-22 21:45:58 -0700
-categories: personal
+categories: code
 ---
+The following writeup is for my music sorting code found [here][sortmus] on my github account.
 
 ## Origin Story
 So shortly after high school I had an HP laptop (1st mistake) that had suddenly lost its ability to charge. I didn't have very many important documents on it, but I was bummed out that my music was locked away.
@@ -64,9 +65,9 @@ uses mutagen again to read the id3 tags and compiles a list of all unique artist
 
 Here it is in action sorting my old music files (please no judegment on my music choices).
 
-![sorted]({{site.baseurl}}/assets/music-sort/sorting.gif)
+![sorting in action]({{site.baseurl}}/assets/music-sort/sorting.gif)
 
-You may notice that not everything was sorted, this is because I rather disliked having a single artist with a single song listed, so I tended to lump those together. In this particular case, the id3 tags read 'rap/hip-hop' which bash is interpreting as the folder 'rap' with the subfolder 'hip-hop' which doesn't exist, so the mv won't work. As a learning point, what single line bash command can we use to do this? Take a guess before glancing below.
+You may notice that not everything was sorted, this is because I rather disliked having a single artist with a single song listed, so I tended to lump those together. In this particular case, the id3 tags read 'rap/hip-hop' which bash is interpreting as the folder 'rap' with the subfolder 'hip-hop' which doesn't exist, so the mv won't work. As a learning point, what single line bash command can we use to do this? Bonus points if you can do it without calling the directory name twice. Take a guess before glancing below.
 
 .
 
@@ -91,13 +92,13 @@ You may notice that not everything was sorted, this is because I rather disliked
 .
 
 ```bash
-mkdir rap-hip-hop && mv *.mp3 rap-hip-hop
+mkdir rap-hip-hop && mv *.mp3 $_
 ```
-Fairly straight-forward simple
+**the $_ variable refers to the last argument of the previous command, in this case, the directory that was just created. Also, if you don't know already, && will perform the 2nd command ONLY IF the first one was completed successfully**
 
 So that's the breakdown. I enjoyed making it and I hope it can help anyone else to recover their old Britney and obscure korean music.
 
 
 \*\* Sorry to perpetuate the misuse of an actual psychoneurotic behavioral disorder, it's just so colloquial at this point. No offense to actual sufferers.
 
-
+[sortmus]: "https://github.com/Tclack88/SortMusic"
