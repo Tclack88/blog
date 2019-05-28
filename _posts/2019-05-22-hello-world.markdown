@@ -13,7 +13,7 @@ Excuse the stereotypical introduction, it's tradition.
 
 ## Who am I
 
-At the time of writing, I have recently graduated with my B.S. in physics from the [University of California Santa Barbara][UCSB] where I became hopelessly overwhelmed by the amount of information there is. But it's also filled with unfathomly gifted people among whom I will never walk. But that's alright with me; I'm content being minimally competent with several skills rather than specializing in just a few. My perceptions have changed so much in the past decade. I thought with enough tenacity I could learn it all and I tried for [about 6 years][SuperMemo]. Chemistry, Geology, Math, Astronomy... I consumed as much as I could and regularly reviewed. It eventually became too much to keep up with, not withstanding the pressure to keep up with my degree requirements so I relented.
+At the time of writing, I have recently graduated with my B.S. in physics from the [University of California Santa Barbara][UCSB] where I became hopelessly overwhelmed by the amount of information there is. But it's also filled with unfathomably gifted people among whom I will never walk. But that's alright with me; I'm content being minimally competent with several skills rather than specializing in just a few. My perceptions have changed so much in the past decade. I thought with enough tenacity I could learn it all and I tried for [about 6 years][SuperMemo]. Chemistry, Geology, Math, Astronomy... I consumed as much as I could and regularly reviewed. It eventually became too much to keep up with, not withstanding the pressure to keep up with my degree requirements so I relented.
 
 ```python
 print(cliche.two_types_of_people)
@@ -24,7 +24,7 @@ print(cliche.two_types_of_people)
 > (Perhaps it would have been a more productive 6 years if I had turned to DIY projects more often than textbooks.)
 
 ### Little more about me
-I've gained and lost many hobbies and micro-hobbies over the years, but the ones that seem to be staying are: Rock climbing, piano and coding. I can speak French decently well and my Spanish is alright. I'm intrigued by all things arcane: morse code, elian script, unit conversions(there are 4 pecks in a bushel), interesting vocab words, etc. I'm pedantic to a fault and I hate driving, especially because that's when random questions come to mind and I can't (safely/legally) google them. This is starting to get a little personal, so let's switch gears.
+I've gained and lost many hobbies and micro-hobbies over the years, but the ones that seem to be staying are: Rock climbing, piano and coding. I can speak French decently well and my Spanish is alright. I'm intrigued by all things arcane: Morse code, Elian script, unit conversions(there are 4 pecks in a bushel), interesting vocab words, etc. I'm pedantic to a fault and I hate driving, especially because that's when random questions come to mind and I can't (safely/legally) google them. This is starting to get a little personal, so let's switch gears.
 
 ## Purpose
 ```python
