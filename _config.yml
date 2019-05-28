@@ -1,22 +1,17 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely need to edit after that.
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'jekyll serve'. If you change this file, please restart the server process.
+# Setup
+name:         CodeSpalanations
+tagline:      coding (eventually) toward a better climate
+locale:       "en"
 
-# Site settings
-title: Codesplanations
-email: Tclack88@gmail.com
-description: > # this means to ignore newlines until "baseurl:"
-  This is a \'blog\', sure, but mostly a place where I can describe in detail the code I've written provide, its origin story, lessons learned during the process, relative background information and perhaps a few anecdotes along the way.
-baseurl: "/blog/" # the subpath of your site, e.g. /blog
-production_url: "http://tclack88.github.io/blog" # the base hostname & protocol for your site
-BASE_PATH: https://tclack88.com/blog
-#twitter_username:
-github_username:  Tclack88
+# Gems
+gems:
+  - jekyll-paginate
 
-# Build settings
+#Others
 markdown: kramdown
-include:
-        - "assets"
+
+baseurl:      "/blog"
+BASE_PATH: https://Tclack88.com/blog
+production_url: "http://tclack88.github.io/blog" # the base hostname & protocol for your site
+github_username: Tclack88
+description: This is a 'blog', sure, but mostly a place where I can describe in detail the code I've written provide, its origin story, lessons learned during the process, relative background information and perhaps a few anecdotes along the way.

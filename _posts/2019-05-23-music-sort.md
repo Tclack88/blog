@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Sorting Music -  My First Project"
-date:   2019-05-22 21:45:58 -0700
+date:   2019-05-23 21:45:58 -0700
 categories: code
 ---
 The following writeup is for my music sorting code found [here][sortmus] on my github account.
