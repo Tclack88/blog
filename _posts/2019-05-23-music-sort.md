@@ -21,6 +21,7 @@ Fast forward 10 years to the time of my budding computer savviness. I had recent
 
 ![unsorted folders]({{site.baseurl}}/assets/music-sort/unsorted_folders.png)
 *a view of the folder problem we're dealing with*
+
 ![unsorted files]({{site.baseurl}}/assets/music-sort/unsorted_files.png)
 *a look inside one of the folders to see how the music is arranged*
 
@@ -94,11 +95,11 @@ You may notice that not everything was sorted, this is because I rather disliked
 ```bash
 mkdir rap-hip-hop && mv *.mp3 $_
 ```
-**the $_ variable refers to the last argument of the previous command, in this case, the directory that was just created. Also, if you don't know already, && will perform the 2nd command ONLY IF the first one was completed successfully**
+*the $_ variable refers to the last argument of the previous command, in this case, the directory that was just created. Also, if you don't know already, && will perform the 2nd command ONLY IF the first one was completed successfully*
 
 So that's the breakdown. I enjoyed making it and I hope it can help anyone else to recover their old Britney and obscure Korean music.
 
 
 \*\* Sorry to perpetuate the misuse of an actual psychoneurotic behavioral disorder, it's just so colloquial at this point. No offense to actual sufferers.
 
-[sortmus]: "https://github.com/Tclack88/SortMusic"
+[sortmus]: https://github.com/Tclack88/SortMusic
