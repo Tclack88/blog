@@ -4,7 +4,7 @@ tagline:      coding (eventually) toward a better climate
 locale:       "en"
 
 # Gems
-gems:
+plugins:
   - jekyll-paginate
 
 #Others
