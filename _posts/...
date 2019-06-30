@@ -1,31 +1,68 @@
 ---
 layout: post
-title:  "Crossfit Webscraping"
-date:   2019-06-21 17:56:00 -0700
+title:  "Laptop Anti-Theft Project"
+date:   2019-06-28 20:40:00 -0700
 categories: code
 ---
 
 The following is the explanation of a program I wrote. The completed project and write-up can be found [here][Crossfit].
 
-Non-standard library needed:
+Non-standard python libraries and linux tools needed
 
-	Selenium	-	pip3 install python3-selenium
-	Beautiful Soup	-	pip3 install python3-bs4
-
-
+	Selenium		-	pip3 install python3-selenium
+	pyvirtualdisplay	-	pip3 install pyvirtualdisplay
+	pyxhook			-	pip3 install pyxhook
+	xvfb			-	apt-get install xvfb
+	
 ## Inspiration
 
-I used to do Crossfit. I was stationed in New York state for post-bootcamp training and we were provided access to the local YMCA. I took advantage of the free membership and followed the 2-days-on-1-day-off regimen and RX'd by the main Crossfit website. I did this for about a year and a half, but it got hard to be consistent when I transferred to a ship. At the time you would log your workouts in the comment section of the post, so I could go back to any date and search my name.
+After nearly 10 years with an old HP lapotp (my 2nd unfortunate purchase of one of these terrible machines &mdash; the only option I had before a deployment) whose screen would only work in one particular orientation, I had decided to get a new, quality laptop, an ASUS vivobook. It was great and a new experience seeing how gnome3 would behave on a touchscreen. Unfortunately a few months later, my car was broken into in Riverside and my new laptop was stolen. This is the program I wish I had on it.
 
-I still exercise now, usually it's more oriented towards training for climbing and everything I do, I log in a free google-provided blogging platform (blogger). I had always wanted to go back and grab off my posts for my own records and add them to my blogger record just in case they were to get archived or something I would have my own copy. The problem is they are spread over a year and a half and it would be an entire day's work to do find them all, perhaps even longer because I don't remember exactly my start and end date so I would be searching probably over a 3 year span just to be safe. 
+### Basic Features
+Apart from my normal username login, I have a guest login which requires no password.
+Any potential theif will surely be unable to login to my username, but will surely try and log in as a guest. If this happens and they connect the the internet, it's all over, for this program will:
 
-One day I realized I could automate this searching and that's where this program comes in.
+-Take a picture through the webcam
 
-At the end of it all, here is the final result:
+-Make a list of the current and adjacent wifi networks
 
-![The crossfit webscraper at work]({{site.baseurl}}/assets/crossfit/crossfit.gif)
+-Connect to a website which uses WPS (wifi positioning system) to approximate their location
+
+-Start a keylogger
+
+-Send all of these files out every half hour so I or the police can use them together as clues to locate where my laptop is
 
 ## Code Overview
+
+### geolocation.py
+There exist ways of getting your geolocation through just ip adresses, consider this command for instance `curl -s ifconfig.co/json` which sends an http request to the website ifconfig.co/json returning a json object of your ip address, contry code, latitude, longitude, etc. It's very clean... and it SUCKS. I did this fom Southern California and it set my location to somewhere in Chicago. This is a bit ridiculous and we can do much better. Enter wifi positioning system.
+
+Similar to GPS, WPS uses adjacent wifi-signals to triangulate your location. It's accurate from what I've seen usually within about 2 miles which is pretty good. Keep in mind this is only one piece of the puzzle. The website I chose to use was [gps-coordinates.org][https://gps-coordinates.org/my-location.php].
+
+
+.
+.
+.
+
+
+ * * * * env > /dev/pts/5
+
+LOGNAME=tclack
+PATH=/usr/bin:/bin
+LANG=en_US.UTF-8
+SHELL=/bin/sh
+PWD=/home/tclack
+
+
+.
+.
+.
+
+
+
+
+
+
 
 The libraries are quite nice. Beautiful Soup is... well, a beautiful library that will allow for easy parsing of HTML. It will first make a "soup" (actually it makes a parse tree as opposed to a "tag soup" as other HTML parsers do, hence the name "beautiful soup") of the webpage you're loading then it will allow you to search it by the tags, attributes, or combinations thereof. You could certainly do this using regular expressions (re is the de facto regex python library), but this can be tedious.
 
