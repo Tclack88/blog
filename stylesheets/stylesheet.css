@@ -429,8 +429,8 @@ th {
 
 /* LAYOUT STYLES */
 body {
-  font-family: 'Helvetica Neue', Helvetica, Arial, serif;
-  font-size: 15px;
+  font-family: 'ubuntu','Helvetica Neue', Helvetica, Arial, serif;
+  font-size: 17px;
   font-weight: 400;
   line-height: 1.5;
   color: #666;
@@ -441,11 +441,14 @@ p {
   margin-top: 0;
 }
 
+
 a {
-  color: #2879d0;
+  color: #039be5;
+  font-weight: bold;
 }
 a:hover {
-  color: #2268b2;
+  color: #d86f45;
+  font-weight: bold;
 }
 
 header {

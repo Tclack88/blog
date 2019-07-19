@@ -17,7 +17,7 @@ Non-standard python libraries and Linux utilities needed:
 
 ## Inspiration
 
-You'll never sharpen a sword with a silk cloth.
+<!-- You'll never sharpen a sword with a silk cloth. -->
 
 Just when I finally retired my laptop of ~10 years, not 3 months went by before my new laptop was stolen. It was a break-in. Passenger window smashed and my backpack holding my laptop among other things was taken. I don't care so much about the hardware (although I lost over $1000 in damages and goods), it was the memories it contained.
 
