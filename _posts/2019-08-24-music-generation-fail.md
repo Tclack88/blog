@@ -9,7 +9,7 @@ I'm not sure how to start this post. I'd like to present something firm and comp
 
 The goal was to train a neural network on classical midi files then have it generate unique output based on the note patterns and trends in harmony it finds. This may have been too big an undertaking at the moment because I wasn't able to successfully build the training algorithm.
 
-Regardless, there's still a GitHub link to the [incomplete work](tbd)
+Regardless, there's still a GitHub link to the [incomplete work]("https://github.com/Tclack88/Machine-Learning-Projects/tree/master/GenerateMusic_NeuralNetwork_Incomplete")
 
 ## Inspiration
 I saw this a long time ago:
