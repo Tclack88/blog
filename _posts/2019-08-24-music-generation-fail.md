@@ -2,14 +2,14 @@
 layout: post
 title:	"A Failed Attempt to Generate Music"
 date:	2019-08-15 15:09:00 -0700
-categories: code, personal
+categories: code personal
 ---
 
 I'm not sure how to start this post. I'd like to present something firm and complete right now ("Check out what I managed to create!") but this isn't one of those successful completed projects; this is a failed attempt.
 
 The goal was to train a neural network on classical midi files then have it generate unique output based on the note patterns and trends in harmony it finds. This may have been too big an undertaking at the moment because I wasn't able to successfully build the training algorithm.
 
-Regardless, there's still a GitHub link to the [incomplete work]("https://github.com/Tclack88/Machine-Learning-Projects/tree/master/GenerateMusic_NeuralNetwork_Incomplete")
+Regardless, there's still a GitHub link to the [incomplete work][github link]
 
 ## Inspiration
 I saw this a long time ago:
@@ -32,13 +32,13 @@ I have 2 Encoding functions which take the raw midi files to a readable text for
 Let's follow a snippet of one file through the pipeline, one of my favorite Chopin song
 
 ### Acquiring midi files
-First, we need our training input. I found [this website]("https://www.midiworld.com/chopin.htm") which had a bunch of Chopin midi files. I could download them one-by-one but that's not very efficient, so here's a bash one-liner:
+First, we need our training input. I found [this website][chopin midis] which had a bunch of Chopin midi files. I could download them one-by-one but that's not very efficient, so here's a bash one-liner:
 ```bash
 curl https://www.midiworld.com/chopin.htm | grep -o https[:/a-zA-Z.0-9]*chopin[/a-zA-Z.0-9]*mid
 ```
 (repeat for the other pages with similar scripts to gather more samples)
 
-A Linux software package, [midicsv]("https://www.fourmilab.ch/webtools/midicsv/"), is useful for the initial conversion. Assume we are now in a directory full of midi files (and our python scripts of course)
+A Linux software package, [midicsv][midi to csv converter], is useful for the initial conversion. Assume we are now in a directory full of midi files (and our python scripts of course)
 
 ```bash
 for f in $(ls *.mid); do midicsv $f $f.out; done
@@ -107,33 +107,55 @@ As an intermediate, the csv file is transformed into
 
 But the final output looks like this:
 ```
-0~'500000 0~|2 0~|> 287~|A 1~|5 13~!> 6~!2 31~|F 1~|: 9~!A 25~!5 6~|H 0~|< 10~!F 3~!: 23~|J 1~|> 3~!< 3~!H 27~|: 1~|F 3~!J 5~!> 22~!F 1~|M 2~|A 8~!: 20~|T 1~|H 4~!A 2~!M 26~|V 2~|J 1~!H 4~!T 24~|R 1~|F 3~!V 0~!J 30~|Y 1~|M 3~!R 12~!F 17~|` 2~|T 7~!Y 0~!M 28~!T 2~|b 2~|V 10~!` 32~|Q 0~|] 7~!V 6~!b 24~|` 2~|T 4~!Q 3~!] 28~|^ 1~|R 5~!T 10~!` 33~|] 1~|Q 3~!R 10~!^ 108~|\ 2~!Q 0~|P 12~!] 57~!\ 29~!P 74~|\ 1~|P 51~|] 1~|Q 1~!P 5~!\ 30~|\ 1~|P 3~!Q 6~!] 24~|[ 0~|O 6~!\ 0~!P 28~|\ 2~|P 4~!O 1~![ 38~|_ 1~|S 0~!P 4~!\ 31~|] 1~|Q 0~!S 12~!_ 15~|Y 0~|M 3~!Q 2~!] 20~!M 1~!Y 14~|Y 2~|M 85~!M 5~|X 
+0~'500000 0~|2 0~|> 287~|A 1~|5 13~!> 6~!2 31~|F 1~|: 9~!A 25~!5 6~|H 0~|< 10~!F
+ 3~!: 23~|J 1~|> 3~!< 3~!H 27~|: 1~|F 3~!J 5~!> 22~!F 1~|M 2~|A 8~!: 20~|T 1~|H
+ 4~!A 2~!M 26~|V 2~|J 1~!H 4~!T 24~|R 1~|F 3~!V 0~!J 30~|Y 1~|M 3~!R 12~!F 17~|`
+ 2~|T 7~!Y 0~!M 28~!T 2~|b 2~|V 10~!` 32~|Q 0~|] 7~!V 6~!b 24~|` 2~|T 4~!Q 3~!] 
+28~|^ 1~|R 5~!T 10~!` 33~|] 1~|Q 3~!R 10~!^ 108~|\ 2~!Q 0~|P 12~!] 57~!\ 29~!P 
+74~|\ 1~|P 51~|] 1~|Q 1~!P 5~!\ 30~|\ 1~|P 3~!Q 6~!] 24~|[ 0~|O 6~!\ 0~!P 28~|\ 
+2~|P 4~!O 1~![ 38~|_ 1~|S 0~!P 4~!\ 31~|] 1~|Q 0~!S 12~!_ 15~|Y 0~|M 3~!Q 2~!]
+ 20~!M 1~!Y 14~|Y 2~|M 85~!M 5~|X 
 ```
-Not very pretty, but it's concise. This is my "word level" encoding. When I ran this through a TensorFlow neural net (which admittedly I just copied and pasted from [here]("https://machinelearningmastery.com/how-to-develop-a-word-level-neural-language-model-in-keras/")
+Not very pretty, but it's concise. This is my "word level" encoding. When I ran this through a TensorFlow neural net (which admittedly I just copied and pasted from [here][machine learning mastery 1]
 
-It just failed, it didn't seem to work at all, I switched to character level encoding on this a (also [copied and pasted from the same website]("https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/")
+It just failed, it didn't seem to work at all, I switched to character level encoding on this a (also [copied and pasted from the same website][machine learning mastery 2]
 
 And after half an hour of training I got my output:
 ```
- "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ```
 
-not very musical. I figured since every word had a tilde, it was just copying that because it would be correct 38.9% of the time (I did the math `bc -l <<<  $(grep -o "~" ballade.mid.out | wc -m)/$(wc -m < ballade.mid.out)` )
+Not very musical. I figured since every word had a tilde, it was just copying that because it would be correct 38.9% of the time <br>
+(Yes, I did the math) <br > (...) <br> (...)<br>
+(`bc -l <<<  $(grep -o "~" ballade.mid.out | wc -m)/$(wc -m < ballade.mid.out)` )
 
-so I decided I would remove the tilde, the number preceding it would be turned into the corresponding number of spaces, and all words would be grouped to create chords. Additionally I sorted them so the program would know that |&dJ and |d&J as well as the oth
-er 4 possibilities are the same. And with this we get:
+So I decided I would remove the tilde, the number preceding it would be turned into the corresponding number of spaces, and all words would be grouped to create chords. Additionally I sorted them so the program would know the chords |&dJ, |d&J as well as the other 4 possibilities, for example are the same. And with this we get:
 ```
-          |ELQTX]`                               |9il   |d          !9  |_                |Q   |HL         |`di              |`di    |<        |\                |Q   |HL         |`d   |]          |d   |]`    |@          |W             |HQ   |L          |X]`             |E`   |X]          |T               |GQ   |JM           !G  |]   |Yb           |]b   |Y       |;        !b  |X             |JMQW          |V           |G]b   |Y           |X             |PW   |J   |L         |V            |Y\b   |@        |X             |PW    |J   |L     |\      |V             |GX\_            !GX_  |V             !V  |EHLQTX]` 
+          |ELQTX]`                               |9il   |d          !9  |_
+                |Q   |HL         |`di              |`di    |<        |\ 
+               |Q   |HL         |`d   |]          |d   |]`    |@          
+|W             |HQ   |L          |X]`             |E`   |X]          |T   
+            |GQ   |JM           !G  |]   |Yb           |]b   |Y       |;
+        !b  |X             |JMQW          |V           |G]b   |Y           
+|X             |PW   |J   |L         |V            |Y\b   |@        |X
+             |PW    |J   |L     |\      |V             |GX\_
+            !GX_  |V             !V  |EHLQTX]` 
 ```
+(I went to a different portion of the song to better demonstrate this)
+
 
 Brilliant! Put it into the blind TF algorithm! Here's the output:
 ```
-""                                                                                                                                                                                                                                                                        
+                                                 
+                                                
+                                                
 
-""
 ```
 
-...
+:/
 
 So the spaces now make up the vast majority (86.4% to be more precise... What? Leave me alone!). In retrospect I'm not sure why I thought this would give me different results. But I like the fact that at least notes are grouped as chords rather than the information being single-noted.
 
@@ -143,3 +165,15 @@ So the spaces now make up the vast majority (86.4% to be more precise... What? L
 - The brunt of the work is taken care of, encoding the data 
 
 Evidently I need practice TensorFlow/Keras and research neural networks. Once that's patched up, it'll be time to return to this.
+
+
+[github link]: https://github.com/Tclack88/Machine-Learning-Projects/tree/master/GenerateMusic_NeuralNetwork_Incomplete
+
+[chopin midis]: https://www.midiworld.com/chopin.htm
+
+[midi to csv converter]: https://www.fourmilab.ch/webtools/midicsv/
+
+[machine learning mastery 1]: https://machinelearningmastery.com/how-to-develop-a-word-level-neural-language-model-in-keras/
+
+[machine learning mastery 2]: https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/
+
