@@ -150,6 +150,6 @@ done
 fi
 ```
 
-Personally I like to make shell scripts in one line, as if it were being used in the terminal. So I rather dislike the appearance of the first half of this script because it's only function is to check for proper input. It lacks the elegance and density of other scriptss. It is what it is though.
+Personally I like to make shell scripts in one line, as if it were being used in the terminal. So I rather dislike the appearance of the first half of this because it's only function is to check for proper user implementation. It lacks the elegance and density. It is what it is though.
 
 [Spam Filter]:https://github.com/Tclack88/Machine-Learning-Projects/tree/master/SpamFilter_NB
