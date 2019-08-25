@@ -13,7 +13,10 @@ Regardless, there's still a GitHub link to the [incomplete work](tbd)
 
 ## Inspiration
 I saw this a long time ago:
-<iframe width="560" height="315" src="https://youtu.be/SacogDL_4JU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SacogDL_4JU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 This may have even been before I got into coding, so I'm sure at the time I never thought I'd be able to do something like it... At the time of posting that's still sort of true.
 
 ## The Plan
@@ -38,7 +41,7 @@ curl https://www.midiworld.com/chopin.htm | grep -o https[:/a-zA-Z.0-9]*chopin[/
 A Linux software package, [midicsv]("https://www.fourmilab.ch/webtools/midicsv/"), is useful for the initial conversion. Assume we are now in a directory full of midi files (and our python scripts of course)
 
 ```bash
-for if in $(ls *.mid); do midicsv $f $f.out; done
+for f in $(ls *.mid); do midicsv $f $f.out; done
 ```
 at this stage our file has been converted into a .csv file
 
