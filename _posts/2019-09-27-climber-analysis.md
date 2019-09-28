@@ -1,7 +1,7 @@
 ---
 layout: post
 title:	"Trad Climbers, Sport Climbers and Boulderers: an Analyis"
-date:	2019-09-26 11:09:00 -0700
+date:	2019-09-27 11:09:00 -0700
 categories: personal
 ---
 
