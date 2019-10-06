@@ -2,6 +2,7 @@
 name:         CodeSpalanations
 tagline:      coding (eventually) toward a better climate
 locale:       "en"
+author:       Trevor Clack
 
 # Gems
 plugins:

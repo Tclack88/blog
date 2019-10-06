@@ -876,3 +876,20 @@ dl dd {
 
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) { }
+
+
+
+/* Further Additions */
+
+kbd {
+    -moz-background-clip:border;
+    -moz-background-inline-policy:continuous;
+    -moz-background-origin:padding;
+    background:#EEEEEE none repeat scroll 0 0;
+    border-color:#CCCCCC #AAAAAA #888888 #BBBBBB;
+    border-style:solid;
+    border-width:1px 1px 2px 2px;
+    color:#000000;
+    padding:2px 1px;
+    white-space:nowrap;
+}

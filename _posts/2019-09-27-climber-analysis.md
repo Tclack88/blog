@@ -1,6 +1,6 @@
 ---
 layout: post
-title:	"Trad Climbers, Sport Climbers and Boulderers: an Analyis"
+title:	"Trad Climbers, Sport Climbers and Boulderers: <br/> An Analysis"
 date:	2019-09-27 11:09:00 -0700
 categories: personal
 ---
@@ -29,7 +29,7 @@ We can devise all sorts of arguments about who climbs the best:
 
 > "Trad climbers spend too much time placing gear, and they have to carry so much weight"
 
-> "sport climbers get to focus on the climbing and don't have to worry about gear placement" 
+> "Sport climbers get to focus on the climbing and don't have to worry about gear placement" 
 
 > "Yeah, but sport climbers have no ethics, they spawn from the gym and inflate the grades"
 

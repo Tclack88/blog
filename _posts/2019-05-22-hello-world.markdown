@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "from cliches import * <br/><br/>Hello World!"
+title:  "from cliches import * <br/> Hello World!"
 date:   2019-05-22 14:45:58 -0700
 categories: personal
 ---
