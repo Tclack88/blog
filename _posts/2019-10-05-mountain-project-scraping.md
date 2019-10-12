@@ -85,7 +85,3 @@ I had to change the grades from strings like "5.10d" to a numerical factor (10.9
 
 
 There are many other features I can create, but It will take time to run. Admittedly, the hardest thing about this is dealing with inconsistencies in users logging their ticks. Some check "solo" for boulders, some don't choose whether a route is TR, lead, etc. and many people just are lazy and don't log most climbs. So some of my analysis factors that in and removes for example people who have logged fewer than 30 climbs (an arbitrary choice to be sure)
-
-## Next Steps
-
-I'd like to return to this later, perhaps get a bigger sample size and speed up the process (200 names, 100 men and 100 women take about an hour). I don't understanding the pool multiprocessing tool very much and can probably get more parallel computing. I engineered features here but didn't use them all mostly because I didn't see any interesting correlations. But as time goes on and I get better at analysis and handling data and creating predictive models, this would be a fun toy set to work with.
