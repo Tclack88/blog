@@ -80,3 +80,10 @@ I also had a hard time with gpsbabel but that was just because it was a new tool
 ``` bash 
 gpsbabel -i unicsv -f filename.csv -o gpx -F filename.gpx
 ```
+## The Code in action
+Here's how long it takes to grab 198 routes:
+![scraping Mountain Project GPS coordinates]({{site.baseurl}}/assets/mproj/mountain_project.gif)
+
+A glance at the created gpx file:
+![XML gpx file returned]({{site.baseurl}}/assets/mproj/gpx_innerXML.png)
+(For those astute, you'll see this is Taquitz, a different area from the example in the photos above, I'm climbing there tomorrow, so I figured I would grab a demo *and* get my GPS prepared in one fell swoop)
