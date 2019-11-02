@@ -51,7 +51,7 @@ The output of the API request is a JSON object. All the routes can be accessed b
 
 I then just created a string and saved that as a csv file. I'm now unsure why I did that rather than just saving the dataframe as a csv, probably something to do with groupby objects being confusing. Regardless, at this point, gpsbabel completes the final conversion.
 
-## Lessons Learned
+## Insights Gained
 
 I had a little trouble working the recursion in my `find_sub_areas` function. The final, kind of ugly version is
 ``` python
