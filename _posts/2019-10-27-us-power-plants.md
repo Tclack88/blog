@@ -47,7 +47,7 @@ What can I say? There's a lot to this.
 
 Generally with dash apps, we set a layout. I have a two column layout and my columns were defined outside. A simplified version appears as:
 
-``` python
+```python
 column1 = dbc.Col([
         
     dcc.Markdown(
@@ -87,7 +87,7 @@ Notice the very "CSS" or "C++" style with separating the opening and closing bra
 
 The last major feature in the code is the ability to create "callbacks" which allow the output of one function to serve as the input of another then allowing a live update on the rendered page after the change is made. 
 
-```
+```python
 @app.callback(
         Output('energy-source-dropdown','options'),
         [Input('plant-type-dropdown','value')])
@@ -103,7 +103,7 @@ This is very powerful stuff. It brings to the hands of one person the ability to
 
 All this said, I wasn't able to get by with *pure* python. Plotly, the underlying plotting utility I used in conjunction with dash lacks some functionality I wish. It can plot points on a map, but unfortunately, can't return the latitude and longitude by free choice on a click. To get around this I had to use the `visdcc` library to allow the use of JavaScript. This took significant assistance from google and my friend [Richmond](https://github.com/macr). The solution, while hacky, is still quite beautiful.
 
-```
+```python
 @app.callback(
     Output('javascript', 'run'),
     [Input('graph', 'id')])
@@ -122,9 +122,10 @@ def getlnglat(x):
     return ""
 ```
 
+I also used a virtual environment because I've been reading about this whole "works on my machine" phenomenon, so I experimented with isolating the environment. My repo contains the associated Pipfile.
 
 Biggest takeaway:
 
-	- Get better at JavaScript
+Get better at JavaScript
 
-I'm fairly sure I will look back on this code as I do at some of my first python code, with the thought "god what a novice" (I remember having some code that was like 10 lines long, when a simple while loop could have brought it down to maybe 3) 
+I'm fairly sure I will look back on this code as I do at some of my first python code, with the thought "god what a novice" (I remember having some code that was like 20 lines long, I didn't know about the `range()` function, which would have brought it down to maybe 3) 
