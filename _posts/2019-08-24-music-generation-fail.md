@@ -5,6 +5,8 @@ date:	2019-08-15 15:09:00 -0700
 categories: code personal
 ---
 
+UPDATE: I will retain this post as is for perpetuity, but 4 months since this post I've completed the project. You can [read the updated post here]({{site.baseurl}}/{% link _posts/2019-12-27-ai-music.md %})
+
 I'm not sure how to start this post. I'd like to present something firm and complete right now ("Check out what I managed to create!") but this isn't one of those successful completed projects; this is a failed attempt.
 
 The goal was to train a neural network on classical midi files then have it generate unique output based on the note patterns and trends in harmony it finds. This may have been too big an undertaking at the moment because I wasn't able to successfully build the training algorithm.
@@ -29,7 +31,7 @@ So I figured there's only 4 elements to this:
 
 I have 2 Encoding functions which take the raw midi files to a readable text format. Why two? Great question, because I attempted two different ways to encode the notes, first on a "word" level, next on a "character" level. The former failed so I figured the latter would work...it didn't. So it's kind of like applying a patch rather than reworking the code, but it's all good because I'm not sure if the eventual final product will be on the word or character level. Let's check out an overview of everything so far:
 
-Let's follow a snippet of one file through the pipeline, one of my favorite Chopin song
+Let's follow a snippet of one file through the pipeline, one of my favorite Chopin songs.
 
 ### Acquiring midi files
 First, we need our training input. I found [this website][chopin midis] which had a bunch of Chopin midi files. I could download them one-by-one but that's not very efficient, so here's a bash one-liner:
@@ -77,7 +79,7 @@ If you look at the note\_on/note\_off lines, they are preceded by a time stamp w
 - the 3rd is note velocity. Loudness and softness. For all I care these can be the same, so I will ignore this and later make it all the same
 
 All this is great for my first simplification. I decided I would change the absolute time values to relative time values from the previous and they would be rounded to the nearest 10 ms interval. Each Note value would be mapped to a unique ascii character and I would reserve the following symbols:
-- |  for note on
+- \|  for note on
 - !  for note off
 - ~  separates number of intervals from notes being played
 
