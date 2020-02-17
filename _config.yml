@@ -10,6 +10,8 @@ plugins:
   - jekyll-seo-tag
 #Others
 markdown: kramdown
+kramdown:
+        math_engine: katex
 
 baseurl:      "/blog"
 BASE_PATH: https://Tclack88.com/blog

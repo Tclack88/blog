@@ -118,7 +118,7 @@ git push origin master
 
 ![git repo size reduced]({{site.baseurl}}/assets/github/git_cleaned.png)
 
-And as you can see below, I have no missing chunks from September on (ignore August, I was applying to jobs, trying to figure out things and semi-homeless)
+And as you can see below, I have no missing chunks from September on (ignore August, I was applying to jobs, trying to figure things out and was semi-homeless)
 
 ![git history maintained]({{site.baseurl}}/assets/github/contribution_activity.png)
 
