@@ -1,4 +1,4 @@
-I"�<p>Non-standard libraries needed:</p>
+I" <p>Non-standard libraries needed:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>BeautifulSoup	-	pip3 install python3-bs4
 pandas		-	sudo apt-get install python-pandas
@@ -8,9 +8,9 @@ pandas		-	sudo apt-get install python-pandas
 
 <h2 id="inspiration">Inspiration</h2>
 
-<p>Mountain Project has been on my mind recently because I’ve had an idea brewing in my head ever since my <a href="/blog/code/2019/06/21/crossfit.html">Crossfit webscraping project</a> which I made during a 2 week-long break in the middle of my 3 month climbing trip (precisely 1 week before my <a href="/blog/code/2019/07/06/laptop-theft-mitigation.html">laptop was stolen</a>). While on the trip I often found myself in areas without internet connection and I got annoyed typing the coordinates of the walls in my Garmin e-trex. (For those not familiar, the Mountain Project app has a “Directions” button so you can navigate to each wall area. It will open it up on your phone’s GPS. The coordinates are saved on the app however, so when I press it, it tries to navigate to the coordinates. I can still see the coordinates though and manually plug them into my actual GPS).</p>
+<p>Mountain Project has been on my mind recently because I’ve had an idea brewing in my head ever since my <a href="http://tclack88.github.io/blog/blog/code/2019/06/21/crossfit.html">Crossfit webscraping project</a> which I made during a 2 week-long break in the middle of my 3 month climbing trip (precisely 1 week before my <a href="http://tclack88.github.io/blog/blog/code/2019/07/06/laptop-theft-mitigation.html">laptop was stolen</a>). While on the trip I often found myself in areas without internet connection and I got annoyed typing the coordinates of the walls in my Garmin e-trex. (For those not familiar, the Mountain Project app has a “Directions” button so you can navigate to each wall area. It will open it up on your phone’s GPS. The coordinates are saved on the app however, so when I press it, it tries to navigate to the coordinates. I can still see the coordinates though and manually plug them into my actual GPS).</p>
 
-<p>This unfortunately is not the project, but while working on it, I explored the website and had <em>another</em> idea. Could I scrape user data much like the Crossfit scraper? The answer is yes. With it I did a short analysis of trad climbers vs. sport climbers vs. boulderers <a href="/blog/personal/2019/09/27/climber-analysis.html">which you can read about here</a>. The more interesting part was <strong>how</strong> the data was scraped and that’s the purpose of this post.</p>
+<p>This unfortunately is not the project, but while working on it, I explored the website and had <em>another</em> idea. Could I scrape user data much like the Crossfit scraper? The answer is yes. With it I did a short analysis of trad climbers vs. sport climbers vs. boulderers <a href="http://tclack88.github.io/blog/blog/personal/2019/09/27/climber-analysis.html">which you can read about here</a>. The more interesting part was <strong>how</strong> the data was scraped and that’s the purpose of this post.</p>
 
 <h2 id="code-overview">Code Overview</h2>
 

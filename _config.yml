@@ -12,7 +12,6 @@ plugins:
 markdown: kramdown
 kramdown:
         math_engine: katex
-        math_engine_opts: {}
 
 baseurl:      "/blog"
 #BASE_PATH: https://Tclack88.com/blog
