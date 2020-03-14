@@ -1,0 +1,72 @@
+I"8)<p>The following is the explanation of a program I wrote. The completed project and write-up can be found <a href="https://github.com/Tclack88/crossfit-webscraping">here</a>.</p>
+
+<p>Non-standard library needed:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Selenium	-	pip3 install python3-selenium
+Beautiful Soup	-	pip3 install python3-bs4
+</code></pre></div></div>
+
+<h2 id="inspiration">Inspiration</h2>
+
+<p>I used to do Crossfit. I was stationed in New York state for post-bootcamp training and we were provided access to the local YMCA. I took advantage of the free membership and followed the 2-days-on-1-day-off regimen and RX’d by the main Crossfit website. I did this for about a year and a half, but it got hard to be consistent when I transferred to a ship. At the time you would log your workouts in the comment section of the post, so I could go back to any date and search my name.</p>
+
+<p>I still exercise now, usually it’s more oriented towards training for climbing and everything I do, I log in a free google-provided blogging platform (blogger). I had always wanted to go back and grab off my posts for my own records and add them to my blogger record just in case they were to get archived or something I would have my own copy. The problem is they are spread over a year and a half and it would be an entire day’s work to do find them all, perhaps even longer because I don’t remember exactly my start and end date so I would be searching probably over a 3 year span just to be safe.</p>
+
+<p>One day I realized I could automate this searching and that’s where this program comes in.</p>
+
+<p>At the end of it all, here is the final result:</p>
+
+<p><img src="/blog/assets/crossfit/crossfit.gif" alt="The crossfit webscraper at work" /></p>
+
+<h2 id="code-overview">Code Overview</h2>
+
+<p>The libraries are quite nice. Beautiful Soup is… well, a beautiful library that will allow for easy parsing of HTML. It will first make a “soup” (actually it makes a parse tree as opposed to a “tag soup” as other HTML parsers do, hence the name “beautiful soup”) of the webpage you’re loading then it will allow you to search it by the tags, attributes, or combinations thereof. You could certainly do this using regular expressions (re is the de facto regex python library), but this can be tedious.</p>
+
+<p>I glanced and found the description of the “workout of the day” (WOD) is always in a &lt;p&gt; tag within a &lt;div&gt; tag with the class “content”. There are sometimes multiple paragraphs describing the workout, but it would always have a paragraph instructing the users what to post in the comment, whether it was total rounds, weights, time, etc. It would always begin with the word “Post”. e.g. “Post time and weights in the comments”. I didn’t want to include that personally in my parsing because it should be  understood through context, and I didn’t want any of the other “junk” in those post paragraphs (usually a quote, or link to an instructional video/article” so I ignored that line and any that followed. I took all this into account with the following:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="n">WOD</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">"div"</span><span class="p">,{</span><span class="s">"class"</span><span class="p">:</span><span class="s">'content'</span><span class="p">})</span>
+    <span class="n">WODdescription</span> <span class="o">=</span> <span class="n">WOD</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'p'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">WODdescription</span><span class="p">)):</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">WODdescription</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+        <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">' '</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="s">'Post'</span><span class="p">:</span>
+            <span class="k">break</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</code></pre></div></div>
+<p>Now, sometimes I would have multiple posts in the same day. I wanted them. I also didn’t necessarily know if my first post was gonna be my WOD results, I could have asked a clarifying question or commented or said something douchy like “Bro! can’t wait to get wrecked by this WOD later this afternoon” (I don’t recall ever being that pompous, but we never really can know our 19-year-old selves). Regardless, to ensure I got all my posts, I would scour each instance of my user name and corresponding paragraph</p>
+
+<p>You see, from what I’ve seen, the HTML has a &lt;div class=name&gt; followed by a &lt;div class=text&gt;. After looking at several pages, I’ve noticed these class doesn’t get used prior to the user comments, so I’m making the <em>very strong assumption</em> that this is the case for <strong>all</strong> posts (it probably is though… not that I’m pompous or anything)</p>
+
+<p>This would all be great and complete if everything was stored purely in HTML, but just loading the HTML for the page isn’t enough to access the comments. Usually JavaScript loads that from  a database. We can see this is true if we examine /assets/build/mustache/mustache.js and assets/build/comments.js, it becomes apparent this is the case. So we need a browser to open the page to allow the JavaScript to load comments so they become searchable, this is where Selenium comes in.</p>
+
+<p>To use Selenium, you need to download a driver. I use google-chrome because of arbitrary familiarity.</p>
+
+<h2 id="insights-gained">Insights Gained</h2>
+
+<h3 id="loading-failures">Loading Failures</h3>
+<p>I originally ran the script and would get mixed results; sometimes the page would recognize my username, and sometimes it wouldn’t. I attempted to fix this by importing time and using time.wait. I figured it just needed more time to load the page. That helped a bit, but it wasn’t perfect. The fault is actually with Selenium, it’s not perfect and sometimes the webpage just won’t load. I’m not sure why it happens more often here than with a traditional browser, but I fixed this by adding a <code class="highlighter-rouge">waitForLoad()</code> function that operates on the browser</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">waitForLoad</span><span class="p">(</span><span class="n">browser</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">WebDriverWait</span><span class="p">(</span><span class="n">browser</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">ignored_exceptions</span><span class="o">=</span><span class="p">[</span>
+            <span class="n">NoSuchElementException</span><span class="p">,</span> <span class="n">TimeoutException</span>
+        <span class="p">])</span><span class="o">.</span><span class="n">until</span><span class="p">(</span><span class="n">EC</span><span class="o">.</span><span class="n">presence_of_element_located</span><span class="p">((</span><span class="n">By</span><span class="o">.</span><span class="n">CLASS_NAME</span><span class="p">,</span><span class="s">'name'</span><span class="p">)))</span>
+    <span class="k">except</span> <span class="n">TimeoutException</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">"Error, timed out, trying again"</span><span class="p">)</span>
+        <span class="n">browser</span><span class="o">.</span><span class="n">refresh</span><span class="p">()</span>
+        <span class="n">waitForLoad</span><span class="p">(</span><span class="n">browser</span><span class="p">)</span>
+        <span class="k">return</span>
+</code></pre></div></div>
+<p>The purpose of this is almost completely inferable by examining the English, but I’ll explain: This will delay the rest of the program from running until the expected condition of getting an element with the class “name” occurs (i.e. our usernames). It gives the program a specified time to wait, 10 seconds in this case, and if that timeout exception occurs, it will refresh the browser and again wait for it to load.</p>
+
+<h3 id="displaying-and-saving-results-simultaneously">Displaying and Saving results simultaneously</h3>
+
+<p>Since my main purpose of this was to get a text file with this output, I needed to write the results to an external file. I also wanted everything to be displayed as it is being produced, because it sucks to have to wait until the script is finished before seeing any output on your terminal. Normally I would invoke os.system(command) where the command would append the results to an external file. But the unknown presence of newlines and quotes made this a little tough, so I decided to use the Linux utility <code class="highlighter-rouge">tee</code> which will write to std output and to an output file. So it’s a bit unfortunate, I like things to be as simple as possible without requiring the user to specify arguments, however in this case it’s just gonna have to be a little less simple. The program runs with:</p>
+
+<p><code class="highlighter-rouge">crossfit.py | tee output_file.txt</code></p>
+
+<p>This is very simple, but it comes with one last snag… it still waits until after the script is complete to write to std out!! Fortunately the fix is easy. As it turns out, python’s standard output is buffered, so it stores everything until the program ends, unless we “flush” the buffer. That is achieved simply using <code class="highlighter-rouge">sys.stdout.flush()</code></p>
+
+<p>Easy day.</p>
+
+:ET

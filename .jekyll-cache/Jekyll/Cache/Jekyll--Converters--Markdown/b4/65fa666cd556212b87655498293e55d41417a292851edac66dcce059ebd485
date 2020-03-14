@@ -1,0 +1,80 @@
+I"�(<p>The following is a write-up for my project to gather area-specific GPS coordinates for ease of use with a GPS device (when the area will be out of a cell service zone). The code can be found one my GitHub <a href="https://github.com/Tclack88/MountainProject">here</a>.</p>
+
+<p>Non-standard python libraries and Linux utilities needed:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    BeautifulSoup   -       pip3 install python3-bs4
+    gpsbabel        -       sudo apt install gpsbabel
+</code></pre></div></div>
+
+<h2 id="the-final-product">The final product</h2>
+
+<p>Easy, no-effort gathering of climbing area GPS coordinates and route details.</p>
+
+<p><img src="/blog/assets/mproj/gps_collage.png" alt="climbing areas stored in GPS" /></p>
+<h2 id="inspiration">Inspiration</h2>
+
+<p>I got into geocaching after I got out of the Navy, it’s one of the few of many things I wrote down in a “post-freedom to-do list” (climbing was one of the others that didn’t go into the idea graveyard that was the destination of scuba diving certification and spelunking). As a result I got a GPS which not only makes the geocaches more accurate, but also mostly free. I haven’t cached a ton, but since I stopped doing it consistently, I still have h
+ad plenty of use for my GPS.</p>
+
+<p>When I’m out on a trip and I’m trying to find a wall within a larger climbing area, I found out I could click “navigate to” from the Mountain Project app and my phone would show the GPS coordinates. I could just manually plug them in and be on my way. That worked well f
+or a while, but it’s annoying and can be sped up.</p>
+
+<p>Another thing I used to do when I geocached actively was plan out a big bike route and find all geocaches along the way. I found it was annoying to plug in the coordinates for the next cache manually so I figured out how to format a text file with the header: latitude, longitude, name, and comment, then uploading it to a website like [GPSvisualizer.com][gpsvisualizer.com]. While that is great, it adds a step to the process and I want to avoid any manual transaction that I wish to avoid.</p>
+
+<p>These experiences came together to create the perfect storm that gave birth to the idea:
+Let’s create something which scrapes all routes in a specified area and compile it into a gpx file so I no longer need to plug the walls in manually when I’m lost.</p>
+
+<h2 id="code-overview">Code Overview</h2>
+
+<p>Much of this is HTML parsing with beautiful soup, interacting with the Mountain Project API and manipulating dataframes. An initial URL serves as the “main” URL from which all sub-areas and routes therein.</p>
+
+<p>I noticed that when I’m in a branch (an area with sub areas) the areas are stored in a &lt;div&gt; with class <code class="highlighter-rouge">lef-nav-row</code>. So in these instances, I get deeper sublinks by recursively calling <code class="highlighter-rouge">find_sub_areas</code>.</p>
+
+<p>When I’m at the lowest where no more sub areas are displayed, there’s instead a table with id <code class="highlighter-rouge">left-nav-route-table</code>. In this instance I call <code class="highlighter-rouge">find_routes</code> which parses a soup object for all the links (which are just in &lt;a&gt; tags, fortunately the only ones so there’s no hoops to jump through). <code class="highlighter-rouge">find_routes</code> is called within <code class="highlighter-rouge">find_sub_areas</code> and ultimately is what returns the URLs to all routes.</p>
+
+<p>Now, we don’t really need the URLs because of the existence of the API, so no more BeautifulSoup parsing is required. The only thing we need from these URLs are the 9 digit route ID’s and getting these are as simple as dealing with regex.</p>
+
+<p>The API requires route ID’s in groups of 100 or less, so I break them up into lists of 100 with <code class="highlighter-rouge">group_routes</code>. My assumption/hope is that if I have something like 158 routes, it will be considered as just two requests, this shouldn’t overload the API too much and thus should still heed their admonition:</p>
+<blockquote>
+  <p>“We track every request — be sure your code caches data and does not make excessive requests or your account will be deactivated.”</p>
+</blockquote>
+
+<p>The output of the API request is a JSON object. All the routes can be accessed by just calling it like a dictionary entry <code class="highlighter-rouge">request.json()['routes']</code> (forgive me if this is basic, but this is among my first times dealing with JSONs). The dictionary therein contains all the routes which can be easily turned into a dataframe and parsed with pandas for only the relevant information.</p>
+
+<p>I then just created a string and saved that as a csv file. I’m now unsure why I did that rather than just saving the dataframe as a csv, probably something to do with groupby objects being confusing. Regardless, at this point, gpsbabel completes the final conversion.</p>
+
+<h2 id="insights-gained">Insights Gained</h2>
+
+<p>I had a little trouble working the recursion in my <code class="highlighter-rouge">find_sub_areas</code> function. The final, kind of ugly version is</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">find_sub_areas</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+    <span class="n">source</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">)</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">source</span><span class="p">,</span><span class="s">'html.parser'</span><span class="p">)</span>
+    <span class="n">sublinks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">lef_navs</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">find_all</span><span class="p">(</span><span class="s">'div'</span><span class="p">,</span><span class="n">class_</span><span class="o">=</span><span class="s">'lef-nav-row'</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lef_navs</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  
+        <span class="k">return</span> <span class="n">find_routes</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">lef_nav</span> <span class="ow">in</span> <span class="n">lef_navs</span><span class="p">:</span>
+        <span class="n">links</span> <span class="o">=</span> <span class="n">lef_nav</span><span class="o">.</span><span class="n">findChildren</span><span class="p">(</span><span class="s">'a'</span><span class="p">)</span>
+        <span class="n">sublinks</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">link</span><span class="p">[</span><span class="s">'href'</span><span class="p">]</span> <span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">links</span><span class="p">])</span>
+    <span class="n">sublinks</span> <span class="o">=</span> <span class="n">flatten</span><span class="p">(</span><span class="n">sublinks</span><span class="p">)</span>
+    <span class="n">deeper_sublinks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">sublink</span> <span class="ow">in</span> <span class="n">sublinks</span><span class="p">:</span>
+        <span class="n">deeper_sublink</span> <span class="o">=</span> <span class="n">find_sub_areas</span><span class="p">(</span><span class="n">sublink</span><span class="p">)</span>
+        <span class="n">deeper_sublinks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">deeper_sublink</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">deeper_sublinks</span>
+</code></pre></div></div>
+<p>What’s going on here? First we get the soup of the url we have. We check for the presence of <code class="highlighter-rouge">lef-nav-row</code> because that indicates there are more sub areas. If there are none, we are at the base level and want to return links ro the routes.</p>
+
+<p>If instead there are <code class="highlighter-rouge">lef-nav-row</code>s then we create a list of those links then for each item in that list (which is either an area with more walls, or a final area with just routes) we recursivelt call this <code class="highlighter-rouge">find_sub_areas</code> on it. Those deeper links could either be routes or more walls, we must return it. It was this final part that took some time to wrap my head around. I wasn’t quite sure how to ensure that it wouldn’t mix links to routes and walls together. But that’s the strangeness of recursion, if there are walls, it will just go deeper.</p>
+
+<p>I also had a hard time with gpsbabel but that was just because it was a new tool. I assumed any csv file would work, provided I stated the formatting at the top, but that’s not true. Apparently if you want your gpx file in a certain format, it’s necessary to specify <code class="highlighter-rouge">unicsv</code> the overall command line command ends up being:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gpsbabel <span class="nt">-i</span> unicsv <span class="nt">-f</span> filename.csv <span class="nt">-o</span> gpx <span class="nt">-F</span> filename.gpx
+</code></pre></div></div>
+<h2 id="the-code-in-action">The Code in action</h2>
+<p>Here’s how long it takes to grab 198 routes:
+<img src="/blog/assets/mproj/mountain_project.gif" alt="scraping Mountain Project GPS coordinates" /></p>
+
+<p>A glance at the created gpx file:
+<img src="/blog/assets/mproj/gpx_innerXML.png" alt="XML gpx file returned" />
+(For those astute, you’ll see this is Taquitz, a different area from the example in the photos above, I’m climbing there tomorrow, so I figured I would grab a demo <em>and</em> get my GPS prepared in one fell swoop)</p>
+:ET
