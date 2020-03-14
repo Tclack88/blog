@@ -1,4 +1,4 @@
-I"Y:<p>The following is a write-up for my spam filter project. The final product can be found <a href="https://github.com/Tclack88/Machine-Learning-Projects/tree/master/SpamFilter_NB">here</a>.</p>
+I"?:<p>The following is a write-up for my spam filter project. The final product can be found <a href="https://github.com/Tclack88/Machine-Learning-Projects/tree/master/SpamFilter_NB">here</a>.</p>
 
 <p>Non-standard libraries needed:</p>
 
@@ -14,7 +14,7 @@ once nltk is installed, open python3 in a terminal and do the following:
 
 <p>I took a Machine Learning course in which we wrote some “cookie-cutter” ML code; the skeleton of the code existed and we were completing subtasks, by filling in empty definitions. It was good for understanding the mathematical principles, but not practical in the sense that we really got an overall sense of what was going on from start to finish. So I went back later and reaccomplished the objective of the first project only this time around coding it all from scratch and with the benefit of using a python library to do the modeling. This is after all how I would expect to work on actual projects.</p>
 
-<p>In addition to reaccomplishing this task from scratch, I wanted it to be more useful and fun to use. The cookie-cutter code would run for a few minutes then output a numbers—a percentage representing the correct guesses as to whether or not these emails were spam. It made sense to rate the model but it was rather boring. I wanted to save the trained model and showcase it by testing it on a .txt file of an actual email or of something I wrote. I was part-way through writing it before my <a href="https://tclack88.github.io/blog/code/2019/07/06/laptop-theft-mitigation.html">laptop was stolen</a> (#foreshadowing) and I had to rewrite it again. I have to say, I’m very proud of the outcome.</p>
+<p>In addition to reaccomplishing this task from scratch, I wanted it to be more useful and fun to use. The cookie-cutter code would run for a few minutes then output a numbers—a percentage representing the correct guesses as to whether or not these emails were spam. It made sense to rate the model but it was rather boring. I wanted to save the trained model and showcase it by testing it on a .txt file of an actual email or of something I wrote. I was part-way through writing it before my <a href="/blog/code/2019/07/06/laptop-theft-mitigation.html">laptop was stolen</a> (#foreshadowing) and I had to rewrite it again. I have to say, I’m very proud of the outcome.</p>
 
 <h2 id="code-overview">Code Overview</h2>
 

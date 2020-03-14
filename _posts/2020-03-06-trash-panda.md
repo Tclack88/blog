@@ -7,7 +7,7 @@ categories: personal
 
 I'm very proud to present [The Trash Panda](https://www.thetrashpanda.com)
 
-This post will highlight what the app can do and the team
+This post will highlight what the app can do and the team. You can [read about some of the more technical aspects here]({% link _posts/2020-02-17-automated-bounding-boxes.md %})
 
 The Trash Panda is a Progressive Web App (PWA) designed to make proper recycling easy and quick. Recycling can be confusing in part due to the variation in local laws. Some areas accept plastic bags in their curbside bins while others do not. Most of us know (or should know) that paint is hazardous and can't be tossed in the trash, but it can be annoying to look it up. Even worse, individuals who over recycle, putting everything even remotely plastic in their recycle bin and so unintentionally make poor decisions.
 

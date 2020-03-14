@@ -5,7 +5,7 @@ date:	2019-08-15 15:09:00 -0700
 categories: code personal
 ---
 
-UPDATE: I will retain this post as is for perpetuity, but 4 months since this post I've completed the project. You can [read the updated post here]({{site.baseurl}}/{% link _posts/2019-12-27-ai-music.md %})
+UPDATE: I will retain this post as is for perpetuity, but 4 months since this post I've completed the project. You can [read the updated post here]({% link _posts/2019-12-27-ai-music.md %})
 
 I'm not sure how to start this post. I'd like to present something firm and complete right now ("Check out what I managed to create!") but this isn't one of those successful completed projects; this is a failed attempt.
 
