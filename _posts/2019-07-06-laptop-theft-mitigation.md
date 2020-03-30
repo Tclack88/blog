@@ -2,8 +2,10 @@
 layout: post
 title:	"Laptop Theft Mitigation"
 date:	2019-07-06 10:46:00 -0700
+img: assets/stolen-laptop/stolen_laptop.png
 categories: code
 ---
+![laptop theft mitigation]({{site.baseurl}}/assets/stolen-laptop/stolen_laptop.png)
 
 The following is a write-up for my laptop theft mitigation project. The final product can be found [here][Laptop Theft Mitigation].
 

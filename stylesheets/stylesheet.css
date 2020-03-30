@@ -743,7 +743,16 @@ ul {
   list-style: disc;
   padding-left: 20px;
 }
-
+/* begin my changes from default post list */
+.posts{ 
+  list-style: none;
+}
+div.postbox{
+  margin-top: 100px;
+  padding: 10px;
+  border: 3px ridge #039be5;
+}
+/* end personal changes */
 ol {
   list-style-position: inside;
   list-style: decimal;

@@ -1,0 +1,164 @@
+I"�,<p><img src="/blog/assets/ai-music/failed_ai_music_preview.png" alt="A failed attempt to generate music" /></p>
+
+<p>UPDATE: I will retain this post as is for perpetuity, but 4 months since this post I’ve completed the project. You can <a href="http://tclack88.github.io/blog/blog/code/2019/12/27/ai-music.html">read the updated post here</a></p>
+
+<p>I’m not sure how to start this post. I’d like to present something firm and complete right now (“Check out what I managed to create!”) but this isn’t one of those successful completed projects; this is a failed attempt.</p>
+
+<p>The goal was to train a neural network on classical midi files then have it generate unique output based on the note patterns and trends in harmony it finds. This may have been too big an undertaking at the moment because I wasn’t able to successfully build the training algorithm.</p>
+
+<p>Regardless, there’s still a GitHub link to the <a href="https://github.com/Tclack88/Machine-Learning-Projects/tree/master/GenerateMusic_NeuralNetwork_Incomplete">incomplete work</a></p>
+
+<h2 id="inspiration">Inspiration</h2>
+<p>I saw this a long time ago:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SacogDL_4JU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>This may have even been before I got into coding, so I’m sure at the time I never thought I’d be able to do something like it… At the time of posting that’s still sort of true.</p>
+
+<h2 id="the-plan">The Plan</h2>
+<p>So I figured there’s only 4 elements to this:</p>
+
+<ul>
+  <li>Acquire midi files ——————– check</li>
+  <li>Convert midi’s to “readable text” —– check</li>
+  <li>Apply Neural Network to mimic text —- X</li>
+  <li>Revert output back to midi ———— half check</li>
+</ul>
+
+<p>I have 2 Encoding functions which take the raw midi files to a readable text format. Why two? Great question, because I attempted two different ways to encode the notes, first on a “word” level, next on a “character” level. The former failed so I figured the latter would work…it didn’t. So it’s kind of like applying a patch rather than reworking the code, but it’s all good because I’m not sure if the eventual final product will be on the word or character level. Let’s check out an overview of everything so far:</p>
+
+<p>Let’s follow a snippet of one file through the pipeline, one of my favorite Chopin songs.</p>
+
+<h3 id="acquiring-midi-files">Acquiring midi files</h3>
+<p>First, we need our training input. I found <a href="https://www.midiworld.com/chopin.htm">this website</a> which had a bunch of Chopin midi files. I could download them one-by-one but that’s not very efficient, so here’s a bash one-liner:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://www.midiworld.com/chopin.htm | <span class="nb">grep</span> <span class="nt">-o</span> https[:/a-zA-Z.0-9]<span class="k">*</span>chopin[/a-zA-Z.0-9]<span class="k">*</span>mid
+</code></pre></div></div>
+<p>(repeat for the other pages with similar scripts to gather more samples)</p>
+
+<p>A Linux software package, <a href="https://www.fourmilab.ch/webtools/midicsv/">midicsv</a>, is useful for the initial conversion. Assume we are now in a directory full of midi files (and our python scripts of course)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.mid<span class="si">)</span><span class="p">;</span> <span class="k">do </span>midicsv <span class="nv">$f</span> <span class="nv">$f</span>.out<span class="p">;</span> <span class="k">done</span>
+</code></pre></div></div>
+<p>at this stage our file has been converted into a .csv file</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0, 0, Header, 0, 1, 480
+1, 0, Start_track
+1, 0, SMPTE_offset, 96, 0, 0, 0, 0
+1, 0, Time_signature, 4, 2, 24, 8
+1, 0, Key_signature, 0, "major"
+1, 0, Tempo, 500000
+1, 0, Note_on_c, 0, 36, 100
+1, 3, Note_on_c, 0, 48, 97
+1, 244, Control_c, 0, 64, 127
+1, 2870, Note_on_c, 0, 51, 74
+1, 2882, Note_on_c, 0, 39, 63
+1, 3014, Note_off_c, 0, 48, 64
+1, 3074, Note_off_c, 0, 36, 64
+1, 3102, Control_c, 0, 64, 0
+1, 3378, Control_c, 0, 64, 127
+1, 3386, Note_on_c, 0, 56, 76
+1, 3400, Note_on_c, 0, 44, 63
+1, 3494, Note_off_c, 0, 51, 64
+.
+.
+. (and so on)
+</code></pre></div></div>
+
+<p>You can check out that link above, but there’s a lot of “unnecessary information” like keysignatures, titles, etc. Additionally, the “Control_c” seems to allow for effects like echoing and I’m not really interested in that. I mainly need the tempo(maybe… still deciding), note_on, note_off, and of course start/stop information. Start and Stop can be appended later; it always looks the same.</p>
+
+<p>If you look at the note_on/note_off lines, they are preceded by a time stamp which I can track the change rather than the actual value. And afterwards, there are 3 numbers:</p>
+<ul>
+  <li>the 1st … I have no idea what this is, it seems to be always 0</li>
+  <li>the 2nd is note identity, i.e. which of the 88 keys is being struck</li>
+  <li>the 3rd is note velocity. Loudness and softness. For all I care these can be the same, so I will ignore this and later make it all the same</li>
+</ul>
+
+<p>All this is great for my first simplification. I decided I would change the absolute time values to relative time values from the previous and they would be rounded to the nearest 10 ms interval. Each Note value would be mapped to a unique ascii character and I would reserve the following symbols:</p>
+<ul>
+  <li>|  for note on</li>
+  <li>!  for note off</li>
+  <li>~  separates number of intervals from notes being played</li>
+</ul>
+
+<p>As an intermediate, the csv file is transformed into</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      b           c       d   e        out
+0      0       tempo  500000   0  0~'500000
+1      0   note_on_c       0  36       0~|2
+2      0   note_on_c       0  48       0~|&gt;
+3   2870   note_on_c       0  51     287~|A
+4     10   note_on_c       0  39       1~|5
+5    130  note_off_c       0  48      13~!&gt;
+6     60  note_off_c       0  36       6~!2
+7    310   note_on_c       0  56      31~|F
+8     10   note_on_c       0  44       1~|:
+9     90  note_off_c       0  51       9~!A
+10   250  note_off_c       0  39      25~!5
+11    60   note_on_c       0  58       6~|H
+12     0   note_on_c       0  46       0~|&lt;
+13   100  note_off_c       0  56      10~!F
+14    30  note_off_c       0  44       3~!:
+15   230   note_on_c       0  60      23~|J
+16    10   note_on_c       0  48       1~|&gt;
+17    30  note_off_c       0  46       3~!&lt;
+18    30  note_off_c       0  58       3~!H
+</code></pre></div></div>
+
+<p>But the final output looks like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0~'500000 0~|2 0~|&gt; 287~|A 1~|5 13~!&gt; 6~!2 31~|F 1~|: 9~!A 25~!5 6~|H 0~|&lt; 10~!F
+ 3~!: 23~|J 1~|&gt; 3~!&lt; 3~!H 27~|: 1~|F 3~!J 5~!&gt; 22~!F 1~|M 2~|A 8~!: 20~|T 1~|H
+ 4~!A 2~!M 26~|V 2~|J 1~!H 4~!T 24~|R 1~|F 3~!V 0~!J 30~|Y 1~|M 3~!R 12~!F 17~|`
+ 2~|T 7~!Y 0~!M 28~!T 2~|b 2~|V 10~!` 32~|Q 0~|] 7~!V 6~!b 24~|` 2~|T 4~!Q 3~!] 
+28~|^ 1~|R 5~!T 10~!` 33~|] 1~|Q 3~!R 10~!^ 108~|\ 2~!Q 0~|P 12~!] 57~!\ 29~!P 
+74~|\ 1~|P 51~|] 1~|Q 1~!P 5~!\ 30~|\ 1~|P 3~!Q 6~!] 24~|[ 0~|O 6~!\ 0~!P 28~|\ 
+2~|P 4~!O 1~![ 38~|_ 1~|S 0~!P 4~!\ 31~|] 1~|Q 0~!S 12~!_ 15~|Y 0~|M 3~!Q 2~!]
+ 20~!M 1~!Y 14~|Y 2~|M 85~!M 5~|X 
+</code></pre></div></div>
+<p>Not very pretty, but it’s concise. This is my “word level” encoding. When I ran this through a TensorFlow neural net (which admittedly I just copied and pasted from <a href="https://machinelearningmastery.com/how-to-develop-a-word-level-neural-language-model-in-keras/">here</a></p>
+
+<p>It just failed, it didn’t seem to work at all, I switched to character level encoding on this a (also <a href="https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/">copied and pasted from the same website</a></p>
+
+<p>And after half an hour of training I got my output:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+</code></pre></div></div>
+
+<p>Not very musical. I figured since every word had a tilde, it was just copying that because it would be correct 38.9% of the time <br />
+(Yes, I did the math) <br /> (…) <br /> (…)<br />
+(<code class="highlighter-rouge">bc -l &lt;&lt;&lt;  $(grep -o "~" ballade.mid.out | wc -m)/$(wc -m &lt; ballade.mid.out)</code> )</p>
+
+<p>So I decided I would remove the tilde, the number preceding it would be turned into the corresponding number of spaces, and all words would be grouped to create chords. Additionally I sorted them so the program would know the chords |&amp;dJ, |d&amp;J as well as the other 4 possibilities, for example are the same. And with this we get:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          |ELQTX]`                               |9il   |d          !9  |_
+                |Q   |HL         |`di              |`di    |&lt;        |\ 
+               |Q   |HL         |`d   |]          |d   |]`    |@          
+|W             |HQ   |L          |X]`             |E`   |X]          |T   
+            |GQ   |JM           !G  |]   |Yb           |]b   |Y       |;
+        !b  |X             |JMQW          |V           |G]b   |Y           
+|X             |PW   |J   |L         |V            |Y\b   |@        |X
+             |PW    |J   |L     |\      |V             |GX\_
+            !GX_  |V             !V  |EHLQTX]` 
+</code></pre></div></div>
+<p>(I went to a different portion of the song to better demonstrate this)</p>
+
+<p>Brilliant! Put it into the blind TF algorithm! Here’s the output:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                                 
+                                                
+                                                
+
+</code></pre></div></div>
+
+<p>:/</p>
+
+<p>So the spaces now make up the vast majority (86.4% to be more precise… What? Leave me alone!). In retrospect I’m not sure why I thought this would give me different results. But I like the fact that at least notes are grouped as chords rather than the information being single-noted.</p>
+
+<h2 id="positive-outcomes-and-the-next-steps">Positive Outcomes and the Next Steps</h2>
+<ul>
+  <li>I learned a good amount of using python’s pandas module</li>
+  <li>Good practice with regex and general string manipulation</li>
+  <li>The brunt of the work is taken care of, encoding the data</li>
+</ul>
+
+<p>Evidently I need practice TensorFlow/Keras and research neural networks. Once that’s patched up, it’ll be time to return to this.</p>
+
+:ET

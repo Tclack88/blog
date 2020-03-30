@@ -2,8 +2,10 @@
 layout: post
 title:	"Mountain Project Webscraping"
 date:	2019-10-05 15:02:00 -0700
+img: assets/mproj/mproj_data.png
 categories: code
 ---
+![Random user data scraped from mountain project]({{site.baseurl}}/assets/mproj/mproj_data.png)
 Non-standard libraries needed:
 
 	BeautifulSoup	-	pip3 install python3-bs4

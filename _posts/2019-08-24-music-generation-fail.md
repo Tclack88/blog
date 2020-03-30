@@ -5,6 +5,7 @@ date:	2019-08-15 15:09:00 -0700
 img: assets/ai-music/failed_ai_music_preview.png
 categories: code personal
 ---
+![A failed attempt to generate music]({{site.baseurl}}/assets/ai-music/failed_ai_music_preview.png)
 
 UPDATE: I will retain this post as is for perpetuity, but 4 months since this post I've completed the project. You can [read the updated post here]({{site.production_url}}{% link _posts/2019-12-27-ai-music.md %})
 

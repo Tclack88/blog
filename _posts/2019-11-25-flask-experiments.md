@@ -5,6 +5,8 @@ date:   2019-11-25 13:55:00 -0700
 img: assets/flask/flask_experiments.png
 categories: code
 ---
+![I've been experimenting with flask containers]({{site.baseurl}}/assets/flask/flask_experiments.png)
+
 
 I've been playing around with flask and creating fairly useless flask apps which may come in handy in the future. Though these apps are small, I have the directory structure set in a way that's useful for larger apps. The purpose of this post is mainly to keep some notes but also serve as a guide for anyone who stumbles across it. There are [plenty of good examples to work from](https://www.freecodecamp.org/news/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492/) but this is just what I've found personally helpful, plus it scales. The only non-standard python dependencies needed are flask.
 

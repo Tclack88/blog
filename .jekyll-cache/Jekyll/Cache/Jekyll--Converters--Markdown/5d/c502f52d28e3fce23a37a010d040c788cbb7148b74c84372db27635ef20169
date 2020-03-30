@@ -1,0 +1,195 @@
+I"4<p>![real sheet music generated from ai](/blog{img}
+Four months ago I tried using Keras to create an LSTM architecture to generate music training on Chopin songs. The output was basically non-existent. Blank spaces were my output (i.e. silence). Now that I’ve had more time to grow, I’ve finally managed to successfully engineer a basic working model.</p>
+
+<p>non-standard dependencies:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>midicsv		-	sudo apt install midicsv
+keras		-	pip3 install keras
+pandas		-	sudo apt-get install python-pandas
+numpy		-	pip3 install numpy
+</code></pre></div></div>
+
+<p>You can read the <a href="http://tclack88.github.io/blog/blog/code/personal/2019/08/15/music-generation-fail.html">old post</a> for a bit of self-deprecation.</p>
+
+<h2 id="inspiration">Inspiration</h2>
+<p>I saw this a long time ago:</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SacogDL_4JU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>This may have even been before I got into coding, so I’m sure at the time I never thought I’d be able to do something like it.</p>
+
+<h2 id="examples">Examples</h2>
+
+<p>Let’s cut to the chase. Here’s a midi output snippet:</p>
+<hr />
+
+<p>This first song goes nicely for about the first minute and a half. It then goes wild for another 2 minutes then it becomes pleasant again, then stays wild until the end:</p>
+<audio controls="controls" src="/blog/assets/ai-music/midi1.mp3" type="audio/mp3">
+Your browser does not support the audio element.
+</audio>
+
+<hr />
+
+<p>This 2nd song quickly goes downhill then a few minutes in something funny happens with this repeated C# around 2:40 it sounds pleasant to me, definitely some strange harmonies:</p>
+<audio controls="controls" src="/blog/assets/ai-music/midi2.mp3" type="audio/mp3">
+Your browser does not support the audio element.
+</audio>
+
+<hr />
+
+<p>Again this begins with a repeated G# reminiscent of the raindrop prelude, if you know Chopin, you’ll notice it’s overfitting a bit. I recognize pieces of 3 familiar songs, particularly in the first minute and a half or so:</p>
+<audio controls="controls" src="/blog/assets/ai-music/midi3.mp3" type="audio/mp3">
+Your browser does not support the audio element.
+</audio>
+<hr />
+
+<p>Not exactly the work of a classically trained composer, but it’s an output which, at least in the beginning, is semi-coherent so I’d call this a success.</p>
+
+<h2 id="overview">Overview</h2>
+<p>So I figured there’s only 4 elements to this:</p>
+
+<ul>
+  <li>Acquire midi files</li>
+  <li>Convert midi’s to “readable text”</li>
+  <li>Apply Neural Network to mimic text</li>
+  <li>Revert output back to midi</li>
+</ul>
+
+<p>I have 2 Encoding functions which take the raw midi files to a readable text format. Why two? Great question, because I attempted two different ways to encode the notes, first on a “word” level, next on a “character” level. The former failed initially so I figured the latter would work. I’m sure it would still work with the original encoding, but the newer encoding is visually appealing.</p>
+
+<p>Let’s follow a snippet of one file through the pipeline, one of my favorite Chopin songs.</p>
+
+<h3 id="acquiring-midi-files">Acquiring Midi Files</h3>
+<p>First, we need our training input. I found <a href="https://www.midiworld.com/chopin.htm">this website</a> which had a bunch of Chopin midi files. I could download them one-by-one but that’s not very efficient, so here’s a bash one-liner:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl https://www.midiworld.com/chopin.htm | <span class="nb">grep</span> <span class="nt">-o</span> https[:/a-zA-Z.0-9]<span class="k">*</span>chopin[/a-zA-Z.0-9]<span class="k">*</span>mid
+</code></pre></div></div>
+<p>(repeat for the other pages with similar scripts to gather more samples)</p>
+
+<h3 id="encoding">Encoding</h3>
+<p>A Linux software package, <a href="https://www.fourmilab.ch/webtools/midicsv/">midicsv</a>, is useful for the initial conversion. Assume we are now in a directory full of midi files (and our python scripts of course)</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for </span>f <span class="k">in</span> <span class="si">$(</span><span class="nb">ls</span> <span class="k">*</span>.mid<span class="si">)</span><span class="p">;</span> <span class="k">do </span>midicsv <span class="nv">$f</span> <span class="nv">$f</span>.out<span class="p">;</span> <span class="k">done</span>
+</code></pre></div></div>
+<p>at this stage our file has been converted into a .csv file</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0, 0, Header, 0, 1, 480
+1, 0, Start_track
+1, 0, SMPTE_offset, 96, 0, 0, 0, 0
+1, 0, Time_signature, 4, 2, 24, 8
+1, 0, Key_signature, 0, "major"
+1, 0, Tempo, 500000
+1, 0, Note_on_c, 0, 36, 100
+1, 3, Note_on_c, 0, 48, 97
+1, 244, Control_c, 0, 64, 127
+1, 2870, Note_on_c, 0, 51, 74
+1, 2882, Note_on_c, 0, 39, 63
+1, 3014, Note_off_c, 0, 48, 64
+1, 3074, Note_off_c, 0, 36, 64
+1, 3102, Control_c, 0, 64, 0
+1, 3378, Control_c, 0, 64, 127
+1, 3386, Note_on_c, 0, 56, 76
+1, 3400, Note_on_c, 0, 44, 63
+1, 3494, Note_off_c, 0, 51, 64
+.
+.
+. (and so on)
+</code></pre></div></div>
+
+<p>You can check out that link above, but there’s a lot of “unnecessary information” like key signatures, titles, etc. Additionally, the “Control_c” seems to allow for effects like echoing and I’m not really interested in that. I mainly need the tempo(maybe… still deciding), note_on, note_off, and of course start/stop information. Start and Stop can be appended later; it always looks the same.</p>
+
+<p>If you look at the note_on/note_off lines, they are preceded by a time stamp which I can track the change rather than the actual value. And afterwards, there are 3 numbers:</p>
+<ul>
+  <li>the 1st … I have no idea what this is, it seems to be always 0</li>
+  <li>the 2nd is note identity, i.e. which of the 88 keys is being struck</li>
+  <li>the 3rd is note velocity. Loudness and softness. For all I care these can be the same, so I will ignore this and later make it all the same</li>
+</ul>
+
+<p>All this is great for my first simplification. I decided I would change the absolute time values to relative time values from the previous and they would be rounded to the nearest 10 ms interval, a space will represent this interval. Each Note value would be mapped to a unique ascii character and I would reserve the following symbols:</p>
+<ul>
+  <li>|  for note on</li>
+  <li>!  for note off</li>
+  <li>~  separates number of intervals from notes being played</li>
+</ul>
+
+<p>As an intermediate, the csv file is transformed into</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      b           c       d   e        out
+0      0       tempo  500000   0  0~'500000
+1      0   note_on_c       0  36       0~|2
+2      0   note_on_c       0  48       0~|&gt;
+3   2870   note_on_c       0  51     287~|A
+4     10   note_on_c       0  39       1~|5
+5    130  note_off_c       0  48      13~!&gt;
+6     60  note_off_c       0  36       6~!2
+7    310   note_on_c       0  56      31~|F
+8     10   note_on_c       0  44       1~|:
+9     90  note_off_c       0  51       9~!A
+10   250  note_off_c       0  39      25~!5
+11    60   note_on_c       0  58       6~|H
+12     0   note_on_c       0  46       0~|&lt;
+13   100  note_off_c       0  56      10~!F
+14    30  note_off_c       0  44       3~!:
+15   230   note_on_c       0  60      23~|J
+16    10   note_on_c       0  48       1~|&gt;
+17    30  note_off_c       0  46       3~!&lt;
+18    30  note_off_c       0  58       3~!H
+</code></pre></div></div>
+
+<p>But the final output looks like this:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0~'500000 0~|2 0~|&gt; 287~|A 1~|5 13~!&gt; 6~!2 31~|F 1~|: 9~!A 25~!5 6~|H 0~|&lt; 10~!F
+ 3~!: 23~|J 1~|&gt; 3~!&lt; 3~!H 27~|: 1~|F 3~!J 5~!&gt; 22~!F 1~|M 2~|A 8~!: 20~|T 1~|H
+ 4~!A 2~!M 26~|V 2~|J 1~!H 4~!T 24~|R 1~|F 3~!V 0~!J 30~|Y 1~|M 3~!R 12~!F 17~|`
+ 2~|T 7~!Y 0~!M 28~!T 2~|b 2~|V 10~!` 32~|Q 0~|] 7~!V 6~!b 24~|` 2~|T 4~!Q 3~!]
+28~|^ 1~|R 5~!T 10~!` 33~|] 1~|Q 3~!R 10~!^ 108~|\ 2~!Q 0~|P 12~!] 57~!\ 29~!P
+74~|\ 1~|P 51~|] 1~|Q 1~!P 5~!\ 30~|\ 1~|P 3~!Q 6~!] 24~|[ 0~|O 6~!\ 0~!P 28~|\
+2~|P 4~!O 1~![ 38~|_ 1~|S 0~!P 4~!\ 31~|] 1~|Q 0~!S 12~!_ 15~|Y 0~|M 3~!Q 2~!]
+ 20~!M 1~!Y 14~|Y 2~|M 85~!M 5~|X
+</code></pre></div></div>
+
+<p>So I decided I would remove the tilde, the number preceding it would be turned into the corresponding number of spaces, and all words would be grouped to create chords. Additionally I sorted them so the program would know the chords |&amp;dJ, |d&amp;J as well as the other 4 possibilities, for example are the same. And with this we get:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          |ELQTX]`                               |9il   |d          !9  |_
+                |Q   |HL         |`di              |`di    |&lt;        |\
+               |Q   |HL         |`d   |]          |d   |]`    |@
+|W             |HQ   |L          |X]`             |E`   |X]          |T
+            |GQ   |JM           !G  |]   |Yb           |]b   |Y       |;
+        !b  |X             |JMQW          |V           |G]b   |Y
+|X             |PW   |J   |L         |V            |Y\b   |@        |X
+             |PW    |J   |L     |\      |V             |GX\_
+            !GX_  |V             !V  |EHLQTX]`
+</code></pre></div></div>
+<p>(The above doesn’t match up because it’s a different portion of the song… chosen again for visual appeal)</p>
+
+<h3 id="neural-network">Neural Network</h3>
+<p>A lot of choices are arbitrary and being among my first foray’s into the subject, I have little justification for the numbers chosen here. I went with character level encoding because it helps save memory with unique combinations of notes and time spaces. I decided to divide the training data into chunks of 60 characters which would be used to predict the next 5 (the output node being predicted by the neural network for that combo). I then proceed 5 characters and do this until reaching the end of the training data.</p>
+
+<p>The model itself is just a single LSTM layer with output layer equal to the unique characters. Using <a href="https://towardsdatascience.com/understanding-rmsprop-faster-neural-network-learning-62e116fcf29a">RMSprop</a> as the optimizing algorithm, then training and checking output every 5 epochs I get some rather fantastic looking output:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Generating with seed: "|n              !n  |/b              !b  |l           !/l"
+|n              !n  |/b              !b  |l              !/l !&lt;T   TEO           
+|  |NJOPU   !X    !O\UOEU V |KZ !&lt;\  |8GN&lt;\ZT  !M       !HQ  |X   !8KX       |EMO 
+!&lt;KRNS   !=  |JFGY  !&lt;&lt;@OX      !W  |KDHP\!2U   !PNN              |&lt;           !L 
+|POOOUU|W  |;O|POJ           !PJS     |CPRM    ! |BIW !5DRHN[ !QZ^    |&lt;^  !]     
+       Z  |*3OGP!O           !&lt;W!=O !U|Bd |  !7VZ !&lt;H\`       !1W  |=9QT !U |&lt;    
+        |&lt;UZ   |K !A[!D  !&lt;IWW   |AS   !?T   X |A2BKPK  |CW           !8K     |3[
+!7Z  |5JCOPT  !1V   |HPO   |Y            |: |AO|AU       |^  ! W      |B\2]   !1U
+  |i!F !PUGU!/   !S=&lt;D    !C:O |ON      !JOT    !j !@` T!PS    !OWOQPX[    !P   
+|8QKBCNX   |U  |Y         !1K  |i|DW |&lt;W !&lt;       !/&lt;T        !A  !SW!=W   !W   
+        |;       !HG  !NQ!W   !P@M  !Q !S !F|IQ Z !O!=KPMS; !o     !U        !^ 
+|KRIOPOT|A  !;PJ       I  !]!&lt;JEOI    |Z]!b!S   !3^|O  !0|Z !P     !&lt;  !&lt;      !E
+  !C`    !HJU      !5C  k       !O           |:`|KR          !1R        |d|&lt;WV |c 
+|8OG ]   !HS           |AJX  |V  !GW  !_     ^ !&lt;B:9 |?M !=Z          
+49275/49275 [==============================] - 91s 2ms/sample - loss: 0.9876
+</code></pre></div></div>
+
+<p>(Additional details: learning rate: .01, batch size: 512 – again all arbitrary, except I’ve been told a GPU works well when batch sizes match up with memory, thus the nice power of 2 choice at 512)</p>
+
+<h2 id="create-your-own-music">Create Your Own Music</h2>
+
+<p>You can see and run this yourself from a notebook instance I created. It runs much faster than on your local machine because of the GPU that google so graciously provides. (Though all the converting to and from midi’s I performed those steps locally. So you’re gonna have to fork or copy and paste from the repo to listen to your own output)</p>
+
+<p><a href="https://github.com/Tclack88/AIMusic/blob/master/AIGenerateMusicipynb.ipynb">create your own music here</a></p>
+
+<h2 id="where-to-from-here">Where to From Here</h2>
+
+<p>To be honest, I’m a little bored now that the main challenge is complete. I would certainly like to fine tune, or more likely completely rework, this process. I intend to experiment with bringing all the training songs to the same key. This would more readily allow for the algorithm to more easily pick up on chord patterns and create well-fitting note sequences without all the noise of different keys. I would also like to incorporate more musicians for variety</p>
+
+:ET

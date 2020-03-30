@@ -2,8 +2,10 @@
 layout: post
 title:  "Naive Bayes Spam Filter"
 date:   2019-06-30 22:52:00 -0700
+img: assets/spam/naive_bayes_spam_filter_logo.png
 categories: code
 ---
+![Multinomial Naive Bayes spam filter]({{site.baseurl}}/assets/spam/naive_bayes_spam_filter_logo.png)
 
 The following is a write-up for my spam filter project. The final product can be found [here][Spam Filter].
 
