@@ -8,6 +8,11 @@ title: Codesplanations
   <ul class="posts">
     {% for post in site.posts %}
     <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li><br>
+     <div class="entry">
+            {% if post.img %}
+	    <a href="{{ site.baseurl }}{{ post.url }}"><img src="{{ post.img }}"></a>
+            {% endif %}
+    </div>
     {% endfor %}
   </ul>
 </div>

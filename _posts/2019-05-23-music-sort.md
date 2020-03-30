@@ -2,6 +2,7 @@
 layout: post
 title:  "Sorting Music -  My First Project"
 date:   2019-05-23 21:45:58 -0700
+img: assets/music-sort/sorting.gif
 categories: code
 ---
 The following write-up is for my music sorting code found [here][sortmus] on my GitHub account.

@@ -2,6 +2,7 @@
 layout: post
 title:  "Automated Bounding Boxes"
 date:   2020-02-17 13:01 -0700
+img: assets/trash-panda/bounding_box_tire_progression.png
 categories: code
 ---
 

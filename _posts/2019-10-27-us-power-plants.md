@@ -2,6 +2,7 @@
 layout: post
 title:  "U.S. Power Plant Predictions"
 date:   2019-10-27 16:53:00 -0700
+img: assets/renewable/us-powerplants.png
 categories: code
 ---
 

@@ -2,6 +2,7 @@
 layout: post
 title:  "GitHub Cleaning"
 date:   2020-01-16 21:12 -0700
+img: assets/github/github_post_preview.png
 categories: code
 ---
 

@@ -2,6 +2,7 @@
 layout: post
 title:  "Flask Experiments"
 date:   2019-11-25 13:55:00 -0700
+img: assets/flask/flask_experiments.png
 categories: code
 ---
 

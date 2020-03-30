@@ -2,6 +2,7 @@
 layout: post
 title:  "RideShare Clustering"
 date:   2019-06-10 13:04:00 -0700
+img: assets/rideshare/ClusteredRiders.png
 categories: code
 ---
 
@@ -25,6 +26,8 @@ In general, each week, the members would fill out a simple google form with the 
 The club members would have to complete the survey through their gmail accounts and so by the end of the week we would get a downloadable csv file with the following information:
 
 |email|going?(y/n)|Driving?(y/n)|<br>
+
+<br>
 
 In preparation, someone would need to make a file of potential pickup locations (the more the better) which would just be a csv file with the name of the place and the GPS coordinates. The members would have also needed to fill out another one-time survey specifying: their names, email addresses and GPS coordinates of where they live &mdash; the Master List (admittedly people are reluctant to do that), and with the weekly email completed, the email, the program would check those who put 'Yes' down as going to the gig, then the code would crosscheck that against the masterlist to pull their names and locations. This is a great segue to the actual details.
 

@@ -2,6 +2,7 @@
 layout: post
 title:	"Trad Climbers, Sport Climbers and Boulderers: <br/> An Analysis"
 date:	2019-09-27 11:09:00 -0700
+img: assets/mproj/trad_boulder_sport.jpeg
 categories: personal
 ---
 

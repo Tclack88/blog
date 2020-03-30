@@ -2,6 +2,7 @@
 layout: post
 title:  "Mountain Project GPS"
 date:   2019-10-12 11:20:00 -0700
+img: assets/mproj/gps_preview.png
 categories: code
 ---
 

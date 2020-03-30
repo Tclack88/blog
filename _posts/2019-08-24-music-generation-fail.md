@@ -2,6 +2,7 @@
 layout: post
 title:	"A Failed Attempt to Generate Music"
 date:	2019-08-15 15:09:00 -0700
+img: assets/ai-music/failed_ai_music_preview.png
 categories: code personal
 ---
 

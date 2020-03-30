@@ -2,6 +2,7 @@
 layout: post
 title:  "The Trash Panda - Recycling Made Easy"
 date:   2020-03-06 18:21 -0700
+img: assets/trash-panda/trash_panda_play_store.png
 categories: personal
 ---
 
