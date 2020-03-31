@@ -3,6 +3,7 @@ layout: post
 title:	"Mountain Project Webscraping"
 date:	2019-10-05 15:02:00 -0700
 img: assets/mproj/mproj_data.png
+blurb: I've been interested in ways to take my climbing to the next level. This is a very general question, but it all begins with data. This is a story about how I acquired around 3,200 climber profile samples from a popular climbing website, MountainProject
 categories: code
 ---
 ![Random user data scraped from mountain project]({{site.baseurl}}/assets/mproj/mproj_data.png)
@@ -11,7 +12,7 @@ Non-standard libraries needed:
 	BeautifulSoup	-	pip3 install python3-bs4
 	pandas		-	sudo apt-get install python-pandas
 
-You can see the notebook and data [here on Github](https://github.com/Tclack88/MountainProject)
+You can see the notebook and data [here on GitHub](https://github.com/Tclack88/MountainProject)
 
 ## Inspiration   
 

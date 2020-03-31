@@ -3,6 +3,7 @@ layout: post
 title:  "GitHub Cleaning"
 date:   2020-01-16 21:12 -0700
 img: assets/github/github_post_preview.png
+blurb: A tutorial for consolidating GitHub repositories while maintaining contribution history. Reduce your repo clutter and make it appear as if you had setup that directory structure from the outset
 categories: code
 ---
 
@@ -78,7 +79,7 @@ function git-add-repo
     rm -rf "$tmp"
 }
 ```
-(Source: I wish I could say I created this myself, but I didn't I found it [here on Stack Overflow](https://stackoverflow.com/questions/1683531/how-to-import-existing-git-repository-into-another))
+(Source: I wish I could say I created this myself, but I didn't. I found it burried among the many gems over at[Stack Overflow](https://stackoverflow.com/questions/1683531/how-to-import-existing-git-repository-into-another))
 
 
 Create "new" however you like, through the CLI or via the GUI, then git clone that in your terminal and change directory into there.

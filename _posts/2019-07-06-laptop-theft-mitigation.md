@@ -3,6 +3,7 @@ layout: post
 title:	"Laptop Theft Mitigation"
 date:	2019-07-06 10:46:00 -0700
 img: assets/stolen-laptop/stolen_laptop.png
+blurb: Just when I finally retired my laptop of ~10 years, not 3 months went by before my new laptop was stolen. It was a break-in. The passenger window smashed and my backpack holding my laptop, among other things, was taken. This sucked for sure, however it inspired me to write this series of scripts and protocols so that if it were to ever happen again (to me or anyone), it might be possible to locate (exactly) the laptop even without a built-in GPS, simultaneously gather evidence for the authorities
 categories: code
 ---
 ![laptop theft mitigation]({{site.baseurl}}/assets/stolen-laptop/stolen_laptop.png)
@@ -21,7 +22,7 @@ Non-standard python libraries and Linux utilities needed:
 
 <!-- You'll never sharpen a sword with a silk cloth. -->
 
-Just when I finally retired my laptop of ~10 years, not 3 months went by before my new laptop was stolen. It was a break-in. Passenger window smashed and my backpack holding my laptop among other things was taken. I don't care so much about the hardware (although I lost over $1000 in damages and goods), it was the memories it contained.
+Just when I finally retired my laptop of ~10 years, not 3 months went by before my new laptop was stolen. It was a break-in. The passenger window was smashed and my backpack holding my laptop, among other things, was taken. I don't care so much about the hardware (although I lost over $1000 in damages and goods), it was the memories it contained.
 
 I wouldn't say it's all good, but without it happening, this program (protocol rather) wouldn't exist. I'm not going to thank the thief, but "thanks to him/her" this may help someone recover their stolen laptop or me in the unlikely event this were to happen again.
 

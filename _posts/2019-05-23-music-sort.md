@@ -3,6 +3,7 @@ layout: post
 title:  "Sorting Music -  My First Project"
 date:   2019-05-23 21:45:58 -0700
 img: assets/music-sort/sorting.gif
+blurb: So shortly after high school I had an HP laptop (1st mistake) that had suddenly lost its ability to charge. I didn't have very many important documents on it, but I was bummed out that my music was locked away. I had an iPod at the time, and fortunately iPods retain the  music as randomized four-letter file names in hidden folders.
 categories: code
 ---
 The following write-up is for my music sorting code found [here][sortmus] on my GitHub account.

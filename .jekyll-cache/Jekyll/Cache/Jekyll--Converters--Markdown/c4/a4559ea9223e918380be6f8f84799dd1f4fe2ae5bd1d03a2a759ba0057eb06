@@ -1,0 +1,136 @@
+I"h'<p>NOTE: I’m assuming you have a Linux or Mac. I haven’t checked, but maybe this can be done on “git for windows”</p>
+
+<p>I’ve been with Lambda School, an intensive full time 9+ month online coding academy, specifically in their data science program for the past 4 months. It’s one of the best decisions I’ve made. I’ve been an active contributor to open source code on GitHub before and throughout my time at Lambda. As great as it has been, I don’t want the first thing a potential recruiter to notice about my rather active GitHub account is that there’s a bunch of forked repositories from Lambda School. As great a school as it is, initial impressions from recruiters (or other onlookers) may be:</p>
+<blockquote>
+  <p>“Oh this guy just forks repositories, he’s got little original work”</p>
+</blockquote>
+
+<p>or</p>
+
+<blockquote>
+  <p>“All this contribution activity and maybe 80% of it is for this lambda thing”</p>
+</blockquote>
+
+<p>While it’s true I owe a lot of recent activity to that, I have around 20 repos of other work.</p>
+
+<p>This may not apply to you where you have a mess of forks you want to consolidate, but perhaps over the years you’ve created multiple repositories that are related and you want to start grouping them together. Or maybe it’s simpler and you’re an organization freak. Regardless, if any of these sound like you, read on.</p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>How do we keep contribution activity while consolidating our repos?</p>
+
+<p>Consolidation is easy: copy the contents of the repos you want into another, you then just have to delete the old one and you’re done! Unfortunately, contribution history is tied to the old repo, so if this is something you worked on for a month, that block in your GitHub account will drop out. You might as well have been binging on Netflix that entire time for all a recruiter would know.</p>
+
+<h2 id="the-solution">The Solution</h2>
+
+<p>The secret lies within git filter-branch</p>
+
+<p>big picture:</p>
+<ol>
+  <li>Make a new “home” repo (can’t be empty, so add a README or something)</li>
+  <li>Add a remote of the repo you want to bring in</li>
+  <li>Take the master branches of the remote and create new ones</li>
+  <li>filter the branch. Add original directory name as prefixes to the new master</li>
+  <li>merge branch into its new “home” repo(allow unrelated histories flag!)</li>
+  <li>remove the remote</li>
+</ol>
+
+<p>This is doubtlessly confusing. Let’s see this with an example and convenient bash code:</p>
+
+<h2 id="details">Details</h2>
+
+<p>Assumptions: Let’s say you have two repos:</p>
+
+<p>“old1” and “old2”</p>
+
+<p>You want to make a new home for them, let’s call it “new”</p>
+
+<p>First things first: Add the following function to your .bashrc:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">function </span>git-add-repo
+<span class="o">{</span>
+    <span class="nv">repo</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+    <span class="nb">dir</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$2</span><span class="s2">"</span> | <span class="nb">sed</span> <span class="s1">'s/\/$//'</span><span class="si">)</span><span class="s2">"</span>
+    <span class="nv">path</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">pwd</span><span class="si">)</span><span class="s2">"</span>
+
+    <span class="nv">tmp</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">mktemp</span> <span class="nt">-d</span><span class="si">)</span><span class="s2">"</span>
+    <span class="nv">remote</span><span class="o">=</span><span class="s2">"</span><span class="si">$(</span><span class="nb">echo</span> <span class="s2">"</span><span class="nv">$tmp</span><span class="s2">"</span> | <span class="nb">sed</span> <span class="s1">'s/\///g'</span>| <span class="nb">sed</span> <span class="s1">'s/\./_/g'</span><span class="si">)</span><span class="s2">"</span>
+
+    git clone <span class="s2">"</span><span class="nv">$repo</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$tmp</span><span class="s2">"</span>
+    <span class="nb">cd</span> <span class="s2">"</span><span class="nv">$tmp</span><span class="s2">"</span>
+
+    git filter-branch <span class="nt">--index-filter</span> <span class="s1">'
+        git ls-files -s |
+        sed "s,\t,&amp;'</span><span class="s2">"</span><span class="nv">$dir</span><span class="s2">"</span><span class="s1">'/," |
+        GIT_INDEX_FILE="$GIT_INDEX_FILE.new" git update-index --index-info &amp;&amp;
+        mv "$GIT_INDEX_FILE.new" "$GIT_INDEX_FILE"
+    '</span> HEAD
+
+    <span class="nb">cd</span> <span class="s2">"</span><span class="nv">$path</span><span class="s2">"</span>
+    git remote add <span class="nt">-f</span> <span class="s2">"</span><span class="nv">$remote</span><span class="s2">"</span> <span class="s2">"file://</span><span class="nv">$tmp</span><span class="s2">/.git"</span>
+    git pull <span class="s2">"</span><span class="nv">$remote</span><span class="s2">/master"</span>
+    git merge <span class="nt">--allow-unrelated-histories</span> <span class="nt">-m</span> <span class="s2">"Merge repo </span><span class="nv">$repo</span><span class="s2"> into master"</span> <span class="nt">--edit</span> <span class="s2">"</span><span class="nv">$remote</span><span class="s2">/master"</span>
+    git remote remove <span class="s2">"</span><span class="nv">$remote</span><span class="s2">"</span>
+    <span class="nb">rm</span> <span class="nt">-rf</span> <span class="s2">"</span><span class="nv">$tmp</span><span class="s2">"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p>(Source: I wish I could say I created this myself, but I didn’t. I found it burried among the many gems over at<a href="https://stackoverflow.com/questions/1683531/how-to-import-existing-git-repository-into-another">Stack Overflow</a>)</p>
+
+<p>Create “new” however you like, through the CLI or via the GUI, then git clone that in your terminal and change directory into there.</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/Tclack88/new.git
+<span class="nb">cd </span>new
+</code></pre></div></div>
+
+<p>Grab the .git address of “old1” and simply run the function:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git-add-repo https://github.com/Tclack88/old1.git
+</code></pre></div></div>
+
+<p>Now, the contents of the old1 won’t be consolidated into it’s own folder, so you’ll have to move it in manually, something like</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>old1
+<span class="nb">mv</span> <span class="k">*</span> old1
+</code></pre></div></div>
+<p>(the above works the first time because everything in this first pull belongs to old1)</p>
+
+<p>Now let’s get the contents of “old2” in here</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>old2
+git-add-repo https://github.com/Tclack88/old2.git old2
+</code></pre></div></div>
+
+<p>That’s basically it, just push these changes out and you can safely delete your old repos</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add <span class="nt">-A</span>
+git commit <span class="nt">-m</span> <span class="s2">"combined old1 and old2 in my new repo 'new'"</span>
+git push origin master
+</code></pre></div></div>
+
+<h2 id="before-and-after">Before and After*</h2>
+<p>*kind of after, there was some time that passed between these screenshots</p>
+
+<p><img src="/blog/assets/github/git_cleaned.png" alt="git repo size reduced" /></p>
+
+<p>And as you can see below, I have no missing chunks from September on (ignore August, I was applying to jobs, trying to figure things out and was semi-homeless)</p>
+
+<p><img src="/blog/assets/github/contribution_activity.png" alt="git history maintained" /></p>
+
+<h2 id="inner-workings-of-git-add-repo">Inner workings of git-add-repo</h2>
+<p>This can appear pretty mysterious at first. But after reviewing a few bash principles, like the format for creating a function and handling arguments, it’s fairly straightforward</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># create a function:</span>
+<span class="k">function </span>my-function
+<span class="o">{</span>
+   <span class="k">do </span>stuff
+   more stuff
+   blah
+<span class="o">}</span>
+
+<span class="c"># set a variable "my_variable" (in this case to the first argument)</span>
+<span class="nv">my_variable</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span>
+
+<span class="c"># search and replace</span>
+<span class="nb">sed</span> <span class="s1">'s/first/last/g'</span>
+<span class="c">#(this example would take the word 'first' and replace it with 'last')</span>
+
+</code></pre></div></div>
+<p>As you can see in the git-add-repo function, we are setting variables names to the new repo, the path, the directory we are creating, a temporary directory, and all that. We clone the repo into this temporary directory, go there, rewrite the branches (This is the magic. all the files in the repo are put into the new folder, $dir, rewriting the history so it appears they were there from the outset) change directory back out. Now we add the remote repo and make a pull request into it, merge with the current directory (allowing for unrelated histories) then remove the remote, we don’t need it anymore since it’s history is copied into the present directory.</p>
+:ET

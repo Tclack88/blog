@@ -13,6 +13,10 @@ title: Codesplanations
             {% if post.img %}
 	    <a href="{{ site.baseurl }}{{ post.url }}"><img src="{{ post.img }}"></a>
             {% endif %}
+	    {% if post.blurb %}
+	    {{ post.blurb }}
+	    ... <a href="{{ site.baseurl }}{{ post.url }}">read more</a>
+	    {% endif %}
     </div>
     </div>
     {% endfor %}

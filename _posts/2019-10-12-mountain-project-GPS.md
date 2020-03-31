@@ -3,6 +3,7 @@ layout: post
 title:  "Mountain Project GPS"
 date:   2019-10-12 11:20:00 -0700
 img: assets/mproj/gps_preview.png
+blurb: I frequently go on climbing trips. Many destinations have multiple sub-areas and walls with routes on them. I wanted an easy, no-effort gathering of climbing area GPS coordinates and route details such as difficulty, length and most importantly location
 categories: code
 ---
 

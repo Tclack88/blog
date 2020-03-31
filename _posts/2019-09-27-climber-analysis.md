@@ -3,6 +3,7 @@ layout: post
 title:	"Trad Climbers, Sport Climbers and Boulderers: <br/> An Analysis"
 date:	2019-09-27 11:09:00 -0700
 img: assets/mproj/trad_boulder_sport.jpeg
+blurb: An analysis of the overall climbing ability comparing random samples of trad climbers, sport climbers and boulderers. Along with what makes one discipline dominate the sport
 categories: personal
 ---
 
@@ -13,7 +14,7 @@ categories: personal
 ## Introductions - for those unfamiliar with climbing styles
 ### The Noble Boulderer
 ![bolderers]({{site.baseurl}}/assets/mproj/boulderer.jpg)
-Bouldering is almost a spiritual persuit. It's man vs. the rock. Boulderers typically climb short, intense routes. They need no rope for protection, merely a pad and possibly some spotters.
+Bouldering is almost a spiritual pursuit. It's man vs. the rock. Boulderers typically climb short, intense routes. They need no rope for protection, merely a pad and possibly some spotters.
 ### The O.G. Trad Climber
 ![trad climbers]({{site.baseurl}}/assets/mproj/trad_climber.jpg)
 Trad (traditional) climbers, as the name implies was the original style of climbing, placing protection into the wall as they go. They need to follow cracks or at the very least, climb walls with enough features where safety gear can be placed frequently.
@@ -53,14 +54,14 @@ And their average max grades by discipline
 
 
 ### Route Climbing
-When it comes to route climbing, sport climbers dominate the field. They sit consistantly on the high end above trad climbers and boulderers.
+When it comes to route climbing, sport climbers dominate the field. They sit consistently on the high end above trad climbers and boulderers.
 ![sport climbers dominate route climbing]({{site.baseurl}}/assets/mproj/sport_climbers_dominate_routes.png)
 
 And their average max grades by discipline
 
 ![sport climbers dominate route climbing]({{site.baseurl}}/assets/mproj/sport_climbers_dominate_routes2.png)
 
-(note: it may seem like the data is being "skewed" because these graphs aren't starting at 0, but if you don't climb you'll need to trust me. There is no significat difference between 5.0 to about 5.7 . Most gyms don't set routes below 5.6 or 7 for this reason. This was originally thought of as a terrain classification than a scale for climbing difficulty)
+(note: it may seem like the data is being "skewed" because these graphs aren't starting at 0, but if you don't climb you'll need to trust me. There is no significant difference between 5.0 to about 5.7 . Most gyms don't set routes below 5.6 or 7 for this reason. This was originally thought of as a terrain classification than a scale for climbing difficulty)
 
 ## A Brief Possible Explanation
 

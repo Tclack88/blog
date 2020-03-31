@@ -3,6 +3,7 @@ layout: post
 title:  "The Trash Panda - Recycling Made Easy"
 date:   2020-03-06 18:21 -0700
 img: assets/trash-panda/trash_panda_play_store.png
+blurb: The Trash Panda is a Progressive Web App (PWA) designed to make proper recycling easy and quick. Recycling can be confusing in part due to the variation in local laws. Some areas accept plastic bags in their curbside bins while others do not. Most of us know (or should know) that paint is hazardous and can't be tossed in the trash, but it can be annoying to look it up. Even worse, individuals who over recycle, putting everything even remotely plastic in their recycle bin and so unintentionally make poor decisions
 categories: personal
 ---
 
@@ -34,7 +35,7 @@ A brief look at the app during various stages of production
 
 ## Demos
 
-First a succinct 5 minute walkthrough
+First a succinct 5 minute walk-through
 <iframe width="560" height="315" src="https://www.youtube.com/embed/YbEzwob7PLw" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 <hr>

@@ -3,6 +3,7 @@ layout: post
 title:  "RideShare Clustering"
 date:   2019-06-10 13:04:00 -0700
 img: assets/rideshare/ClusteredRiders.png
+blurb: In my Junior year at UCSB, I joined Music Connection, a club that would get together on weekends to play music to local retirement centers and homeless shelters. The number of members was large enough and their school schedules varied such that each week, a different subset of people from the group would go, so it wasn't the same group each time. To facilitate the rideshare process, we would assign one person to contact everyone on that week's signup list to ensure everyone would have a ride. It can be quite the undertaking for that person to contact everyone on the gig list, find out their addresses, check who's driving, and establish a pickup point. What follows is a means of automating that process.
 categories: code
 ---
 

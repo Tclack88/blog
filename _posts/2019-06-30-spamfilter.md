@@ -3,6 +3,7 @@ layout: post
 title:  "Naive Bayes Spam Filter"
 date:   2019-06-30 22:52:00 -0700
 img: assets/spam/naive_bayes_spam_filter_logo.png
+blurb: A multinomial Naive Bayes spam filter. I took a Machine Learning course in college (skipping 9 prerequisites to do so... I didn't study computer science and by this point had been coding for maybe 8 months). Needless to say, I was destroyed and wanted to accomplish a task (that had escaped me at the time) in a way I would be expected to accomplish this in a more "real-world" scenario. Enjoy!
 categories: code
 ---
 ![Multinomial Naive Bayes spam filter]({{site.baseurl}}/assets/spam/naive_bayes_spam_filter_logo.png)

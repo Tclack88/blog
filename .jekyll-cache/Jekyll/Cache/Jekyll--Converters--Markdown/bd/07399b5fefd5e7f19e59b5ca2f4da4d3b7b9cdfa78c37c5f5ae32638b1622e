@@ -1,0 +1,172 @@
+I"\W<p><img src="/blog/assets/stolen-laptop/stolen_laptop.png" alt="laptop theft mitigation" /></p>
+
+<p>The following is a write-up for my laptop theft mitigation project. The final product can be found <a href="https://github.com/Tclack88/laptop-theft-mitigation">here</a>.</p>
+
+<p>Non-standard python libraries and Linux utilities needed:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>selenium		-	pip3 install python3-selenium
+pyxhook			-	pip3 install --user pyxhook
+xvfb			-	apt-get install xvfb		# frame buffer
+pyvirtualdisplay	-	pip3 install pyvirtualdisplay	# py3 xvfb wrapper
+</code></pre></div></div>
+
+<h2 id="inspiration">Inspiration</h2>
+
+<!-- You'll never sharpen a sword with a silk cloth. -->
+
+<p>Just when I finally retired my laptop of ~10 years, not 3 months went by before my new laptop was stolen. It was a break-in. The passenger window was smashed and my backpack holding my laptop among other things was taken. I don’t care so much about the hardware (although I lost over $1000 in damages and goods), it was the memories it contained.</p>
+
+<p>I wouldn’t say it’s all good, but without it happening, this program (protocol rather) wouldn’t exist. I’m not going to thank the thief, but “thanks to him/her” this may help someone recover their stolen laptop or me in the unlikely event this were to happen again.</p>
+
+<h2 id="code-overview">Code Overview</h2>
+
+<p>There are four scripts (two python files and 2 bash files) which form the main, file-generating functions. Another shell script mails these files out and an additional bash script controls all of these (norobo.sh — I named it this partly to obscure its function, but it has a meaning, anyone speak Spanish?). Every created file is time stamped, because if the files were not sent out, but each script titled them the same like “WebcamCapture.jpeg”, then the old ones would get overwritten and we’d lose potentially precious information hindering the recovery efforts.</p>
+
+<h3 id="main-functions">Main Functions</h3>
+
+<p><strong><em>wc.sh</em></strong><br />
+wc stands for “webcam” (again obscuring its function from a cursory glance). 
+This took less than a few minutes to write. <code class="highlighter-rouge">fswebcam</code> is a simple built-in webcam app for taking and saving webcam images. A compression factor of 85 gives a good trade-off between quality and size. The default timestamp could be applied with the <code class="highlighter-rouge">--timestamp</code> flag enabled, but I don’t like that format. I guessed and just tried applying the regex for the form I want in the output file and it worked out nicely.</p>
+
+<p><strong><em>network.sh</em></strong><br />
+iwlist gives detailed network information. It’s a root privileged operation, so unless it will only find information for the presently connected network when run without sudo. This one command is responsible for the requirement that we created a root password and had to modify the /etc/sudoers file. But it’s quite worth the work; imagine the utility of seeing all locally available WiFi networks. When we get our GPS output from the <code class="highlighter-rouge">geolocation.py</code> script, we can head to that area then just walk around with a phone keeping an eye on the available networks, when we get a match, we are at least <strong>very close</strong>. After the iwlist scan, <code class="highlighter-rouge">nmcli</code> is used to display the relevant information. I only care about a few pieces of information:</p>
+
+<ul>
+  <li>network name (SSID)</li>
+  <li>the mac address (BSSID) as a backup to distinguish similarly named networks</li>
+  <li>signal strength (BARS) because relative strength might help in a “warmer/colder” kind of way, especially near ground zero</li>
+  <li>connection type (device) if the laptop is connected to Ethernet for example, I know I won’t be able to hunt for it on my phone</li>
+</ul>
+
+<p><strong><em>geolocation.py</em></strong><br />
+It may seem cheap to resort to a website to find your location, but go ahead, and try to get them another way from your terminal. Try</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> ifconfig.co/json
+</code></pre></div></div>
+<p>and see if you even get coordinates in the same State. In the meantime, I’m harnessing the power of a web browser.</p>
+
+<p>I’m quite used to selenium, and I figured the most straightforward way of finding a location is using a browser which can harness the power of WiFi-positioning. I’m not quite sure how to implement that from scratch.</p>
+
+<p><a href="https://gps-coordinates.org/my-location.php">gps-coordinates.org</a> seems a sufficient webpage for the job. I spent a while trying to get this to execute invisibly. Selenium’s “headless” mode seems to prohibit popups which is what it appears this site seems to use to display the location information. See below for the work around.</p>
+
+<p><strong><em>keylog.py</em></strong><br />
+I implemented pyxhook for this part. I admit it’s not as “pure”, and it would be a bit better trying to snag the information from the /dev/input directory, but this functioned nicely enough and was simple to implement. I didn’t care about all the inputted keys, just the ASCII letters and symbols, spaces and carriage returns. I included backspaces, but didn’t want that to remove any of the information inputted, so I replaced that with the string “^b”. I also wanted to record mouse clicks.</p>
+
+<p>pyxhook has a “HookManager” class with “KeyDown” and “MouseAllButtonsDown” methods. I built a definition “KeyPress” off the events whose numbers corresponded to those characters I wanted. Similarly I built the MouseClick definition for just mouse left clicks.</p>
+
+<p>The keylogger runs for 28 minutes, so 2 minutes is lost between each half hour mark. This is to permit a 2 minute gap to allow the keylogger to open, record in, and close a document. The other scripts run prior to this so it takes 10-15 seconds before the keylogger begins recording. The keylogger checks every 10 seconds if the “end_time” has passed, so it can take ~30 seconds after the expected end time before moving on to sending the document. So I just preferred to have nice beginning and ending timestamps. Not doing this and instead having everything run for 30 minutes exactly will just lead to some overlap in the keylogs and 2 keylog files with the same name generated each half hour. This restriction is self-imposed and can certainly be changed at a whim.</p>
+
+<p>There were just a few things to overcome here, details in next section.</p>
+
+<h3 id="the-rest">The Rest</h3>
+
+<p><strong><em>mailout.sh</em></strong><br />
+uses the mailx command. The general syntax is:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"message body text"</span> | mailx <span class="nt">-s</span> <span class="s2">"subject"</span> <span class="nt">-A</span> attached.fil recipient@mail.com
+</code></pre></div></div>
+
+<p>My assumptions were that I’d not know how many files there would be in the “tmp” directory I’m sending from, so created them inline with</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="si">$(</span><span class="k">for </span>f <span class="k">in</span> <span class="si">$(</span><span class="nb">ls </span>temp/<span class="si">)</span><span class="p">;</span> <span class="k">do </span><span class="nb">echo</span> <span class="nt">-n</span> <span class="s2">" -A tmp/</span><span class="nv">$f</span><span class="s2"> "</span><span class="p">;</span> <span class="k">done</span><span class="si">)</span>
+</code></pre></div></div>
+<p>the <code class="highlighter-rouge">-n</code> prevents newlines from being inserted between each <code class="highlighter-rouge">echo</code> command and tacking on <code class="highlighter-rouge">&amp;&amp; rm tmp/*</code> ensures that tmp directory is cleared out only upon successful emailing of the files within.</p>
+
+<p>The command wasn’t tough, but setting up via the terminal took a <em>long</em> time to configure correctly (details below)</p>
+
+<p><strong><em>norobo.sh</em></strong><br />
+The primary action calling all of the scripts, and this final script didn’t come without its own hurdles, although to be fair, most of the difficulties came with dealing with crontab running it, thus it’s only guilty by association.</p>
+
+<p>If and only if the guest is logged in, the 4 main functions are called. Since the keylogger runs for 28 minutes, the script sleeps for 28 minutes thereafter. It checks for internet connection at this point and if we are connected, <code class="highlighter-rouge">mailout.sh</code> is called.</p>
+
+<p>I thought checking for internet connection was rather clever. Initially I was checking for maybe a file with a 0 or 1 flag (which probably exists), instead I opted to just send a small network package to google (ping!) then set the variable <code class="highlighter-rouge">STATUS</code> to the exit status of the previous command (<code class="highlighter-rouge">STATUS=$?</code>). If it was successful with no error, this value is 0. There are many unique ways of doing this (piggy backing off iwlist for example) and it still keeps my up at night sometimes wondering if that mythical flag file exists somewhere.</p>
+
+<h2 id="insights-gained">Insights Gained</h2>
+
+<p>I spent a month furiously googling protocols and warding off programming bugs, endlessly teetering back and forth between a valley of hopeless despair and a mountain of clarity whilst creating this. I’m quite proud of it and yet I’m a little dejected that it is so narrowly made for Ubuntu only. A change or two can be made to make it Linux general I’d think, and more changes still could make it usable to Unix (Windows users I’m afraid are doomed). For now, I’m leaving this inclusion project to someone else, because this suits my needs.</p>
+
+<h3 id="sending-email">Sending Email</h3>
+
+<p>This was tough.</p>
+
+<p>I tried it all: ssmtp, mutt, mail, mailx, sendmail, sendemail, postfix, etc. it just seemed not to work. I figured with decades of hackers and phishers abusing the command line email procedure that it had just fallen out of supportability. Fortunately that wasn’t the case.</p>
+
+<p>All the online tutorials I found just didn’t seem to give the right information on how to configure the <code class="highlighter-rouge">/etc/ssmtp/ssmtp.conf</code> file. Let me cut to the chase and give an example of the correct file, and I will point out the two corrective changes I made to get it to work out:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Sample /etc/ssmtp/ssmtp.conf file</span>
+<span class="nv">root</span><span class="o">=</span>me@gmail.com               <span class="c"># Your gmail account</span>
+<span class="nv">mailhub</span><span class="o">=</span>smtp.gmail.com:587
+
+<span class="nv">AuthUser</span><span class="o">=</span>me                     <span class="c"># This is your gmail address with '@gmail.com' removed</span>
+
+<span class="nv">AuthPass</span><span class="o">=</span>ejkerraevbjyutri       <span class="c"># very important, Don't use your gmail password, </span>
+                                <span class="c"># request a 16 digit google app password</span>
+                                <span class="c"># https://support.google.com/mail/answer/185833?hl=en</span>
+<span class="nv">useSTARTTLS</span><span class="o">=</span>YES
+<span class="nv">rewriteDomain</span><span class="o">=</span>gmail
+
+<span class="nb">hostname</span><span class="o">=</span>mylinuxcomputername    <span class="c"># Very important, most online tutorials put gmail.com</span>
+                                <span class="c"># here, instead you need your linux hostname</span>
+<span class="nv">FromLineOverride</span><span class="o">=</span>YES
+
+</code></pre></div></div>
+<p>This took several all-day attempts at just playing around, switching ports, switching email clients, simplifying passwords to not include too crazy of characters until I landed on the solution. Enjoy the spoils of my exploits and know this is what it is.</p>
+
+<h3 id="selected-other-difficulties">Selected Other Difficulties</h3>
+
+<p><strong><em>geolocation.py</em></strong><br />
+It took a while to get <code class="highlighter-rouge">geolocation.py</code> to run as expected. I thought this would be rather straightforward at first. Selenium has a “headless” option which allows operations to be performed in the background. But when I enabled headless mode, the page wasn’t loading as expected. I figured it had to do with pop-ups. I tried extending the screen space and pushing this to operate off screen (as with what would happen when an HDMI cable is plugged in for example), I’m sure that would have worked if I continued to pursue it, however I found out that before selenium headless mode came along, people would test their web applications on virtual displays. Quite simply I just needed to sandwich my selenium code with the following:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">from</span> <span class="n">pyvirtual</span> <span class="n">display</span> <span class="kn">import</span> <span class="nn">Display</span>
+<span class="n">display</span> <span class="o">=</span> <span class="n">Display</span><span class="p">(</span><span class="n">visible</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1000</span><span class="p">,</span><span class="mi">1000</span><span class="p">])</span>
+<span class="n">display</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+<span class="o">.</span>
+<span class="o">.</span>
+<span class="c1">#selenium code
+</span><span class="o">.</span>
+<span class="o">.</span>
+<span class="n">display</span><span class="o">.</span><span class="n">stop</span>
+</code></pre></div></div>
+<p>Simple and elegant</p>
+
+<p><strong><em>keylog.py</em></strong><br />
+The keylogger really wasn’t that difficult to compose, I hit a few bumps on the way:</p>
+<ul>
+  <li>the Up, Down, Left and Right arrow keys were for some reason mapping <code class="highlighter-rouge">R</code>,<code class="highlighter-rouge">T</code>,<code class="highlighter-rouge">Q</code> and <code class="highlighter-rouge">S</code> respectively. So I created a blacklist and if the keyname was in there, it wouldn’t be recorded.</li>
+  <li>“K” and X” weren’t being recorded. As it turns out, there was a bug in the pyxhook program. In the <code class="highlighter-rouge">lookup_keysym</code> definition, there’s a statement:</li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"XK_"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">XK</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">keysym</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">name</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s">"XK_"</span><span class="p">)</span>
+</code></pre></div></div>
+<p>This ends up removing “K” and “X”. I don’t see why it would, lstrip should remove the leading “XK_” of that string, not all instances (as <code class="highlighter-rouge">strip("XK_")</code> would. Regardless, changing it to this will squash that bug:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s">"XK_"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">XK</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">keysym</span><span class="p">:</span>
+		<span class="k">return</span> <span class="n">name</span><span class="p">[</span><span class="mi">3</span><span class="p">:]</span>
+</code></pre></div></div>
+<p>(But present in pyxhook version 1.0.0 at the time of writing)</p>
+
+<p>So this works perfectly when run from your terminal, but when crontab tries to run it, it takes on a different environment and will fail and at first I had no idea why. When I began perusing the pyxhook source code and found it imports several methods from Xlib. Xlib is the python implementation of the X11 protocol. The X11 protocol is beyond the scope of my present understanding, but I do know it deals with interacting with the GUI, and thus is graphical in nature. Our crontab’s default environment removes the variable <code class="highlighter-rouge">DISPLAY</code>, so we go ahead and set it before executing the cronjob, it works out.<code class="highlighter-rouge">DISPLAY=:0.0</code> (The format of this output is <code class="highlighter-rouge">&lt;host&gt;:display.&lt;screen&gt;</code> not naming a host just refers back to the local machine, and each host can have multiple screens, but we are just using the present one, thus 0 from what I gather)</p>
+
+<p><strong><em>norobo.sh</em></strong><br />
+As I stated before, my issues lied with crontab. I was confused reading the documentation, but it seems like it doesn’t handle variables very well. Although as stated above, we needed to export an environment variable, variables of other types don’t work, despite it consisting of bash commands. The code ran nicely at this point, but I had a problem: No matter who was logged in, I was getting emails every half hour. The solution to me was obvious, but I just implemented it the wrong way which set me back. I needed to create a simple if statement: “if ‘guest’ is logged in, start all this spyware stuff”. I tested these in the terminal and had no issue, so I was quite confused when crontab wasn’t executing them. It occurred to me very late to try and make those statements in the <code class="highlighter-rouge">norobo.sh</code> script rather than in crontab. I tried working with $(whoami), but that was faulty, because that user specific cronjob will still return “guest” when called. I ended up using the <code class="highlighter-rouge">who</code> function which returns the list of who is logged on. It gives some extra information, so I parse it for just the first string by piping to <code class="highlighter-rouge">awk</code>, the final statement ended up being:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="o">[</span> <span class="si">$(</span><span class="nb">who</span> | <span class="nb">awk</span> <span class="s1">'{print $1}'</span><span class="si">)</span> <span class="o">==</span> guest <span class="o">]</span>
+... <span class="c"># do all the stuff</span>
+<span class="k">fi</span>
+</code></pre></div></div>
+<p>And the responsibilities for crontab were as follows:</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">MAILTO</span><span class="o">=</span><span class="s2">""</span> <span class="c"># So failed attempts won't send out annoying messages</span>
+<span class="k">*</span>/30 <span class="k">*</span> <span class="k">*</span> <span class="k">*</span> <span class="k">*</span>  <span class="nv">PATH</span><span class="o">=</span><span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/bin/.bin:</span><span class="nv">$PATH</span><span class="s2">"</span><span class="p">;</span> <span class="nb">export </span><span class="nv">DISPLAY</span><span class="o">=</span>:0.0<span class="p">;</span> <span class="nb">cd</span> ~/bin/.bin <span class="p">;</span> norobo.sh
+</code></pre></div></div>
+<p>I Add to the PATH variable so norobo.sh can make calls on the functions stored there. You may argue that it’s redundant to change directory to <code class="highlighter-rouge">~/bin/.bin</code> to call <code class="highlighter-rouge">norobo.sh</code>, but all four of the main functions and <code class="highlighter-rouge">mailout.sh</code> add to or interact with the <code class="highlighter-rouge">tmp</code> folder, so this saves lines of code in each of the other scripts.</p>
+
+<h2 id="bugs-and-possible-improvements">Bugs and Possible Improvements</h2>
+
+<ul>
+  <li>I’ve noticed after logging in as a guest, that after that first half hour block when you expect to get an email, nothing is sent. I’m not sure why, but they are consistently sent after that.</li>
+  <li>It would be great if this was *nix agnostic, or at the very least Linux agnostic. I can see that happening with the keylogger</li>
+  <li>I originally tried removing read permissions on the files that get generated, but unfortunately, that’s needed to send the emails out. If your thief ever got curious and explored, you risk having them see the files you’ve already generated, If they look at their ugly mug on the webcam capture, or see their keystrokes typed in, they’ll likely freak. My only way to hide this was within that hidden .bin directory. Additional efforts can be made to make the scripts more obscure, like naming keylog.py to kl.py. You can also add more directories with junk files (especially without read permissions) so if their curiosity got the best of them and they try opening a bunch, they’d simply get shut down and discontinue trying and assume the files provide some core functionality to the system and are best left alone.</li>
+</ul>
+
+<h2 id="demo">Demo</h2>
+<p>Coming Soon!</p>
+
+:ET

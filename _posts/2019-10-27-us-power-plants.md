@@ -3,6 +3,7 @@ layout: post
 title:  "U.S. Power Plant Predictions"
 date:   2019-10-27 16:53:00 -0700
 img: assets/renewable/us-powerplants.png
+blurb: I made an interactive plotly dash app that makes decent predictions of power plants in the U.S. based on fuel source (e.g. solar, wind, nuclear, coal, natural gas...), year built, location, etc. Link to the app is within this writeup. Try it out yourself!
 categories: code
 ---
 

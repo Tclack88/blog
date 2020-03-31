@@ -3,11 +3,12 @@ layout: post
 title:  "Automated Bounding Boxes"
 date:   2020-02-17 13:01 -0700
 img: assets/trash-panda/bounding_box_tire_progression.png
+blurb: When it comes to computer vision, it's extremely helpful to have a large sample size of nicely labeled data. A problem arises when you're neither a big tech company with ample resources nor can you benefit from labeled crowd sourced images
 categories: code
 ---
 
 
-When it comes to computer vision, it's extremely helpful to have a large sample size of nicely labeled data. A problem arises when you're not a big tech company with ample resources nor can you benefit from labeled crowd sourced images from places like [open images](https://opensource.google/projects/open-images-dataset)
+When it comes to computer vision, it's extremely helpful to have a large sample size of nicely labeled data. A problem arises when you're neither a big tech company with ample resources nor can you benefit from labeled crowd sourced images from places like [open images](https://opensource.google/projects/open-images-dataset)
 
 So what's a resourceless group of students supposed to do in this case?
 
@@ -59,7 +60,7 @@ $$ (1 - \text{a really small number}) ^ {\text {(a really large negative number 
 
 The script to resize and rename the images, checking for duplicates was done by [Vera](https://github.com/VeraMendes).
 
-In order to not overfit to images with blank backgrounds (or whatever the default may be, white or black), a simple script that randomly appends sensible backgrounds to the object class was written by [Tim Hsu](https://github.com/TimTree). (He also modified an existing script to gather images from Bing that suits our needs very well)
+In order to not over fit to images with blank backgrounds (or whatever the default may be, white or black), a simple script that randomly appends sensible backgrounds to the object class was written by [Tim Hsu](https://github.com/TimTree). (He also modified an existing script to gather images from Bing that suits our needs very well)
 
 ## But what about non-png files?
 
