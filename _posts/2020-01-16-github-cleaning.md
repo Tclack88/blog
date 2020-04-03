@@ -79,7 +79,7 @@ function git-add-repo
     rm -rf "$tmp"
 }
 ```
-(Source: I wish I could say I created this myself, but I didn't. I found it burried among the many gems over at[Stack Overflow](https://stackoverflow.com/questions/1683531/how-to-import-existing-git-repository-into-another))
+(Source: I wish I could say I created this myself, but I didn't. I found it burried among the many gems over at [Stack Overflow](https://stackoverflow.com/questions/1683531/how-to-import-existing-git-repository-into-another))
 
 
 Create "new" however you like, through the CLI or via the GUI, then git clone that in your terminal and change directory into there.
