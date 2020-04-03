@@ -1,8 +1,9 @@
-I"H<h2 id="a-disappointment">A disappointment</h2>
+I"�<p>Plots produced with plotly in google colab. View the source code and data <a href="https://github.com/Tclack88/covid19">here on my GitHub</a></p>
+<h2 id="a-disappointment">A disappointment</h2>
 
 <p>I didn’t really want to talk about Corona Virus. Not because it’s a particularly depressing topic to me, but because it’s what <em>everyone</em> is talking about and epidemiology is not really a subject that interests me (yet?). It’s also all the same: discussion about flattening the curve. But yesterday when my friends were telling me about all the days’ news articles and how many new cases are in &lt;insert country here&gt; and their current state, it really started to irk me the way the media was informing them and the rest of the world with just raw number growth. The entire corona virus media coverage seems to emphasize its exponential growth (more particularly, its growth over time). But <em>any</em> transmittable disease is bound to behave this way. Displaying the exponential plot and alarming the public with the ever changing number of cases serves little more than to instill fear and leaves little insight as to which countries are doing well and what their trajectories are looking like. At the time of writing, the United States is leading in the total number of confirmed cases (another issue I’ll be discussing at the bottom of this post), but the truth is, any sizeable country could be in this position and will likely reach this same level. And now at this time of writing with just over a million confirmed cases, I hope with this post I can reframe the data in a more enlightening way.</p>
 
-<h2 id="the-problem-with-exponentials-and-time-based-plots">The problem with exponentials (and time based plots)</h2>
+<h2 id="the-problem-with-exponentials-and-time-based-plots">The problem with exponentials and time-based plots</h2>
 
 <p>Viruses among any other transmittable diseases depend on one thing: available hosts. The speed at which they spread (growth rate) depends on uncontrollable factors inherent in the disease and controllable factors such as interpersonal interactions between hosts. Exponential time plots are great for determining factors like the disease growth rate (especially when using the SIR model of infection whose differential equations have exponential time-based solutions).</p>
 
@@ -36,7 +37,7 @@
 
 <h2 id="a-better-look-at-the-data">A better look at the data</h2>
 
-<p>Lets combining these two ideas:</p>
+<p>Lets combine these two ideas:</p>
 <ul>
   <li>Don’t plot against time</li>
   <li>Plot on a logarithmic scale to reduce extreme values</li>
