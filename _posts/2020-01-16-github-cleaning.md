@@ -102,10 +102,10 @@ mv * old1
 ```
 (the above works the first time because everything in this first pull belongs to old1)
 
-Now let's get the contents of "old2" in here
+Now let's get the contents of "old2" in here. If you care about bringing this in separately and you want to avoid the contents mixing, you make a directory specify where the newly incoming content is going. (spaces added to more clearly show the 3 separate "words")
 ```bash
 mkdir old2
-git-add-repo https://github.com/Tclack88/old2.git old2
+git-add-repo    https://github.com/Tclack88/old2.git    old2
 ```
 
 That's basically it, just push these changes out and you can safely delete your old repos
