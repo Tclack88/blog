@@ -21,3 +21,17 @@ description: This is a 'blog', sure, but mostly a place where I can describe in 
 email: Tclack88@gmail.com
 portfolio_url: "http://tclack88.github.io"
 linkedin_url: "https://www.linkedin.com/in/trevor-clack-774696184/"
+
+
+# The URL for the staticman API bridge endpoint
+# You will want to modify some of the values:
+#  ${github-username}: the username of the account with which you publish your blog
+#  ${blog-repo}: the name of your blog repository in github
+#  master: this the branch out of which your blog is published, often master or gh-pages
+#  ${bridge_app_name}: the name you chose in Heroku for your bridge API
+#  comments: the so-called property, this defines the key in staticman.yml where the configuration is found
+#
+# for me, this line reads:
+# https://staticman-travisdownsio.herokuapp.com/v2/entry/travisdowns/travisdowns.github.io/master/comments
+#staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/${github-username}/${blog-repo}/master/comments
+staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/tclack88/blog/master/comments
