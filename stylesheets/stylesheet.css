@@ -890,6 +890,7 @@ dl dd {
 
 /* Further Additions */
 
+/* keyboard class */
 kbd {
     -moz-background-clip:border;
     -moz-background-inline-policy:continuous;
