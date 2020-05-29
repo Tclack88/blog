@@ -34,4 +34,4 @@ linkedin_url: "https://www.linkedin.com/in/trevor-clack-774696184/"
 # for me, this line reads:
 # https://staticman-travisdownsio.herokuapp.com/v2/entry/travisdowns/travisdowns.github.io/master/comments
 #staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/${github-username}/${blog-repo}/master/comments
-staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/tclack88/blog/master/comments
+staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/tclack88/blog/gh-pages/comments
