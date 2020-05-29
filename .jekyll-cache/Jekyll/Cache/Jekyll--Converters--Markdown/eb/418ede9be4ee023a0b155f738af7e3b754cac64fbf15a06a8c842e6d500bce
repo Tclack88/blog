@@ -1,4 +1,4 @@
-I"i'<p>NOTE: I’m assuming you have a Linux or Mac. I haven’t checked, but maybe this can be done on “git for windows”</p>
+I"P(<p>NOTE: I’m assuming you have a Linux or Mac. I haven’t checked, but maybe this can be done on “git for windows”</p>
 
 <p>I’ve been with Lambda School, an intensive full time 9+ month online coding academy, specifically in their data science program for the past 4 months. It’s one of the best decisions I’ve made. I’ve been an active contributor to open source code on GitHub before and throughout my time at Lambda. As great as it has been, I don’t want the first thing a potential recruiter to notice about my rather active GitHub account is that there’s a bunch of forked repositories from Lambda School. As great a school as it is, initial impressions from recruiters (or other onlookers) may be:</p>
 <blockquote>
@@ -93,9 +93,9 @@
 </code></pre></div></div>
 <p>(the above works the first time because everything in this first pull belongs to old1)</p>
 
-<p>Now let’s get the contents of “old2” in here</p>
+<p>Now let’s get the contents of “old2” in here. If you care about bringing this in separately and you want to avoid the contents mixing, you make a directory specify where the newly incoming content is going. (spaces added to more clearly show the 3 separate “words”)</p>
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>old2
-git-add-repo https://github.com/Tclack88/old2.git old2
+git-add-repo    https://github.com/Tclack88/old2.git    old2
 </code></pre></div></div>
 
 <p>That’s basically it, just push these changes out and you can safely delete your old repos</p>

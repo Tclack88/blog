@@ -8,3 +8,7 @@ layout: default
 
 {{ content }}
 
+
+{% if site.comments == true %}
+  {% include comments.html %}
+{% endif %}
