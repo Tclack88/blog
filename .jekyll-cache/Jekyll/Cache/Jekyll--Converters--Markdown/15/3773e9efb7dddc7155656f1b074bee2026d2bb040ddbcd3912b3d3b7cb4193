@@ -1,0 +1,128 @@
+I"	1<p><a href="https://github.com/Tclack88/practice-scheduler">See the source code on GitHub</a></p>
+
+<p>One of the first things I wanted to do when I started programming was to make a “smart intersection” simulation, that is an intersection that allows cars to pass through without needing to stop at lights. I wasn’t sure when I’d have the capability to program such a thing, but all it took was a job post requesting a code sample to start the ball rolling.</p>
+
+<p>non-standard dependencies:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	pygame		-       pip install pygame
+</code></pre></div></div>
+
+<h2 id="inspiration">Inspiration</h2>
+
+<p>I hate driving. There’s nothing more frustrating then spending your life commuting from one place to another, especially if that place is somewhere you don’t want to be. It’s fun at first when you’re 16 and suddenly gain this independence you never had. But when that feeling wanes, all you’re left with is a time sink during which you have to watch cars and lines in the road. A boring task that if performed incorrectly can leave you seriously injured or worse.</p>
+
+<p>I’m sure we’ve all heard the statistic that the average American spends about 40 hours per year stuck in traffic, which is a lot, but that’s just traffic. If you consider how long you’re driving. Just think about your average day. Do you spend 1 hour driving? Well that’s 1/24 of your life! (Or rather,the 50 years or so that you’re actively working and need to commute). I hate this time sink so much that I try to fill it with podcasts or phone conversations, something that will return that time back to me. The thing that makes driving for me even worse (apart from traffic) is coming to a sudden stop.</p>
+
+<p>It’s that unbearable feeling I get when I’m crusing down a highway at 45 mph only to see a yellow light bring me and my nearby convoy to a hault. All so this one dinky Subaru can make a left turn. It hurts because of all the gas we all squandered away to friction and heat. The gas that’s wasted while we all idle, then more as we accelerate back to speed. I try my best to predict such things, coast when I approach a light from afar (to the annoyance of the vehicle behind me), I even slow my approach to lights when I think I’ll cause a group of cross traffic to stop. The traffic light was invented in 1912. There has to be a better way.</p>
+
+<h2 id="the-slot-system">The slot system</h2>
+
+<p>The way I envisioned this was fairly straightforward. When a car crosses a critical threshold from an intersection. It makes a request to pass through during a specific time interval. That request is based on the approaching velocity and the distance from the intersection. A controller listens to this request and checks it against its current reservations. If there are no conflicts, the car continues along at the velocity it’s going at (I’m only dealing with straight-through traffic, no turning yet. Sorry to spoil it). In the even that there is a conflict, the controller checks for an opening with that requested time difference, otherwise it’s slotted at the end. The car is then given specific speed instructions to follow, speeding up or slowing down to make the slot. That’s it.</p>
+
+<p><img src="/blog/assets/intersection/time_requests_smart_intersection.png" alt="Smart interssection theory" /></p>
+
+<p>Over a year ago, I spent a day writing a simple terminal application that would do what I wanted:</p>
+<ul>
+  <li>I wanted to add an item once then forget about it</li>
+  <li>I wanted new things to be repeated more frequently so I “catch-up” with the stuff I know well</li>
+  <li>I wanted reviews to be purposeful, but with an element of randomness</li>
+</ul>
+
+<p>The way I went about this was actually pretty simple. There aren’t any complex models or heavy statistics used. I envisioned items would be stored in a dataframe with the following format:</p>
+
+<table>
+  <tbody>
+    <tr>
+      <td>practice task</td>
+      <td>number of repetitions</td>
+      <td>date modified</td>
+      <td>notes</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><br />
+Whenever a new item is added, it goes to the end of this list with a repetition count of 1 and whenever something is practiced, that count is incremented. Now something in this list has the most repetitions, so we find that number:</p>
+
+<p>I subtract each individual repetition count from the largest number and replace it (so the one with the largest number of repetitions is now zero and the most recent stuff with 0 or 1 repetitions is now large, at or near the largest number)</p>
+
+<p>I sum these numbers and divide through to create a normalized probability distribution. This allows me to make a non-uniform, weighted random choice that gives higher probability to less frequently practiced items.</p>
+
+<p><img src="/blog/assets/gui/practice_scheduler_items_sorted.png" alt="practice scheduler explained" /></p>
+
+<h2 id="stage-1---terminal-application">Stage 1 - Terminal application</h2>
+<blockquote>
+  <p>Total Time: ~ 12 hours<br />
+Lines of Code: ~ 120<br />
+Result: Minimally functional.</p>
+</blockquote>
+
+<p>This worked fine for what it was. I just slapped in some python input statements that prompts the user to either practice or add a new item. This adds a “terminal-GUI” of sorts and there you have it, an MVP. I was actually quite fine with this. It was a tool that I only intended to use for myself. Apart from the lack of multi-line functionality, this was lightweight and minimally functional to my liking.</p>
+
+<p>The idea of turning this into a GUI wasn’t really so it would be useable by “the general public” (i.e. anyone afraid of a terminal). It was just to see if I could do it. I’m not sure anyone would really want to use it (would you honestly use this?) Regardless, there are restrictions with this which certainly could use some improvement.</p>
+
+<ul>
+  <li>
+    <p>No new lines are allowed. Hitting <kbd>enter</kbd> on an input would submit the input and adding a <code class="highlighter-rouge">\n</code> would put a literal newline in the CSV resulting in an error when practice is called (because these newlines are expected to be new entries with their own <code class="highlighter-rouge">@</code> separated entries)</p>
+  </li>
+  <li>
+    <p>There are characters which throw errors (apart from the <code class="highlighter-rouge">\n</code>’s discussed above)</p>
+
+    <ul>
+      <li>
+        <p><code class="highlighter-rouge">@</code> : I used a CSV with <code class="highlighter-rouge">@</code> as my separator since it’s uncommon enough. And I could conceive of using these symbols-&gt; <code class="highlighter-rouge">, | &gt; &lt; # *</code>. But regardless of the char I chose, there had to be a restricted character. I briefly considered a UTF-8 character not available on a keyboard, but the problem is with using a CSV in general, JSON format is ultimately the fix I’d use.</p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">", '</code> : Because of the way everything is stored as a string in the CSV, I have to avoid words like <code class="highlighter-rouge">don't</code>, <code class="highlighter-rouge">it's</code>, etc. It’s a bit of a bother if I forget because the program shuts down with an error and I have to write everything back in. But again, if only I’m using it, I don’t have to worry about these inexplicable errors to the generic user.</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="/blog/assets/gui/stage1.gif" alt="stage 1: terminal" /></p>
+
+<p>There had to be a better way and a year(ish) later, I was ready.</p>
+
+<h2 id="stage-2---tkinter-gui">Stage 2 - Tkinter GUI</h2>
+<blockquote>
+  <p>Total Time: 3 days<br />
+Lines of Code: ~ 150<br />
+Result: It’s a GUI I guess.</p>
+</blockquote>
+
+<p>At the end of April, this GUI idea came back to my mind. I remembered seeing Tkinter frequently on my terminal while installing new software. After seeing this was a frequently used GUI library, I figured it would be a good choice, so I got to work.</p>
+
+<p>First thing to fix was these forbidden characters. I found that JSON is less restrictive because it acts as a nested hash table (which would provide the additional benefit of speed), everything is stored as a string and quotes are escaped, so no errors with that.</p>
+
+<p>The next improvement would be to the scheduler. You see, I didn’t know pandas at the time of writing the first draft. So I was just saving everything dynamically to a CSV file and performed some glorified string parsing. But with the computational advantage and organizational structure from the pandas library, I created a nice class with <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">practice</code> and <code class="highlighter-rouge">save</code> methods using a pandas dataframe as my the backbone.</p>
+
+<p>I thought it was what I wanted. It was a working GUI interface. But in reality, I wasn’t really tempted to use it. It was slower for me to use because I had to use my mouse to click the buttons, but at least it can be used be “the general public”. There were no character restrictions and multiple lines were allowed (admittedly after some janky code. You see as I saved it, the string literal <code class="highlighter-rouge">\n</code> for new lines were saved instead. And when it came time to bring them up,it wouldn’t be translated so I added a lovely <code class="highlighter-rouge">.replace('\\n','\n\)</code> to my saved variables).</p>
+
+<p><img src="/blog/assets/gui/stage2.gif" alt="stage 2: tkinter GUI" /></p>
+
+<p>So yes it works, but I wasn’t satisfied. In fact I started to write this blog post 10 days ago on the 17th but I wasn’t really that proud of the final product. I thought about what could be better and what I would want (being the only user, I think that’s important). So I started researching other python GUI libraries.</p>
+
+<h2 id="stage-3---pyqt-gui">Stage 3 - PyQt GUI</h2>
+<blockquote>
+  <p>Total Time: 1 week<br />
+Lines of Code: ~ 380, but actually 250, and really just 200<br />
+Result: It’s a GUI!</p>
+</blockquote>
+
+<p>So PyQt, a python wrapper around the very powerful Qt. Qt is actually used for lots of applications:</p>
+<ul>
+  <li>Calibre (the e-book reader)</li>
+  <li>Dropbox (file hosting service)</li>
+  <li>OpenShot (video editor I used when assembling my <a href="https://www.youtube.com/watch?v=YbEzwob7PLw">trash panda demo</a>)</li>
+  <li>Spyder (python IDE)</li>
+  <li>Anki (spaced repetition program very much related to this)</li>
+</ul>
+
+<p>The <a href="https://en.wikipedia.org/wiki/PyQt#Notable_applications_that_use_PyQt">list goes on</a> and <a href="https://en.wikipedia.org/wiki/Category:Software_that_uses_Qt">on</a>, but those are the ones I’ve used. Needless to say, it’s a very professional tool to use for my very unimportant piece of software.</p>
+
+<p>One very wonderful thing about PyQt5 is that it comes with it’s own GUI interface (wonder if it’s written in PyQt? Meta!) That allows you to drop in buttons, labels, text boxes, etc. This gets saved as an xml file which will compile to the equivalent source code, so there’s much less time being wasted on fixing box sizes and locations. I was initially hesitant to use it because I wanted to learn to code it all from scratch. But honestly it would have taken another week because this is a dense library with ~450 classes and over 6,000 functions and methods. Plus that’s just layout. Mapping buttons to functions and implementing the scheduler class was where the core of it was. So of the ~380 lines of code, I had to add 250 because the designer set up the structure. But the scheduler class was written for the Tkinter GUI, so that was just copied over.</p>
+
+<p><img src="/blog/assets/gui/stage3.gif" alt="stage 3: PyQt  GUI" /></p>
+
+<p>This is something I’m  proud to showcase, proud to post about and will continue to use (100% user satisfaction). It’s just as fast as using the terminal because keyboard shortcuts are available. And the star feature of it all: It’s got image support via drag and drop! My use case (yours, if ever you would use this dear reader, may be different) is for jazz piano. It was inspired by the numerous times while using the terminal application where I thought having an image to reference would be useful– Chord charts, progressions, licks, sections of sheet music, these are now all possible.</p>
+:ET
