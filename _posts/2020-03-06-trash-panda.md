@@ -52,6 +52,32 @@ Finally a school wide presentation
 
 ![The Development Team]({{site.baseurl}}/assets/trash-panda/trash_panda_team.png)
 
+Here are the relevant write-ups by the other members of the trash panda team. Without their talent and enthusiasm, this project would have been relegated to my "cool idea" junkyard.
+
+### Data Science
+[Timothy Hsu](https://www.linkedin.com/in/timothy-hsu-72877a171/) - [project writeup](https://www.gamesbytim.com/trash-panda/)
+
+[Tobias Reaper](https://www.linkedin.com/in/tobias-reaper) - [project writeup](https://tobias.fyi/workshop/trash-panda/)
+
+[Vera Mendes](https://www.linkedin.com/in/vera-mendes/) - [project writeup](https://veramendes.github.io/2020-03-08-The-Trash-Panda/)
+
+### Web
+[Mark Artishuk](https://www.linkedin.com/in/mark-artishuk/) - [portfolio](markartishuk.com) 
+
+[Mark Halls](https://www.linkedin.com/in/mark-halls)
+
+[Colin Bazzano](https://www.linkedin.com/in/colin-bazzano-6a6250114/)
+
+[Carlo Lucido](https://www.linkedin.com/in/cjlucido/) 
+
+### UI/UX
+[Kendra McKernan](https://www.linkedin.com/in/kendra-mckernan/) - [case study](https://www.kendramckernan.com/work/recycle-iq)
+
+[Lynn Baxter](https://www.linkedin.com/in/lynnmariebaxter/)
+
+### Team Lead
+[JT Kernan](https://www.linkedin.com/in/john-timothy-kernan-b9358966/)
+
 ## The Future of Trash Panda
 
 It appears that the project will continue to be developed after a brief 2 month intermission. May through July (2020) it will be picked up by another group of Data Science students and web developers. I will hopefully be continuing as the stakeholder, so I'll be directing and approving additional features such as the ideas for gamification or user feedback, even providing insights into continuing to develop the model and pipeline. But given that I've "moved on" to the next portion of my own learning, I will not be coding as much as overseeing project development.
