@@ -25,6 +25,12 @@
     <![endif]-->
 
     <title> {{ page.title }} </title>
+
+    <!-- Add Google Analytics  -->
+    {% if jekyll.environment == 'production' %}
+    {% include analytics.html %}
+    {% endif %}
+
   </head>
 
   <body>
