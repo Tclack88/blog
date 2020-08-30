@@ -8,6 +8,9 @@ categories: code
 ---
 The following write-up is for my music sorting code found [here][sortmus] on my GitHub account.
 
+UPDATE (30 Aug 2020)<br>
+By request, a Windows executable has been created. Code has been updated as well to be "Operating System Neutral" so provided all depednecies are satisfied (downloading ffmpeg for Windows users), it should be fine. See specific Windows instructions [here](https://github.com/Tclack88/SortMusic#windows-users).
+
 ## Origin Story
 So shortly after high school I had an HP laptop (1st mistake) that had suddenly lost its ability to charge. I didn't have very many important documents on it, but I was bummed out that my music was locked away.
 
@@ -98,6 +101,10 @@ You may notice that not everything was sorted, this is because I rather disliked
 mkdir rap-hip-hop && mv *.mp3 $_
 ```
 *the $_ variable refers to the last argument of the previous command, in this case, the directory that was just created. Also, if you don't know already, && will perform the 2nd command ONLY IF the first one was completed successfully*
+
+### Update 30Aug2020: Works in Windows now
+![sorting in windows]({{site.baseurl}}/assets/music-sort/sortmus_windows_demo.gif)
+
 
 So that's the breakdown. I enjoyed making it and I hope it can help anyone else to recover their old Britney and obscure Korean music.
 
