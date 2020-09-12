@@ -73,7 +73,7 @@ Here are the relevant write-ups by the other members of the trash panda team. Wi
 ### UI/UX
 [Kendra McKernan](https://www.linkedin.com/in/kendra-mckernan/) - [case study](https://www.kendramckernan.com/work/recycle-iq)
 
-[Lynn Baxter](https://www.linkedin.com/in/lynnmariebaxter/)
+[Lynn Baxter](https://www.linkedin.com/in/lynnmariebaxter/) - [case study](https://lynnb.design/trash-panda)
 
 ### Team Lead
 [JT Kernan](https://www.linkedin.com/in/john-timothy-kernan-b9358966/)
