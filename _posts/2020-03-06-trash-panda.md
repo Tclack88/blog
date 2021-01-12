@@ -57,12 +57,12 @@ Here are the relevant write-ups by the other members of the trash panda team. Wi
 ### Data Science
 [Timothy Hsu](https://www.linkedin.com/in/timothy-hsu-72877a171/) - [project writeup](https://www.gamesbytim.com/trash-panda/)
 
-[Tobias Reaper](https://www.linkedin.com/in/tobias-reaper) - [project writeup](https://tobias.fyi/workshop/trash-panda/)
+[Tobias Reaper](https://www.linkedin.com/in/tobias-reaper) - [project writeup](https://tobias.fyi/workshop/trash-panda)
 
 [Vera Mendes](https://www.linkedin.com/in/vera-mendes/) - [project writeup](https://veramendes.github.io/2020-03-08-The-Trash-Panda/)
 
 ### Web
-[Mark Artishuk](https://www.linkedin.com/in/mark-artishuk/) - [portfolio](markartishuk.com) 
+[Mark Artishuk](https://www.linkedin.com/in/mark-artishuk/) - [portfolio](https://www.markartishuk.com/) 
 
 [Mark Halls](https://www.linkedin.com/in/mark-halls)
 
