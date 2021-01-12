@@ -1,4 +1,7 @@
-I"�<p>The following write-up is for my music sorting code found <a href="https://github.com/Tclack88/SortMusic">here</a> on my GitHub account.</p>
+I"� <p>The following write-up is for my music sorting code found <a href="https://github.com/Tclack88/SortMusic">here</a> on my GitHub account.</p>
+
+<p>UPDATE (30 Aug 2020)<br />
+By request, a Windows executable has been created. Code has been updated as well to be “Operating System Neutral” so provided all depednecies are satisfied (downloading ffmpeg for Windows users), it should be fine. See specific Windows instructions <a href="https://github.com/Tclack88/SortMusic#windows-users">here</a>.</p>
 
 <h2 id="origin-story">Origin Story</h2>
 <p>So shortly after high school I had an HP laptop (1st mistake) that had suddenly lost its ability to charge. I didn’t have very many important documents on it, but I was bummed out that my music was locked away.</p>
@@ -13,10 +16,10 @@
 
 <p>Fast forward 10 years to the time of my budding computer savviness. I had recently switched from windows to my first Linux distro (mint… if it matters). I was making a video and wanted to use a particular song I burned from a CD (it was Korean, so there’s no way I was gonna be able to google the name to re-download it) so I set about going one-by-one through the files to find it, as I had no iTunes to translate for me. I eventually found it and made my bomb video and got a whopping 13 likes on Instagram, but I didn’t want to have to do this sort of thing again. And that’s when the inspiration originating from a divine form of laziness struck. With my newfound python and Linux superpowers, I ought to be able to automate the conversion.</p>
 
-<p><img src="/blog/assets/music-sort/unsorted_folders.png" alt="unsorted folders" />
+<p><img src="/assets/music-sort/unsorted_folders.png" alt="unsorted folders" />
 <em>a view of the folder problem we’re dealing with</em></p>
 
-<p><img src="/blog/assets/music-sort/unsorted_files.png" alt="unsorted files" />
+<p><img src="/assets/music-sort/unsorted_files.png" alt="unsorted files" />
 <em>a look inside one of the folders to see how the music is arranged</em></p>
 
 <h2 id="breakdown-and-lessons-learned">Breakdown and Lessons Learned</h2>
@@ -58,7 +61,7 @@ Note: I always hated underscores, so my id3 tags definitely had spaces in the na
 
 <p>Here it is in action sorting my old music files (please no judgement on my music choices).</p>
 
-<p><img src="/blog/assets/music-sort/sorting.gif" alt="sorting in action" /></p>
+<p><img src="/assets/music-sort/sorting.gif" alt="sorting in action" /></p>
 
 <p>You may notice that not everything was sorted, this is because I rather disliked having a single artist with a single song listed, so I tended to lump those together. In this particular case, the id3 tags read ‘rap/hip-hop’ which bash is interpreting as the folder ‘rap’ with the subfolder ‘hip-hop’ which doesn’t exist, so the mv won’t work. As a learning point, what single line bash command can we use to do this? Bonus points if you can do it without calling the directory name twice. Take a guess before glancing below.</p>
 
@@ -87,6 +90,9 @@ Note: I always hated underscores, so my id3 tags definitely had spaces in the na
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>rap-hip-hop <span class="o">&amp;&amp;</span> <span class="nb">mv</span> <span class="k">*</span>.mp3 <span class="nv">$_</span>
 </code></pre></div></div>
 <p><em>the $_ variable refers to the last argument of the previous command, in this case, the directory that was just created. Also, if you don’t know already, &amp;&amp; will perform the 2nd command ONLY IF the first one was completed successfully</em></p>
+
+<h3 id="update-30aug2020-works-in-windows-now">Update 30Aug2020: Works in Windows now</h3>
+<p><img src="/assets/music-sort/sortmus_windows_demo.gif" alt="sorting in windows" /></p>
 
 <p>So that’s the breakdown. I enjoyed making it and I hope it can help anyone else to recover their old Britney and obscure Korean music.</p>
 

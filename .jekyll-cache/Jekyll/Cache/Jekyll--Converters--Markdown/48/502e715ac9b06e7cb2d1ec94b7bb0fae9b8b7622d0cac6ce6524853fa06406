@@ -1,4 +1,4 @@
-I"�<p>Plots produced with plotly in google colab. View the source code and data <a href="https://github.com/Tclack88/covid19">here on my GitHub</a></p>
+I"=<p>Plots produced with plotly in google colab. View the source code and data <a href="https://github.com/Tclack88/covid19">here on my GitHub</a></p>
 <h2 id="a-disappointment">A disappointment</h2>
 
 <p>I didn’t really want to talk about Corona Virus. Not because it’s a particularly depressing topic to me, but because it’s what <em>everyone</em> is talking about and epidemiology is not really a subject that interests me (yet?). It’s also all the same: discussion about flattening the curve. But yesterday when my friends were telling me about all the days’ news articles and how many new cases are in &lt;insert country here&gt; and their current state, it really started to irk me the way the media was informing them and the rest of the world with just raw number growth. The entire corona virus media coverage seems to emphasize its exponential growth (more particularly, its growth over time). But <em>any</em> transmittable disease is bound to behave this way. Displaying the exponential plot and alarming the public with the ever changing number of cases serves little more than to instill fear and leaves little insight as to which countries are doing well and what their trajectories are looking like. At the time of writing, the United States is leading in the total number of confirmed cases (another issue I’ll be discussing at the bottom of this post), but the truth is, any sizeable country could be in this position and will likely reach this same level. And now at this time of writing with just over a million confirmed cases, I hope with this post I can reframe the data in a more enlightening way.</p>
@@ -45,8 +45,9 @@
 
 <p>This produces a much clearer picture to the general viewer about which countries are doing well and what to expect</p>
 
-<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plotly.com/~tclack88/1.embed" height="800" width="200%"></iframe>
-<p>(I may update this chart as more information comes in or add another)</p>
+<iframe id="igraph" scrolling="no" style="border:none;" seamless="seamless" src="https://plotly.com/~tclack88/1.embed" height="1000" width="200%"></iframe>
+
+<p>(This plot is updated every Wednesday; due to the volume of data and the free tier of plotly api [I’m…frugal with my money] change now represents the past 2 weeks)</p>
 
 <p>South Korea and China are clearly doing very well as they have escaped the main diagonal which is the road towards exponential growth. In the plot I’ve changed the size of each bubble to represent the deaths per capita, which has taken its largest toll on Europe (red. The color coding reflects each region).</p>
 
