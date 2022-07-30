@@ -11,3 +11,5 @@ gem 'jekyll-seo-tag'
 gem 'kramdown-math-katex'
 gem 'execjs'
 gem 'therubyracer'
+
+gem "webrick", "~> 1.7"

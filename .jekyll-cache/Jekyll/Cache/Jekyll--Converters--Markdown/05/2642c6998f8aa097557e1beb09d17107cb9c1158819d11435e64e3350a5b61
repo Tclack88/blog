@@ -1,4 +1,4 @@
-I"�-<p><a href="https://github.com/Tclack88/practice-scheduler">See the source code on GitHub</a></p>
+I"�.<p><a href="https://github.com/Tclack88/practice-scheduler">See the source code on GitHub</a></p>
 
 <p>I’ve been experimenting with adding a Graphic User Interface (GUI) to make some of my programs more accessible. After all not everyone is willing to open code and run it in a terminal. I feel this would make a product that can be used by the more general consumer.</p>
 
@@ -6,7 +6,7 @@
 
 <p>non-standard dependencies:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	tkinter         -       apt-get install python3-tk
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	tkinter         -       apt-get install python3-tk
 	pandas          -       sudo apt-get install python-pandas
 	pyqt5		-	sudo apt-get install python3-pyqt5
 	pyqt5 designer	-	sudo apt-get install pyqt5-dev-tools
@@ -62,17 +62,17 @@ Result: Minimally functional.</p>
 
 <ul>
   <li>
-    <p>No new lines are allowed. Hitting <kbd>enter</kbd> on an input would submit the input and adding a <code class="highlighter-rouge">\n</code> would put a literal newline in the CSV resulting in an error when practice is called (because these newlines are expected to be new entries with their own <code class="highlighter-rouge">@</code> separated entries)</p>
+    <p>No new lines are allowed. Hitting <kbd>enter</kbd> on an input would submit the input and adding a <code class="language-plaintext highlighter-rouge">\n</code> would put a literal newline in the CSV resulting in an error when practice is called (because these newlines are expected to be new entries with their own <code class="language-plaintext highlighter-rouge">@</code> separated entries)</p>
   </li>
   <li>
-    <p>There are characters which throw errors (apart from the <code class="highlighter-rouge">\n</code>’s discussed above)</p>
+    <p>There are characters which throw errors (apart from the <code class="language-plaintext highlighter-rouge">\n</code>’s discussed above)</p>
 
     <ul>
       <li>
-        <p><code class="highlighter-rouge">@</code> : I used a CSV with <code class="highlighter-rouge">@</code> as my separator since it’s uncommon enough. And I could conceive of using these symbols-&gt; <code class="highlighter-rouge">, | &gt; &lt; # *</code>. But regardless of the char I chose, there had to be a restricted character. I briefly considered a UTF-8 character not available on a keyboard, but the problem is with using a CSV in general, JSON format is ultimately the fix I’d use.</p>
+        <p><code class="language-plaintext highlighter-rouge">@</code> : I used a CSV with <code class="language-plaintext highlighter-rouge">@</code> as my separator since it’s uncommon enough. And I could conceive of using these symbols-&gt; <code class="language-plaintext highlighter-rouge">, | &gt; &lt; # *</code>. But regardless of the char I chose, there had to be a restricted character. I briefly considered a UTF-8 character not available on a keyboard, but the problem is with using a CSV in general, JSON format is ultimately the fix I’d use.</p>
       </li>
       <li>
-        <p><code class="highlighter-rouge">", '</code> : Because of the way everything is stored as a string in the CSV, I have to avoid words like <code class="highlighter-rouge">don't</code>, <code class="highlighter-rouge">it's</code>, etc. It’s a bit of a bother if I forget because the program shuts down with an error and I have to write everything back in. But again, if only I’m using it, I don’t have to worry about these inexplicable errors to the generic user.</p>
+        <p><code class="language-plaintext highlighter-rouge">", '</code> : Because of the way everything is stored as a string in the CSV, I have to avoid words like <code class="language-plaintext highlighter-rouge">don't</code>, <code class="language-plaintext highlighter-rouge">it's</code>, etc. It’s a bit of a bother if I forget because the program shuts down with an error and I have to write everything back in. But again, if only I’m using it, I don’t have to worry about these inexplicable errors to the generic user.</p>
       </li>
     </ul>
   </li>
@@ -93,9 +93,9 @@ Result: It’s a GUI I guess.</p>
 
 <p>First thing to fix was these forbidden characters. I found that JSON is less restrictive because it acts as a nested hash table (which would provide the additional benefit of speed), everything is stored as a string and quotes are escaped, so no errors with that.</p>
 
-<p>The next improvement would be to the scheduler. You see, I didn’t know pandas at the time of writing the first draft. So I was just saving everything dynamically to a CSV file and performed some glorified string parsing. But with the computational advantage and organizational structure from the pandas library, I created a nice class with <code class="highlighter-rouge">add</code>, <code class="highlighter-rouge">practice</code> and <code class="highlighter-rouge">save</code> methods using a pandas dataframe as my the backbone.</p>
+<p>The next improvement would be to the scheduler. You see, I didn’t know pandas at the time of writing the first draft. So I was just saving everything dynamically to a CSV file and performed some glorified string parsing. But with the computational advantage and organizational structure from the pandas library, I created a nice class with <code class="language-plaintext highlighter-rouge">add</code>, <code class="language-plaintext highlighter-rouge">practice</code> and <code class="language-plaintext highlighter-rouge">save</code> methods using a pandas dataframe as my the backbone.</p>
 
-<p>I thought it was what I wanted. It was a working GUI interface. But in reality, I wasn’t really tempted to use it. It was slower for me to use because I had to use my mouse to click the buttons, but at least it can be used be “the general public”. There were no character restrictions and multiple lines were allowed (admittedly after some janky code. You see as I saved it, the string literal <code class="highlighter-rouge">\n</code> for new lines were saved instead. And when it came time to bring them up,it wouldn’t be translated so I added a lovely <code class="highlighter-rouge">.replace('\\n','\n\)</code> to my saved variables).</p>
+<p>I thought it was what I wanted. It was a working GUI interface. But in reality, I wasn’t really tempted to use it. It was slower for me to use because I had to use my mouse to click the buttons, but at least it can be used be “the general public”. There were no character restrictions and multiple lines were allowed (admittedly after some janky code. You see as I saved it, the string literal <code class="language-plaintext highlighter-rouge">\n</code> for new lines were saved instead. And when it came time to bring them up,it wouldn’t be translated so I added a lovely <code class="language-plaintext highlighter-rouge">.replace('\\n','\n\)</code> to my saved variables).</p>
 
 <p><img src="/blog/assets/gui/stage2.gif" alt="stage 2: tkinter GUI" /></p>
 

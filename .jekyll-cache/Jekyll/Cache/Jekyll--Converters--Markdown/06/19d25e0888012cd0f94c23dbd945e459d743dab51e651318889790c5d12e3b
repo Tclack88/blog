@@ -1,8 +1,8 @@
-I"5(<p>This is a short introduction and writeup to my plotly dash app concerning predictions for U.S. power plant output. The project <a href="https://github.com/Tclack88/Renewable-Energy/tree/master/us-power-dash-app">code is here</a>.</p>
+I"�(<p>This is a short introduction and writeup to my plotly dash app concerning predictions for U.S. power plant output. The project <a href="https://github.com/Tclack88/Renewable-Energy/tree/master/us-power-dash-app">code is here</a>.</p>
 
 <p>Newer non-standard python libraries needed (Numpy and pandas needed, but they’re rather standard at this point):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dash				-       pip3 install dash
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dash				-       pip3 install dash
 dash-bootstrap-components	-	pip3 install dash-bootstrap-components
 dash-daq			-	pip3 install dash-daq
 plotly				-	pip3 install plotly
@@ -33,19 +33,19 @@ lxml				-	pip3 install lxml
 
 <p>Generally with dash apps, we set a layout. I have a two column layout and my columns were defined outside. A simplified version appears as:</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">column1</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">([</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">column1</span> <span class="o">=</span> <span class="n">dbc</span><span class="p">.</span><span class="n">Col</span><span class="p">([</span>
         
-    <span class="n">dcc</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span>
+    <span class="n">dcc</span><span class="p">.</span><span class="n">Markdown</span><span class="p">(</span>
             <span class="s">"""
             ## Predictions
             """</span>
             <span class="p">),</span>
         
         
-    <span class="n">html</span><span class="o">.</span><span class="n">Label</span><span class="p">(</span><span class="s">'Select plant type'</span><span class="p">),</span>
+    <span class="n">html</span><span class="p">.</span><span class="n">Label</span><span class="p">(</span><span class="s">'Select plant type'</span><span class="p">),</span>
    
 
-    <span class="n">dcc</span><span class="o">.</span><span class="n">Dropdown</span><span class="p">(</span>
+    <span class="n">dcc</span><span class="p">.</span><span class="n">Dropdown</span><span class="p">(</span>
         <span class="nb">id</span> <span class="o">=</span> <span class="s">'plant-type-dropdown'</span><span class="p">,</span>
         <span class="n">options</span> <span class="o">=</span> <span class="p">[{</span><span class="s">'label'</span><span class="p">:</span><span class="n">plant_type</span><span class="p">,</span><span class="s">'value'</span><span class="p">:</span><span class="n">plant_type</span><span class="p">}</span> <span class="k">for</span> <span class="n">plant_type</span> <span class="ow">in</span> <span class="n">plant_type_list</span><span class="p">],</span>
         <span class="n">placeholder</span> <span class="o">=</span> <span class="s">'Select plant Type...'</span>
@@ -55,16 +55,16 @@ lxml				-	pip3 install lxml
 <span class="p">)</span>
 
 
-<span class="n">column2</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Col</span><span class="p">(</span>
+<span class="n">column2</span> <span class="o">=</span> <span class="n">dbc</span><span class="p">.</span><span class="n">Col</span><span class="p">(</span>
     <span class="p">[</span>
-        <span class="n">dcc</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">'graph'</span><span class="p">,</span><span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">),</span>
-        <span class="n">visdcc</span><span class="o">.</span><span class="n">Run_js</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s">'javascript'</span><span class="p">),</span>
+        <span class="n">dcc</span><span class="p">.</span><span class="n">Graph</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s">'graph'</span><span class="p">,</span><span class="n">figure</span><span class="o">=</span><span class="n">fig</span><span class="p">),</span>
+        <span class="n">visdcc</span><span class="p">.</span><span class="n">Run_js</span><span class="p">(</span><span class="nb">id</span> <span class="o">=</span> <span class="s">'javascript'</span><span class="p">),</span>
 
     <span class="p">],</span><span class="n">md</span><span class="o">=</span><span class="mi">8</span>
 <span class="p">)</span>
 
 
-<span class="n">layout</span> <span class="o">=</span> <span class="n">dbc</span><span class="o">.</span><span class="n">Row</span><span class="p">([</span><span class="n">column1</span><span class="p">,</span> <span class="n">column2</span><span class="p">])</span>
+<span class="n">layout</span> <span class="o">=</span> <span class="n">dbc</span><span class="p">.</span><span class="n">Row</span><span class="p">([</span><span class="n">column1</span><span class="p">,</span> <span class="n">column2</span><span class="p">])</span>
 </code></pre></div></div>
 <p>My column 1 is much bigger than shown, with the many dropdowns, sliders and numeric inputs available, it would be repetitive for this demonstration.</p>
 
@@ -72,21 +72,21 @@ lxml				-	pip3 install lxml
 
 <p>The last major feature in the code is the ability to create “callbacks” which allow the output of one function to serve as the input of another then allowing a live update on the rendered page after the change is made.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">callback</span><span class="p">(</span>
         <span class="n">Output</span><span class="p">(</span><span class="s">'energy-source-dropdown'</span><span class="p">,</span><span class="s">'options'</span><span class="p">),</span>
         <span class="p">[</span><span class="n">Input</span><span class="p">(</span><span class="s">'plant-type-dropdown'</span><span class="p">,</span><span class="s">'value'</span><span class="p">)])</span>
 <span class="k">def</span> <span class="nf">update_energy_source_dropdown</span><span class="p">(</span><span class="n">option</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">[{</span><span class="s">'label'</span><span class="p">:</span> <span class="n">source</span><span class="p">,</span><span class="s">'value'</span><span class="p">:</span><span class="n">source</span><span class="p">}</span> <span class="k">for</span> <span class="n">source</span> <span class="ow">in</span> <span class="n">plant_type__energy_dict</span><span class="p">[</span><span class="n">option</span><span class="p">]]</span>
 </code></pre></div></div>
-<p>it follows a fairly straightforward syntax. You specify the id and value in the Output (only one is allowed) and the same with the input (multiple are allowed). In the example above, the <code class="highlighter-rouge">value</code> in my <code class="highlighter-rouge">plant-type-dropdown</code> serves to generate the options for the next dropdown menu <code class="highlighter-rouge">energy-source-dropdown</code>. The definition below establishes that relationship which in this instance is just a dictionary (specified elsewhere in the code). In another related instance, the definition returns values from a pandas groupby method call. The possibilities are only limited by your imagination</p>
+<p>it follows a fairly straightforward syntax. You specify the id and value in the Output (only one is allowed) and the same with the input (multiple are allowed). In the example above, the <code class="language-plaintext highlighter-rouge">value</code> in my <code class="language-plaintext highlighter-rouge">plant-type-dropdown</code> serves to generate the options for the next dropdown menu <code class="language-plaintext highlighter-rouge">energy-source-dropdown</code>. The definition below establishes that relationship which in this instance is just a dictionary (specified elsewhere in the code). In another related instance, the definition returns values from a pandas groupby method call. The possibilities are only limited by your imagination</p>
 
 <p>This is very powerful stuff. It brings to the hands of one person the ability to code <strong>effectively from scratch</strong> what would normally require additional assistance from full stack web developers.</p>
 
 <h2 id="insights-gained">Insights Gained</h2>
 
-<p>All this said, I wasn’t able to get by with <em>pure</em> python. Plotly, the underlying plotting utility I used in conjunction with dash lacks some functionality I wish. It can plot points on a map, but unfortunately, can’t return the latitude and longitude by free choice on a click. To get around this I had to use the <code class="highlighter-rouge">visdcc</code> library to allow the use of JavaScript. This took significant assistance from google and my friend <a href="https://github.com/macr">Richmond</a>. The solution, while hacky, is still quite beautiful.</p>
+<p>All this said, I wasn’t able to get by with <em>pure</em> python. Plotly, the underlying plotting utility I used in conjunction with dash lacks some functionality I wish. It can plot points on a map, but unfortunately, can’t return the latitude and longitude by free choice on a click. To get around this I had to use the <code class="language-plaintext highlighter-rouge">visdcc</code> library to allow the use of JavaScript. This took significant assistance from google and my friend <a href="https://github.com/macr">Richmond</a>. The solution, while hacky, is still quite beautiful.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">callback</span><span class="p">(</span>
     <span class="n">Output</span><span class="p">(</span><span class="s">'javascript'</span><span class="p">,</span> <span class="s">'run'</span><span class="p">),</span>
     <span class="p">[</span><span class="n">Input</span><span class="p">(</span><span class="s">'graph'</span><span class="p">,</span> <span class="s">'id'</span><span class="p">)])</span>
 <span class="k">def</span> <span class="nf">getlnglat</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
@@ -110,5 +110,5 @@ lxml				-	pip3 install lxml
 
 <p>Get better at JavaScript</p>
 
-<p>I’m fairly sure I will look back on this code as I do at some of my first python code, with the thought “god what a novice” (I remember having some code that was like 20 lines long, I didn’t know about the <code class="highlighter-rouge">range()</code> function, which would have brought it down to maybe 3)</p>
+<p>I’m fairly sure I will look back on this code as I do at some of my first python code, with the thought “god what a novice” (I remember having some code that was like 20 lines long, I didn’t know about the <code class="language-plaintext highlighter-rouge">range()</code> function, which would have brought it down to maybe 3)</p>
 :ET

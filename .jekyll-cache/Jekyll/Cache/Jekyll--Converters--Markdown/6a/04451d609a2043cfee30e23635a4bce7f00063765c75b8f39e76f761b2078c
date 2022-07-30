@@ -1,8 +1,8 @@
-I"v(<p>The following is the explanation of a program I co-wrote with <a href="https://github.com/AHTaylor">Austin Taylor</a>. The completed project and write-up can be found <a href="https://github.com/Tclack88/RideshareClustering/tree/master/RideShareClustering_Project">here</a>.</p>
+I")<p>The following is the explanation of a program I co-wrote with <a href="https://github.com/AHTaylor">Austin Taylor</a>. The completed project and write-up can be found <a href="https://github.com/Tclack88/RideshareClustering/tree/master/RideShareClustering_Project">here</a>.</p>
 
 <p>Non-standard library needed (just the one this time):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adjustText	-	sudo apt install adjustText
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>adjustText	-	sudo apt install adjustText
 </code></pre></div></div>
 
 <h2 id="inspiration">Inspiration</h2>
@@ -40,14 +40,14 @@
 
 <h4 id="lessons-learned">Lessons learned</h4>
 
-<p>So, having a list of unnamed dictionaries wasn’t going to be useful unless we could actually ascribe that dictionary to a rider’s name. In other words, can you think of a way to turn the dictionary <code class="highlighter-rouge">{'name':'john','x':2,'y':7,'email':'john@gmail.com'}</code> and create a variable representing that dictionary (e.x. <code class="highlighter-rouge">john = ...'</code>)</p>
+<p>So, having a list of unnamed dictionaries wasn’t going to be useful unless we could actually ascribe that dictionary to a rider’s name. In other words, can you think of a way to turn the dictionary <code class="language-plaintext highlighter-rouge">{'name':'john','x':2,'y':7,'email':'john@gmail.com'}</code> and create a variable representing that dictionary (e.x. <code class="language-plaintext highlighter-rouge">john = ...'</code>)</p>
 
 <p>Here’s how you would do it in python:</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">for</span> <span class="n">rider</span> <span class="ow">in</span> <span class="n">riders</span><span class="p">:</span>
 	<span class="n">name</span> <span class="o">=</span> <span class="n">rider</span><span class="p">[</span><span class="s">'name'</span><span class="p">]</span>
 	<span class="nb">vars</span><span class="p">()[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">rider</span>
 </code></pre></div></div>
-<p>vars is an interesting function. If you just call <code class="highlighter-rouge">print(vars())</code> you’ll get a dictionary object whose keys are generally what you’d find as objects of a class. If you import any module and then act on it with vars(), you get all this information filled in for that module. What we are doing above is really just abusing this extra seldom used dictionary and adding keys (our rider names) to it. We couldn’t have used a new blank dictionary though because the element wouldn’t be callable. When it’s in vars() it’s callable at any point, so that’s pretty useful!</p>
+<p>vars is an interesting function. If you just call <code class="language-plaintext highlighter-rouge">print(vars())</code> you’ll get a dictionary object whose keys are generally what you’d find as objects of a class. If you import any module and then act on it with vars(), you get all this information filled in for that module. What we are doing above is really just abusing this extra seldom used dictionary and adding keys (our rider names) to it. We couldn’t have used a new blank dictionary though because the element wouldn’t be callable. When it’s in vars() it’s callable at any point, so that’s pretty useful!</p>
 
 <h3 id="step-2--clustering-the-riders">Step 2 — Clustering the riders</h3>
 
@@ -70,19 +70,19 @@
 <p>After the riders were clustered, their group epicenter is calculated and they are assigned to the nearest pickup location, usually given the coordinates of a coffee shop, bus stop, or similarly pre-selected open pickup spot. Nothing precludes multiple groups from being assigned to the same pickup location. Each driver is then assigned to the nearest of the assigned locations.</p>
 
 <h2 id="demo">Demo</h2>
-<p>With preloaded data already loaded in GitHub (some extra fake names added) Running <code class="highlighter-rouge">main.py</code> from a terminal with the files procured from the google surveys (going.csv, Locations.csv, Masterlist.csv) Here’s the graphical output:</p>
+<p>With preloaded data already loaded in GitHub (some extra fake names added) Running <code class="language-plaintext highlighter-rouge">main.py</code> from a terminal with the files procured from the google surveys (going.csv, Locations.csv, Masterlist.csv) Here’s the graphical output:</p>
 
 <p><img src="/blog/assets/rideshare/ClusteredRiders.png" alt="Clustered Riders" /></p>
 
 <p>A demo version is available for you to play around with. You’ll need the following files in your directory: demo.py, DatGen.py, demosclustfunc.py</p>
 
-<p>First run <code class="highlighter-rouge">DatGen.py</code> and follow the input questions. This will create two files: SampleDatMasterList.csv and SampleDatLocations.csv. For simplicity’s sake, this assumes all riders in the master list will be going. You can add as many riders, drivers and pickup locations as you want and change the max group size. It’s quite fun!</p>
+<p>First run <code class="language-plaintext highlighter-rouge">DatGen.py</code> and follow the input questions. This will create two files: SampleDatMasterList.csv and SampleDatLocations.csv. For simplicity’s sake, this assumes all riders in the master list will be going. You can add as many riders, drivers and pickup locations as you want and change the max group size. It’s quite fun!</p>
 
 <h2 id="future-improvements---errata">Future Improvements - errata</h2>
 <p>[] Geography nerds may recognize that the earth’s curvature will affect the distances, as the shortest distance between two points directly east and west is not a line of latitude, but a geodesic. However in this case, for clusters within a small city, taking this into account is unnecessarily complex, so I’m assuming Lat. and Long. are Euclidean.</p>
 
 <p>[] For rather large numbers, the plot generation can take some time, time-complexity is rather high with all the “for loops” and I may try and work in more steps to be performed in fewer loops.</p>
 
-<p>[] …so this is embarrassing. If you call <code class="highlighter-rouge">DatGen.py</code> and pay close attention to the generated plot, then run <code class="highlighter-rouge">demo.py</code> to cluster, you will notice the x and y coordinates are flopped. I could just swap the plot axes, but I’m not actually sure why they’re flopped. I’ve checked out the code several times but couldn’t see where it occurred. So I’m not changing it until I actually understand why it’s happening.</p>
+<p>[] …so this is embarrassing. If you call <code class="language-plaintext highlighter-rouge">DatGen.py</code> and pay close attention to the generated plot, then run <code class="language-plaintext highlighter-rouge">demo.py</code> to cluster, you will notice the x and y coordinates are flopped. I could just swap the plot axes, but I’m not actually sure why they’re flopped. I’ve checked out the code several times but couldn’t see where it occurred. So I’m not changing it until I actually understand why it’s happening.</p>
 
 :ET

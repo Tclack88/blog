@@ -1,14 +1,14 @@
-I"7%<p><img src="/blog/assets/flask/flask_experiments.png" alt="I've been experimenting with flask containers" /></p>
+I"�%<p><img src="/blog/assets/flask/flask_experiments.png" alt="I've been experimenting with flask containers" /></p>
 
 <p>I’ve been playing around with flask and creating fairly useless flask apps which may come in handy in the future (not the apps, they’re forever doomed to be useless, the knowledge gained through making them). Though these apps are small, I have the directory structure set in a way that’s useful for larger apps. The purpose of this post is mainly to keep some notes but also serve as a guide for anyone who stumbles across it. There are <a href="https://www.freecodecamp.org/news/how-to-build-a-web-application-using-flask-and-deploy-it-to-the-cloud-3551c985e492/">plenty of good examples to work from</a> but this is just what I’ve found personally helpful, plus it scales. The only non-standard python dependencies needed are flask.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flask 		-	pip3 install flask
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Flask 		-	pip3 install flask
 </code></pre></div></div>
 
 <h2 id="steps">STEPS:</h2>
 <ol>
   <li>
-    <p>make an <code class="highlighter-rouge">__init__.py</code>:</p>
+    <p>make an <code class="language-plaintext highlighter-rouge">__init__.py</code>:</p>
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">from</span> <span class="nn">.app</span> <span class="kn">import</span> <span class="n">create_app</span><span class="p">()</span>
 
@@ -16,7 +16,7 @@
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>make an <code class="highlighter-rouge">app.py</code></p>
+    <p>make an <code class="language-plaintext highlighter-rouge">app.py</code></p>
 
     <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span><span class="p">,</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span>  <span class="c1">#etc....
 </span> <span class="c1">#(import other supporting functions you may need for your functionality)
@@ -25,23 +25,23 @@
     
      <span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
     
-     <span class="o">@</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+     <span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
      <span class="k">def</span> <span class="nf">root</span><span class="p">():</span> <span class="c1"># the default page loaded when app starts
 </span>         <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">'base.html'</span><span class="p">)</span>
     
-     <span class="o">@</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/function'</span><span class="p">)</span>
+     <span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/function'</span><span class="p">)</span>
      <span class="k">def</span> <span class="nf">function</span><span class="p">():</span>
          <span class="n">blah</span>
          <span class="n">blah</span>
-         <span class="n">arg1</span> <span class="o">=</span> <span class="o">...</span>
-         <span class="n">arg2</span> <span class="o">=</span> <span class="o">...</span>
+         <span class="n">arg1</span> <span class="o">=</span> <span class="p">...</span>
+         <span class="n">arg2</span> <span class="o">=</span> <span class="p">...</span>
          <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">'newpage.html'</span><span class="p">,</span> <span class="n">arg1</span><span class="o">=</span><span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="n">arg2</span><span class="p">)</span>
     
 </code></pre></div>    </div>
   </li>
   <li>
-    <p>make a <code class="highlighter-rouge">templates</code> directory and in it the corresponding html
-(in the above example, it will be <code class="highlighter-rouge">base.html</code> and <code class="highlighter-rouge">newpage.html</code>)</p>
+    <p>make a <code class="language-plaintext highlighter-rouge">templates</code> directory and in it the corresponding html
+(in the above example, it will be <code class="language-plaintext highlighter-rouge">base.html</code> and <code class="language-plaintext highlighter-rouge">newpage.html</code>)</p>
   </li>
   <li>
     <p>Connect your definitions in “create_app” with the HTML</p>
@@ -51,12 +51,12 @@
 <p>Some notes:</p>
 <ul>
   <li>pass app.route to a function:
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/func'</span><span class="p">)</span> <span class="o">&lt;--</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">definition</span> <span class="n">about</span> <span class="n">to</span> <span class="n">follow</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/func'</span><span class="p">)</span> <span class="o">&lt;--</span> <span class="n">refers</span> <span class="n">to</span> <span class="n">the</span> <span class="n">definition</span> <span class="n">about</span> <span class="n">to</span> <span class="n">follow</span>
 <span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
-  <span class="n">arg1</span> <span class="o">=</span> <span class="o">...</span>
-  <span class="o">.</span>
-  <span class="o">.</span>
-  <span class="o">.</span>
+  <span class="n">arg1</span> <span class="o">=</span> <span class="p">...</span>
+  <span class="p">.</span>
+  <span class="p">.</span>
+  <span class="p">.</span>
   <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">'newpage.html'</span><span class="p">,</span> <span class="n">arg1</span><span class="o">=</span><span class="n">arg1</span><span class="p">)</span>
   <span class="p">(</span><span class="n">this</span> <span class="n">allows</span> <span class="n">arg1</span> <span class="n">to</span> <span class="n">be</span> <span class="n">called</span> <span class="ow">in</span> <span class="n">the</span> <span class="sb">`newpage.html`</span>
 </code></pre></div>    </div>
@@ -74,9 +74,9 @@
   <span class="nt">&lt;/form&gt;</span>
 </code></pre></div>    </div>
     <p>and in the def of “create_app” call it with … get or post:</p>
-    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="o">.</span><span class="n">route</span><span class="p">(</span><span class="o">/</span><span class="n">func</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'GET'</span><span class="p">])</span>
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="o">/</span><span class="n">func</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">[</span><span class="s">'GET'</span><span class="p">])</span>
 <span class="k">def</span> <span class="nf">func</span><span class="p">():</span>
-  <span class="n">incoming_value</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="s">'thing_being_moved'</span><span class="p">]</span>
+  <span class="n">incoming_value</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">values</span><span class="p">[</span><span class="s">'thing_being_moved'</span><span class="p">]</span>
   <span class="n">more</span>
   <span class="n">stuff</span>
   <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="n">most</span> <span class="n">likely</span><span class="p">)</span>
@@ -85,16 +85,16 @@
 </ul>
 
 <h3 id="serving-the-app">Serving the app</h3>
-<p>So if we put everything in a directory called: <code class="highlighter-rouge">myapp</code> the command for serving this is:
-<code class="highlighter-rouge">FLASK_APP=myapp:APP flask run</code></p>
+<p>So if we put everything in a directory called: <code class="language-plaintext highlighter-rouge">myapp</code> the command for serving this is:
+<code class="language-plaintext highlighter-rouge">FLASK_APP=myapp:APP flask run</code></p>
 
-<p>Which is disgusting and kind of hard to remember. The first part is actually just setting an environment variable when you run it. But if you’re on Mac or Linux, you might as well set a temporary (as long as your terminal window is open) environment. We can also set a debug mode so you get feedback, so keeping a little shell script which you can run is an easy fix: <code class="highlighter-rouge">source set_env.sh</code></p>
+<p>Which is disgusting and kind of hard to remember. The first part is actually just setting an environment variable when you run it. But if you’re on Mac or Linux, you might as well set a temporary (as long as your terminal window is open) environment. We can also set a debug mode so you get feedback, so keeping a little shell script which you can run is an easy fix: <code class="language-plaintext highlighter-rouge">source set_env.sh</code></p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">FLASK_APP</span><span class="o">=</span>morse:APP
 <span class="nb">export </span><span class="nv">FLASK_DEBUG</span><span class="o">=</span>1
 </code></pre></div></div>
 
-<p>Now it runs with <code class="highlighter-rouge">flask run</code></p>
+<p>Now it runs with <code class="language-plaintext highlighter-rouge">flask run</code></p>
 
 <h2 id="examples">Examples</h2>
 

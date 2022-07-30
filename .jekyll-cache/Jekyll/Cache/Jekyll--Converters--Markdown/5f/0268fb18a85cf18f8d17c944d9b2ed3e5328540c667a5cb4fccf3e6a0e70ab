@@ -1,8 +1,8 @@
-I"�<p>The following is the explanation of a game I wrote uploaded <a href="https://github.com/Tclack88/MorseCodeGame">here</a> to my GitHub.</p>
+I"W<p>The following is the explanation of a game I wrote uploaded <a href="https://github.com/Tclack88/MorseCodeGame">here</a> to my GitHub.</p>
 
 <p>Non-standard libraries needed:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>readchar      -   pip3 install readchar
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>readchar      -   pip3 install readchar
 termcolor     -   pip3 install termcolor
 sox           -   sudo apt install sox
 </code></pre></div></div>
@@ -30,7 +30,7 @@ sox           -   sudo apt install sox
 -n “null” as in we aren’t giving an input file 
 <br />The rest means we choose alsa (a built in audio driver) synthesize for 1 second a sine wave at 850 hz.</p>
 
-<p>The core definition in the code is <code class="highlighter-rouge">MorsePlay()</code> which will “morsify” any text, however it comes about (There are lots of games, so many ways to have characters generated). This is done with nested if loops. We have a dictionary that relates the ascii character to the corresponding Morse string then from there call <code class="highlighter-rouge">dot()</code> or <code class="highlighter-rouge">dah()</code> for any . or - symbols. So that’s it, we are done!</p>
+<p>The core definition in the code is <code class="language-plaintext highlighter-rouge">MorsePlay()</code> which will “morsify” any text, however it comes about (There are lots of games, so many ways to have characters generated). This is done with nested if loops. We have a dictionary that relates the ascii character to the corresponding Morse string then from there call <code class="language-plaintext highlighter-rouge">dot()</code> or <code class="language-plaintext highlighter-rouge">dah()</code> for any . or - symbols. So that’s it, we are done!</p>
 
 <p>Except we aren’t! Because there are some more subtleties to be discussed.</p>
 
@@ -48,7 +48,7 @@ ed to change the screen size when you start (you know, so it’s obvious that yo
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">printf</span> <span class="s1">'\e[8;38;80t'</span>
 </code></pre></div></div>
-<p>It can also be done with a much simpler function <code class="highlighter-rouge">resize -s 38 80</code> which is much simpler syntax but that requires installing a nonstandard library (xterm) and I’ve already done too much of that to you. Besides, this is more esoteric making it that much more awesome!</p>
+<p>It can also be done with a much simpler function <code class="language-plaintext highlighter-rouge">resize -s 38 80</code> which is much simpler syntax but that requires installing a nonstandard library (xterm) and I’ve already done too much of that to you. Besides, this is more esoteric making it that much more awesome!</p>
 
 <h3 id="threading-vs-multiprocessing">Threading vs Multiprocessing</h3>
 

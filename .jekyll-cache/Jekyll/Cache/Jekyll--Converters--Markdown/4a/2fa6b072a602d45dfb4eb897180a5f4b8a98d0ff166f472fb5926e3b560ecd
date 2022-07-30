@@ -8,7 +8,7 @@
 
 <p>At the time of writing, I have recently graduated with my B.S. in physics from the <a href="https://ucsb.edu">University of California Santa Barbara</a> where I became hopelessly overwhelmed by the amount of information there is. But it’s also filled with unfathomably gifted people among whom I will never walk. But that’s alright with me; I’m content being minimally competent with several skills rather than specializing in just a few. My perceptions have changed so much in the past decade. I thought with enough tenacity I could learn it all and I tried for <a href="https://supermemo.com">about 6 years</a>. Chemistry, Geology, Math, Astronomy… I consumed as much as I could and regularly reviewed. It eventually became too much to keep up with, not withstanding the pressure to keep up with my degree requirements so I relented.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">cliche</span><span class="o">.</span><span class="n">two_types_of_people</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">cliche</span><span class="p">.</span><span class="n">two_types_of_people</span><span class="p">)</span>
 </code></pre></div></div>
 <blockquote>
   <p><em>“There are two types of people in the world:</em><br />

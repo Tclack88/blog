@@ -1,4 +1,4 @@
-I"�,<p><img src="/blog/assets/ai-music/failed_ai_music_preview.png" alt="A failed attempt to generate music" /></p>
+I"-<p><img src="/blog/assets/ai-music/failed_ai_music_preview.png" alt="A failed attempt to generate music" /></p>
 
 <p>UPDATE: I will retain this post as is for perpetuity, but 4 months since this post I’ve completed the project. You can <a href="http://tclack88.github.io/blog/blog/code/2019/12/27/ai-music.html">read the updated post here</a></p>
 
@@ -41,7 +41,7 @@
 </code></pre></div></div>
 <p>at this stage our file has been converted into a .csv file</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0, 0, Header, 0, 1, 480
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0, 0, Header, 0, 1, 480
 1, 0, Start_track
 1, 0, SMPTE_offset, 96, 0, 0, 0, 0
 1, 0, Time_signature, 4, 2, 24, 8
@@ -81,7 +81,7 @@
 </ul>
 
 <p>As an intermediate, the csv file is transformed into</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      b           c       d   e        out
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>      b           c       d   e        out
 0      0       tempo  500000   0  0~'500000
 1      0   note_on_c       0  36       0~|2
 2      0   note_on_c       0  48       0~|&gt;
@@ -104,7 +104,7 @@
 </code></pre></div></div>
 
 <p>But the final output looks like this:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0~'500000 0~|2 0~|&gt; 287~|A 1~|5 13~!&gt; 6~!2 31~|F 1~|: 9~!A 25~!5 6~|H 0~|&lt; 10~!F
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0~'500000 0~|2 0~|&gt; 287~|A 1~|5 13~!&gt; 6~!2 31~|F 1~|: 9~!A 25~!5 6~|H 0~|&lt; 10~!F
  3~!: 23~|J 1~|&gt; 3~!&lt; 3~!H 27~|: 1~|F 3~!J 5~!&gt; 22~!F 1~|M 2~|A 8~!: 20~|T 1~|H
  4~!A 2~!M 26~|V 2~|J 1~!H 4~!T 24~|R 1~|F 3~!V 0~!J 30~|Y 1~|M 3~!R 12~!F 17~|`
  2~|T 7~!Y 0~!M 28~!T 2~|b 2~|V 10~!` 32~|Q 0~|] 7~!V 6~!b 24~|` 2~|T 4~!Q 3~!] 
@@ -118,7 +118,7 @@
 <p>It just failed, it didn’t seem to work at all, I switched to character level encoding on this a (also <a href="https://machinelearningmastery.com/text-generation-lstm-recurrent-neural-networks-python-keras/">copied and pasted from the same website</a></p>
 
 <p>And after half an hour of training I got my output:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -126,10 +126,10 @@
 
 <p>Not very musical. I figured since every word had a tilde, it was just copying that because it would be correct 38.9% of the time <br />
 (Yes, I did the math) <br /> (…) <br /> (…)<br />
-(<code class="highlighter-rouge">bc -l &lt;&lt;&lt;  $(grep -o "~" ballade.mid.out | wc -m)/$(wc -m &lt; ballade.mid.out)</code> )</p>
+(<code class="language-plaintext highlighter-rouge">bc -l &lt;&lt;&lt;  $(grep -o "~" ballade.mid.out | wc -m)/$(wc -m &lt; ballade.mid.out)</code> )</p>
 
 <p>So I decided I would remove the tilde, the number preceding it would be turned into the corresponding number of spaces, and all words would be grouped to create chords. Additionally I sorted them so the program would know the chords |&amp;dJ, |d&amp;J as well as the other 4 possibilities, for example are the same. And with this we get:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          |ELQTX]`                               |9il   |d          !9  |_
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>          |ELQTX]`                               |9il   |d          !9  |_
                 |Q   |HL         |`di              |`di    |&lt;        |\ 
                |Q   |HL         |`d   |]          |d   |]`    |@          
 |W             |HQ   |L          |X]`             |E`   |X]          |T   
@@ -142,7 +142,7 @@
 <p>(I went to a different portion of the song to better demonstrate this)</p>
 
 <p>Brilliant! Put it into the blind TF algorithm! Here’s the output:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                                 
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                                 
                                                 
                                                 
 
