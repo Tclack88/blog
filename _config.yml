@@ -1,6 +1,6 @@
 # Setup
-name:         CodeSplanations
-tagline:      coding (eventually) toward a better climate
+name:         BeginnerMediate
+tagline:      Not a beginner — Not a comfortable intermediate — and certainly never done
 locale:       "en"
 author:       Trevor Clack
 
@@ -17,7 +17,8 @@ baseurl:      "/blog"
 #BASE_PATH: https://Tclack88.com/blog
 production_url: "http://tclack88.github.io/blog" # the base hostname & protocol for your site
 github_username: Tclack88
-description: This is a 'blog', sure, but mostly a place where I can describe in detail the code I've written provide, its origin story, lessons learned during the process, relative background information and perhaps a few anecdotes along the way.
+description: This is a 'blog', sure, but mostly a place where I can describe in detail the code I've written provide, its origin story, lessons learned during the process, relative background information and perhaps a few anecdotes along the way. \
+  I feel like I usually exist somewhere between beginner and intermediate with most things I do, thus the name.
 email: Tclack88@gmail.com
 portfolio_url: "http://tclack88.github.io"
 linkedin_url: "https://www.linkedin.com/in/trevor-clack-774696184/"
