@@ -33,10 +33,10 @@ linkedin_url: "https://www.linkedin.com/in/trevor-clack-774696184/"
 #  comments: the so-called property, this defines the key in staticman.yml where the configuration is found
 #
 # for me, this line reads:
-# https://staticman-travisdownsio.herokuapp.com/v2/entry/travisdowns/travisdowns.github.io/master/comments
 #staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/${github-username}/${blog-repo}/master/comments
-staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/tclack88/blog/gh-pages/comments
-
+# The old version when it was hosted on heroku
+#staticman_url: https://staticman-tclack88githubio.herokuapp.com/v2/entry/tclack88/blog/gh-pages/comments
+staticman_url: https://staticman-tclack88githubio.fly.dev/v2/entry/tclack88/blog/gh-pages/comments
 comments: true
 
 reCaptcha:
